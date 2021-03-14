@@ -26,4 +26,6 @@
 # all aspects of the program development and execution.
 # 
 # A BRIEF DESCRIPTION OF WHAT THE PROGRAM OR FUNCTION DOES 
+# Inputs:
+# Outputs:
 
