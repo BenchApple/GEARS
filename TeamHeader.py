@@ -1,22 +1,22 @@
-# Activity X.X.X: A MATLAB Activity.
-# File: filename.m
+# Project 3: GEARS Robot
+# File: filename.py
 # Date: 1 January 2019
-# By: Full Name team member 1
-# Login ID
-# Full Name team member 2
-# Login ID
-# Full Name team member 3 
-# Login ID
-# Full Name team member 4
-# Login ID
-# Section: Number
-# Team: Team Number
-# 
+# By: Alex Wiseman
+# ajwisema
+# Ben Chappell
+# chappeb
+# Trevor Moorman
+# tmoorma
+# Cole Kingery
+# ckinger
+# Section: 5
+# Team: 70
+#
 # ELECTRONIC SIGNATURE
-# Full Name team member 1
-# Full Name team member 2
-# Full Name team member 3
-# Full Name team member 4
+# Ben Chappell
+# Cole Kingery
+# Trevor Moorman
+# Alex Wiseman
 # 
 # The electronic signatures above indicate that the program
 # submitted for evaluation is the combined effort of all
@@ -26,17 +26,4 @@
 # all aspects of the program development and execution.
 # 
 # A BRIEF DESCRIPTION OF WHAT THE PROGRAM OR FUNCTION DOES 
-# ---------------------------------------------------
-#  Inputs
-# ---------------------------------------------------
 
-
-# ---------------------------------------------------
-#   Computations
-# ---------------------------------------------------
-
-
-
-# ---------------------------------------------------
-#   Outputs
-# ---------------------------------------------------
