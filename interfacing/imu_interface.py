@@ -93,6 +93,8 @@ def main():
             print(getMagnMagnitude(imuObject))
 
             time.sleep(0.5)
+    except KeyboardInterrupt:
+        sys.exit()
 
 if __name__ == "__main__":
     main()
