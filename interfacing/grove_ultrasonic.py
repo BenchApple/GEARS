@@ -40,5 +40,5 @@ if __name__ == "__main__":
     import time
     # Print the readings from digital port 2 for 5 seconds
     for i in range(0,51):
-    print(readGroveUltrasonic(2))
-    time.sleep(0.1)
+        print(readGroveUltrasonic(2))
+        time.sleep(0.1)
