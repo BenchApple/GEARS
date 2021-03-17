@@ -84,13 +84,16 @@ def main():
 
     try:
         while True:
+            print("Acceleration Data")
             print(getAccel(imuObject))
             print(getAccelX(imuObject))
             print(getAccelY(imuObject))
             print(getAccelZ(imuObject))
 
+            print("Magnet and magnitude")
             print(getMagnet(imuObject))
             print(getMagnMagnitude(imuObject))
+            print("")
 
             time.sleep(0.5)
     except KeyboardInterrupt:
