@@ -73,7 +73,7 @@ def getMagnet(imu):
 
 def getMagnMagnitude(imu):
     # Calculate the magnitude of the magnetic force.
-    magnetMagnitude = sqrt((getMagnet(imu) ** 2) + (getMagnet(imu) ** 2) + (getMagnet(imu) ** 2))
+    magnetMagnitude = sqrt((getMagnet(imu)['x'] ** 2) + (getMagnet(imu)['y'] ** 2) + (getMagnet(imu)['z'] ** 2))
 
     return magnetMagnitude
 
