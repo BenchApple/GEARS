@@ -34,3 +34,10 @@ import grovepi
 # Return the reading of the ultrasonic sensor in cm
 def readGroveUltrasonic(PORT_DIGITAL):
     return grovepi.ultrasonicRead(PORT_DIGITAL)
+
+# Tests, will only run if this file is ran as an executable
+if __name__ == "__main__":
+    import time
+    # Print the reading from digital port 2
+    print(readGroveUltrasonic(2))
+    time.sleep(0.1)
