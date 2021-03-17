@@ -71,12 +71,11 @@ def getMagnet(imu):
     # Return the dictionary
     return magn
 
+# Requires a full tick between each of the getMagnet calls in order to work properly.
 def getMagnMagnitude(imu):
     # Calculate the magnitude of the magnetic force.
     magn = getMagnet(imu)
-    magnetMagnitude = sqrt((magn['x'] * magn['x']) + 
-                           (magn['y'] * magn['y']) + 
-                           (magn['z'] * magn['z']))
+    magnetMagnitude = sqrt((magn['x'] * magn['x']) + (magn['y'] * magn['y']) + (magn['z'] * magn['z']))
 
     return magnetMagnitude
 
@@ -94,7 +93,6 @@ def main():
             print(getAccelZ(imuObject))
 
             print("Magnet and magnitude")
-            print(getMagnet(imuObject))
             print(getMagnMagnitude(imuObject))
             print("")
 
