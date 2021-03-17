@@ -34,6 +34,11 @@ import sys
 import time
 from math import sqrt
 
+def init():
+    mpu9250 = MPU9250()
+
+    return mpu9250
+
 # This gets all of the accel data and returns it as a dictionary with the major axes as keys.
 # Only argument takes the imu object.
 def getAccel(imu): 
@@ -71,3 +76,24 @@ def getMagnMagnitude(imu):
     magnetMagnitude = sqrt((getMagnet(imu) ** 2) + (getMagnet(imu) ** 2) + (getMagnet(imu) ** 2))
 
     return magnetMagnitude
+
+# Testing Code
+# This code just tests all of the code inside of this file. It's protected by __name__ == "__main__"
+def main():
+    imuObject = init()
+
+    try:
+        while True:
+            print(getAccel(imuObject))
+            print(getAccelX(imuObject))
+            print(getAccelY(imuObject))
+            print(getAccelZ(imuObject))
+
+            print(getMagnet(imuObject))
+            print(getMagnMagnitude(imuObject))
+
+            time.sleep(0.5)
+
+if __name__ == "__main__":
+    main()
+    
