@@ -35,7 +35,9 @@ from __future__ import division       #                           ''
 import time     # import the time library for the sleep function
 import brickpi3 # import the BrickPi3 drivers
 
-BP = brickpi3.BrickPi3()
+def init():
+    BP = brickpi3.BrickPi3()
+    return BP
 
-def legoUltrasonic(sensor): #port must be declared in same way as brick would i.e. BP.PORT_1
-    return(BP.get_sensor(sensor))
+def legoUltrasonic(bp, sensor): #port must be declared in same way as brick would i.e. BP.PORT_1
+    return(bp.get_sensor(sensor))
