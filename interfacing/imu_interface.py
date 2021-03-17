@@ -73,9 +73,10 @@ def getMagnet(imu):
 
 def getMagnMagnitude(imu):
     # Calculate the magnitude of the magnetic force.
-    magnetMagnitude = sqrt((getMagnet(imu)['x'] * getMagnet(imu)['x']) + 
-                           (getMagnet(imu)['y'] * getMagnet(imu)['y']) + 
-                           (getMagnet(imu)['z'] * getMagnet(imu)['z']))
+    magn = getMagnet(imu)
+    magnetMagnitude = sqrt((magn['x'] * magn['x']) + 
+                           (magn['y'] * magn['y']) + 
+                           (magn['z'] * magn['z']))
 
     return magnetMagnitude
 
@@ -86,7 +87,7 @@ def main():
 
     try:
         while True:
-            print("Acceleration Data")
+            print("Velocity Data")
             print(getAccel(imuObject))
             print(getAccelX(imuObject))
             print(getAccelY(imuObject))
