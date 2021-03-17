@@ -38,6 +38,7 @@ def readGroveUltrasonic(PORT_DIGITAL):
 # Tests, will only run if this file is ran as an executable
 if __name__ == "__main__":
     import time
-    # Print the reading from digital port 2
+    # Print the readings from digital port 2 for 5 seconds
+    for i in range(0,51):
     print(readGroveUltrasonic(2))
     time.sleep(0.1)
