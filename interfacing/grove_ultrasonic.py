@@ -26,5 +26,11 @@
 # all aspects of the program development and execution.
 # 
 # Handles low level communication and error handling with the Grove Ultrasonic Sensor. Mainly just a read function that takes the part and outputs the reading from the sensor.
-# Inputs: Surroundings
+# Inputs: External Surroundings
 # Outputs: Grove Ultrasonic Readings
+
+import grovepi
+
+# Return the reading of the ultrasonic sensor in cm
+def readGroveUltrasonic(PORT_DIGITAL):
+    return grovepi.ultrasonicRead(PORT_DIGITAL)
