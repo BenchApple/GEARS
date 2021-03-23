@@ -28,3 +28,30 @@
 # Keeps the robot from bumping into the walls while driving through corridors. Should implement basic control theory (as discussed in class).
 # Inputs: Wall Closeness, Driving State, Corridor Data
 # Outputs: Keeping bot between walls.
+
+import time
+import brickpi3
+import interfacing.motor
+
+## This code just drives the robot forward while keeping it between the walls
+def stay_between_walls(bp, right, left, u_right, u_left):
+    # Tuning parameters
+    KP = 0.0 # Proportional gain
+    KI = 0.0 # Integral gain
+    KD = 0.0 # Derivative gain
+
+    # Target pos represents where we want to be, which should be a sum of 240 cm^2
+    target_pos = 240 # we are trying to minimize the distance, so we just set it to 0
+
+    current_pos = 0
+
+    P = 0
+    I = 2
+    D = 0
+
+    e_prev = 0
+
+    # Initialize our hardware
+
+
+
