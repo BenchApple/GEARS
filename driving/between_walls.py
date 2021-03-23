@@ -29,6 +29,8 @@
 # Inputs: Wall Closeness, Driving State, Corridor Data
 # Outputs: Keeping bot between walls.
 
+import sys
+sys.path.append("/team_70/")
 import time
 import brickpi3
 import GEARS.interfacing.motor as motor
@@ -40,6 +42,7 @@ def stay_between_walls():
     KP = 1.0 # Proportional gain
     KI = 1.0 # Integral gain
     KD = 1.0 # Derivative gain
+    dt = 0.02
 
     # Target pos represents where we want to be, which should be a sum of 240 cm^2
     target_pos = 240 # we are trying to minimize the distance, so we just set it to 0
@@ -77,6 +80,8 @@ def stay_between_walls():
 
             value = P + I + D
             print(value)
+            time.sleep(dt)
+
     except KeyboardInterrupt:
         bp.reset_all()
 
