@@ -31,14 +31,15 @@
 
 import time
 import brickpi3
-import interfacing.motor
+import GEARS.interfacing.motor as motor
+import GEARS.interfacing.grove_ultrasonic as ultra
 
 ## This code just drives the robot forward while keeping it between the walls
 def stay_between_walls(bp, right, left, u_right, u_left):
     # Tuning parameters
-    KP = 0.0 # Proportional gain
-    KI = 0.0 # Integral gain
-    KD = 0.0 # Derivative gain
+    KP = 1.0 # Proportional gain
+    KI = 1.0 # Integral gain
+    KD = 1.0 # Derivative gain
 
     # Target pos represents where we want to be, which should be a sum of 240 cm^2
     target_pos = 240 # we are trying to minimize the distance, so we just set it to 0
@@ -51,7 +52,33 @@ def stay_between_walls(bp, right, left, u_right, u_left):
 
     e_prev = 0
 
-    # Initialize our hardware
+    # Hardware inits
+    bp = brickpi3.BrickPi3()
+
+    m_right = bp.PORT_A
+    m_left = bp.PORT_B
+    motor.init_motors(bp, m_right, m_left)
+
+    motor.set_limits(bp, m_right, m_left, 90, 180)
+
+    u_right = 5
+    u_left = 6
+
+    try:
+        while True:
+            u_right_reading = ultra.readGroveUltrasonic(u_right)
+            u_left_reading = ultra.readGroveUltrasonic(u_left)
+            # We can do it like this because we want them to be equidistant from the walls
+            error = u_right_reading - u_left_reading
+
+            P = KP * error
+            I += KI * error * dt / 2
+            D = KD * (error - e_prev) / dt
+
+            value = P + I + D
+            print(value)
+
+
 
 
 
