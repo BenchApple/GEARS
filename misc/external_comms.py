@@ -33,22 +33,22 @@ import time
 import grovepi
 
 def greenLed(digitalPort): #green led blink input digital port it will be plugged into
-    pinMode(digitalPort,"OUTPUT")
+    grovpei.pinMode(digitalPort,"OUTPUT")
     time.sleep(1)
         #Blink the LED
-    digitalWrite(digitalPort,1)		# Send HIGH to switch on LED
+    grovpei.digitalWrite(digitalPort,1)		# Send HIGH to switch on LED
     time.sleep(1)
 
-    digitalWrite(digitalPort,0)		# Send LOW to switch off LED
+    grovpei.digitalWrite(digitalPort,0)		# Send LOW to switch off LED
     time.sleep(1)
 
 
 def yellowLed(digitalPort): #yellow led blink input digital port it will be plugged into
-    pinMode(digitalPort,"OUTPUT")
+    grovpei.pinMode(digitalPort,"OUTPUT")
     time.sleep(1)
         #Blink the LED
-    digitalWrite(digitalPort,1)		# Send HIGH to switch on LED
+    grovpei.digitalWrite(digitalPort,1)		# Send HIGH to switch on LED
     time.sleep(1)
 
-    digitalWrite(digitalPort,0)		# Send LOW to switch off LED
+    grovpei.digitalWrite(digitalPort,0)		# Send LOW to switch off LED
     time.sleep(1)
