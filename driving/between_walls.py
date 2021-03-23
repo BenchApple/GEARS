@@ -35,7 +35,7 @@ import GEARS.interfacing.motor as motor
 import GEARS.interfacing.grove_ultrasonic as ultra
 
 ## This code just drives the robot forward while keeping it between the walls
-def stay_between_walls(bp, right, left, u_right, u_left):
+def stay_between_walls(): 
     # Tuning parameters
     KP = 1.0 # Proportional gain
     KI = 1.0 # Integral gain
@@ -77,8 +77,13 @@ def stay_between_walls(bp, right, left, u_right, u_left):
 
             value = P + I + D
             print(value)
+    except KeyboardInterrupt:
+        bp.reset_all()
 
+def main():
+    stay_between_walls()
 
-
+if __name__ == "__main__":
+    main()
 
 
