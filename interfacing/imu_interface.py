@@ -29,7 +29,7 @@
 # Inputs: Surroundings
 # Outputs: Magnetic Field Intensity, Velocity Data
 
-from MPU9250 import MPU9250
+from .MPU9250 import MPU9250
 import sys
 import time
 from math import sqrt

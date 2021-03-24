@@ -30,20 +30,21 @@
 # Outputs: Keeping bot between walls.
 
 import sys
-#sys.path.append("/team_70/")
+import os
+#sys.path.append(os.path.realpath('.'))
 import time
-#import brickpi3
-#from ..interfacing import motor
+import brickpi3
+from ..interfacing import motor as motor
 #import GEARS.interfacing.motor as motor
 from ..interfacing import grove_ultrasonic as ultra
 
 ## This code just drives the robot forward while keeping it between the walls
 def stay_between_walls(): 
     # Tuning parameters
-    KP = 1.0 # Proportional gain
-    KI = 1.0 # Integral gain
-    KD = 1.0 # Derivative gain
-    dt = 0.02
+    KP = 0.5 # Proportional gain
+    KI = 0.5 # Integral gain
+    KD = 0.5 # Derivative gain
+    dt = 0.05
 
     # Target pos represents where we want to be, which should be a sum of 240 cm^2
     target_pos = 240 # we are trying to minimize the distance, so we just set it to 0
@@ -57,16 +58,21 @@ def stay_between_walls():
     e_prev = 0
 
     # Hardware inits
-    #bp = brickpi3.BrickPi3()
+    bp = brickpi3.BrickPi3()
 
-    m_right = bp.PORT_A
+    m_right = bp.PORT_C
     m_left = bp.PORT_B
     motor.init_motors(bp, m_right, m_left)
+    m_dps = 80
 
-    motor.set_limits(bp, m_right, m_left, 90, 180)
+    motor.set_limits(bp, m_right, m_left, 90, m_dps)
 
     u_right = 5
     u_left = 6
+
+    # Set the degrees per second for each motor
+    motor.set_dps(bp, m_right, m_dps)
+    motor.set_dps(bp, m_left, m_dps)
 
     try:
         while True:
@@ -80,8 +86,26 @@ def stay_between_walls():
             D = KD * (error - e_prev) / dt
 
             value = P + I + D
+            # If value is greater than 0, then we need to turn to the right, otherwise we need to turn to the left
+
+            m_turn_val = int(value * 0.1)
+            # Adjust the motor values according to what we have.
+            motor.set_dps(bp, m_right, m_dps - m_turn_val)
+            motor.set_dps(bp, m_left, m_dps + m_turn_val)
+
+            print("Right motor dps: " + str(m_dps - m_turn_val))
+            print("Left motor dps: " + str(m_dps + m_turn_val))
+
+           #  NOTE: System is working about as intended, needs testing though.
+           # One pootential issue is rotation messing up the readings we want (needs to be tested)
+           # Can offset this using the gyroscope to calculate relative orientation and calculate actual
+           #       distance to the walls using trig
+           # Overall we just need a lot more testing in order to make sure that this works well.
+            
+            
             print(value)
             time.sleep(dt)
+            print("")
 
     except KeyboardInterrupt:
         #bp.reset_all()
