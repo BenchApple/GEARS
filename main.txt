@@ -1,0 +1,36 @@
+#print('__file__={0:<35} | __name__={1:<20} | __package__={2:<20}'.format(__file__,__name__,str(__package__)))
+
+import GEARS.driving.between_walls
+import GEARS.driving.propulsion
+import GEARS.driving.turning
+
+import GEARS.gps.global_positioning
+
+import GEARS.hazards.hazard_output
+import GEARS.hazards.hazard_process
+import GEARS.hazards.hazard_sense
+import GEARS.hazards.magnet_sense
+
+import GEARS.interfacing.grove_ultrasonic
+import GEARS.interfacing.imu_interface
+import GEARS.interfacing.IMU_ReadPrint
+import GEARS.interfacing.IMUFilters
+import GEARS.interfacing.ir_sensor
+import GEARS.interfacing.lego_ultrasonic
+import GEARS.interfacing.motor
+
+import GEARS.maze.build_maze
+import GEARS.maze.graph
+import GEARS.maze.maze_instructions
+import GEARS.maze.maze_navigate
+import GEARS.maze.output_maze
+
+import GEARS.misc.cargo_release
+import GEARS.misc.external_comms
+
+import GEARS.walls.wall_processing
+import GEARS.walls.wall_sensing
+
+##################################
+Take the contents of above and put them in a file called main.py one directory above GEARS
+This should allow us to like actually import stuff, but i need to test it to be certain.
