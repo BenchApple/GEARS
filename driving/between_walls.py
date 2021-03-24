@@ -29,19 +29,18 @@
 # Inputs: Wall Closeness, Driving State, Corridor Data
 # Outputs: Keeping bot between walls.
 
-import sys
 import os
-#sys.path.append(os.path.realpath('.'))
 import time
 import brickpi3
 from ..interfacing import motor as motor
-#import GEARS.interfacing.motor as motor
 from ..interfacing import grove_ultrasonic as ultra
+from ..interfacing import MPU9250
+from ..interfacing import imu_interface as i
 
 ## This code just drives the robot forward while keeping it between the walls
 def stay_between_walls(): 
     # Tuning parameters
-    KP = 1 # Proportional gain
+    KP = 3 # Proportional gain
     KI = 10 # Integral gain
     KD = 2 # Derivative gain
     m_dps = 250 
@@ -119,8 +118,29 @@ def stay_between_walls():
         bp.reset_all()
         pass
 
+def track_rotational():
+    imu = i.init()
+
+    init_pos = 0 
+
+    dt = 0.05
+    cur_pos = init_pos
+    prev_reading = 0
+    try:
+        while True:
+            cur_reading = i.getZAngular(imu) - 1
+
+            cur_pos += (cur_reading * dt)
+            prev_ang = cur_reading
+            print("Current Position: " + str(cur_pos))
+
+    except KeyboardInterrupt:
+        pass
+
+
 def main():
     stay_between_walls()
+    #track_rotational()
 
 if __name__ == "__main__":
     main()
