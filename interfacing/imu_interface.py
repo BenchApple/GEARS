@@ -79,6 +79,11 @@ def getMagnMagnitude(imu):
 
     return magnetMagnitude
 
+# Gets the z angular acceleration
+def getZAngular(imu):
+    ang = imu.readGyro()['z']
+    return ang
+
 # Testing Code
 # This code just tests all of the code inside of this file. It's protected by __name__ == "__main__"
 def main():
@@ -95,6 +100,9 @@ def main():
             print("Magnet and magnitude")
             print(getMagnMagnitude(imuObject))
             print("")
+
+            print("Gyro")
+            print(getZAngular(imuObject))
 
             time.sleep(0.5)
     except KeyboardInterrupt:
