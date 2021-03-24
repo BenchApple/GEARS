@@ -41,18 +41,16 @@ from ..interfacing import grove_ultrasonic as ultra
 ## This code just drives the robot forward while keeping it between the walls
 def stay_between_walls(): 
     # Tuning parameters
-    KP = 0.5 # Proportional gain
-    KI = 0.5 # Integral gain
-    KD = 0.5 # Derivative gain
+    KP = 1 # Proportional gain
+    KI = 10 # Integral gain
+    KD = 2 # Derivative gain
+    m_dps = 250 
     dt = 0.05
-
-    # Target pos represents where we want to be, which should be a sum of 240 cm^2
-    target_pos = 240 # we are trying to minimize the distance, so we just set it to 0
 
     current_pos = 0
 
     P = 0
-    I = 2
+    I = 0
     D = 0
 
     e_prev = 0
@@ -63,7 +61,6 @@ def stay_between_walls():
     m_right = bp.PORT_C
     m_left = bp.PORT_B
     motor.init_motors(bp, m_right, m_left)
-    m_dps = 80
 
     motor.set_limits(bp, m_right, m_left, 90, m_dps)
 
@@ -74,12 +71,18 @@ def stay_between_walls():
     motor.set_dps(bp, m_right, m_dps)
     motor.set_dps(bp, m_left, m_dps)
 
+    accum_error = 0
+
     try:
-        while True:
+        start_time = time.time()
+        while (time.time() - start_time <= 20):
             u_right_reading = ultra.readGroveUltrasonic(u_right)
             u_left_reading = ultra.readGroveUltrasonic(u_left)
+            print("Right Reading: " + str(u_right_reading))
+            print("Left Reading: " + str(u_left_reading))
             # We can do it like this because we want them to be equidistant from the walls
             error = u_right_reading - u_left_reading
+            print("Error: "+ str(error))
 
             P = KP * error
             I += KI * error * dt / 2
@@ -88,10 +91,12 @@ def stay_between_walls():
             value = P + I + D
             # If value is greater than 0, then we need to turn to the right, otherwise we need to turn to the left
 
-            m_turn_val = int(value * 0.1)
+            m_turn_val = int(value * 0.01)
+            accum_error += abs(error)
+
             # Adjust the motor values according to what we have.
-            motor.set_dps(bp, m_right, m_dps - m_turn_val)
-            motor.set_dps(bp, m_left, m_dps + m_turn_val)
+            motor.set_dps(bp, m_right, -(m_dps + m_turn_val))
+            motor.set_dps(bp, m_left, -(m_dps - m_turn_val))
 
             print("Right motor dps: " + str(m_dps - m_turn_val))
             print("Left motor dps: " + str(m_dps + m_turn_val))
@@ -107,8 +112,11 @@ def stay_between_walls():
             time.sleep(dt)
             print("")
 
+        print("Accumulated Error: " + str(accum_error));
+        bp.reset_all()
+
     except KeyboardInterrupt:
-        #bp.reset_all()
+        bp.reset_all()
         pass
 
 def main():
