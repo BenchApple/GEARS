@@ -30,11 +30,12 @@
 # Outputs: Keeping bot between walls.
 
 import sys
-sys.path.append("/team_70/")
+#sys.path.append("/team_70/")
 import time
-import brickpi3
-import GEARS.interfacing.motor as motor
-import GEARS.interfacing.grove_ultrasonic as ultra
+#import brickpi3
+#from ..interfacing import motor
+#import GEARS.interfacing.motor as motor
+from ..interfacing import grove_ultrasonic as ultra
 
 ## This code just drives the robot forward while keeping it between the walls
 def stay_between_walls(): 
@@ -56,7 +57,7 @@ def stay_between_walls():
     e_prev = 0
 
     # Hardware inits
-    bp = brickpi3.BrickPi3()
+    #bp = brickpi3.BrickPi3()
 
     m_right = bp.PORT_A
     m_left = bp.PORT_B
@@ -83,7 +84,8 @@ def stay_between_walls():
             time.sleep(dt)
 
     except KeyboardInterrupt:
-        bp.reset_all()
+        #bp.reset_all()
+        pass
 
 def main():
     stay_between_walls()
