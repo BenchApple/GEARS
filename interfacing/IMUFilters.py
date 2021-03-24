@@ -35,7 +35,7 @@ def AvgCali(mpu9250, depth,dly):
             biases[8]=biases[5]+mag['z']/depth;
             time.sleep(dly)
         print("Calibration Complete\n")
-        return biases
+        return biases;
 
 #The window will be a structure
 #Element 0 will be the filtered output
@@ -48,7 +48,7 @@ def genWindow(width,input):
         for x in range(width):
             temp.append(input)
         window.append(temp)
-        return window
+        return window;
 
 #This function dynamically filters the incoming data (pull)
 #by including it in the windowed set and then averaging that
@@ -68,7 +68,7 @@ def WindowFilterDyn(window,dly,pull):
         if window[2] == window[1]:
             window[2]=0
         time.sleep(dly)
-        return window
+        return window;
     
 def KalmanFilter(mpu9250,state,flter,dly):
         accel = mpu9250.readAccel()
@@ -90,7 +90,7 @@ def KalmanFilter(mpu9250,state,flter,dly):
             state[1][x]=ex
             state[0][x]=p
         time.sleep(dly)
-        return state
+        return state;
 
 
 #This function calculates the standard deviations
@@ -137,7 +137,7 @@ def FindSTD(biases,mpu9250,dly):
         std[7]=np.std(magy)
         std[8]=np.std(magz)
         print("\nFilters Initialized\n")
-        return std
+        return std;
 
 #This function zeros out any value that is
 #within a certain number of standard
@@ -148,4 +148,4 @@ def InvGaussFilter(adv, value, bias, std, count):
                         value = bias
                 else:
                         value = 0
-        return value
+        return value;
