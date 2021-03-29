@@ -66,15 +66,37 @@ def navigate():
                 # Then choose the right one and travel down it.
                 new_node = GraphNode((cur_node.get_orientation() + 1) % 4, cur_node)
                 cur_node.set_right(new_node)
-            # TODO finish this while loop and test it.
+                print("Setting right child.")
+            elif sense[1] == 1:
+                new_node = GraphNode(cur_node.get_orientation(), cur_node)
+                cur_node.set_front(new_node)
+                print("Setting front child.")
+            elif sense[2] == 1:
+                new_node = GraphNode((cur_node.get_orientation() - 1) % 4, cur_node)
+                cur_node.set_left(new_node)
+                print("Setting left child.")
+            
+            cur_node = new_node
+        # Since the previous if would have already caught the other cases, we only need to check this.
+        elif sense[1] == 1:
+            # If forward is the only one available, just increment the length.
+            print("Incrementing current node length")
+            cur_node.set_length(cur_node.get_length() + 1)
+        # Equivalent to asking if all of them are false
+        else:
+            # Then we need to initiate backtracking. 
+            # Backtracking looks for the first parent that has an existent unexplored child.
+            pass
+
+        print("")
 
     return root
 
 # Returns a tuple which references the openness of the 
 def get_sensors():
-    right = input("Enter right openness: ")
-    front = input("Enter front openness: ")
-    left = input("Enter left openness: ")
+    right = int(input("Enter right openness: "))
+    front = int(input("Enter front openness: "))
+    left = int(input("Enter left openness: "))
 
     return (right, front, left)
 
