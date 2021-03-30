@@ -30,17 +30,140 @@
 # Outputs: Maze Data Structure
 
 from .graph import GraphNode
+from .maze_navigate import navigate
 
 # Takes the head of the graph structure created and builds the coordinate system that stores the actual output map.
 def build_maze(root):
     # First we need to determine how big the output graph needs to be.
-    pass
+    maze_size = get_maze_size(root)
 
+    # we need the length and width, so we do this.
+    length = maze_size[0] + 1
+    width = 1 + maze_size[2] + maze_size[3]
+
+    # Initialize the maze map to a bunch of 0s, since that indicates nothing regions.
+    maze_map = [[0 for i in range(0, length)] for j in range(0, width)]
+    col = 0
+    row = maze_size[3] - 1
+    coords = [row, col]
+
+    print("Print maze pre-order traversal")
+    root.print_preorder()
+
+    print(length)
+    print(width)
+    for i in range(0, width):
+        print(maze_map[i])
+    print(coords)
+
+    # Now taht we've printed everything we can actually fill the list with stuff.
+    # This will get more complex as we add functionality to assist in making sure we know the maze entrance and exit.
+    maze_map = fill_map(root, maze_map, coords)
+    for i in range(0, width):
+        print(maze_map[i])
+    
+
+# Fills out the mazes map given the root of the graph, the current maze map, and the current coordinates.
+# The coords are listed as [row, col] 
+def fill_map(node, maze_map, coords):
+    if node != None:
+        print(node)
+        position_offset = 0
+        
+        # We only want this to happen if we're working with the root
+        if node.get_parent() == None:
+            # Then fill out the nodes that this one occupies.
+            maze_map[coords[0]][coords[1]] = 1
+            position_offset = 1
+        # TODO Fix the issue where when it goes in a straight line from one node to the next it doesn't
+        # quite print it properly.
+        # If there's more to the current node, go ahead and set its position.
+        for i in range(0, node.get_length() - 1):
+            if node.get_orientation() == 0:
+                coords[1] += 1
+            elif node.get_orientation() == 1:
+                coords[0] += 1
+            elif node.get_orientation() == 2:
+                coords[1] -= 1
+            elif node.get_orientation() == 3:
+                coords[0] -= 1
+
+            # Set the current position to having been occupied.
+            maze_map[coords[0]][coords[1]] = 1
+            print(coords)
+
+            assert(coords[1] >= 0)
+            assert(coords[1] < len(maze_map))
+            assert(coords[0] >= 0)
+            assert(coords[0] < len(maze_map[0]))
+            print(i)
+
+        print(coords)
+        # Now that we've set the values for the current one, we move on to all of its children.
+        for i in range(0, len(maze_map)):
+            print(maze_map[i])
+        maze_map = fill_map(node.get_right(), maze_map, coords)
+        maze_map = fill_map(node.get_front(), maze_map, coords)
+        maze_map = fill_map(node.get_left(), maze_map, coords)
+        
+    return maze_map
 
 # Uses the root and an inorder traversal to get the dimensions of the maze.
 def get_maze_size(root):
-    pass
+    return _maze_size(root, 0, 0, 0, 0)
 
 # Gets the dimensions of the maze from this node on. Uses pre-order traversal.
-def _maze_size(node, length, max_right, max_left):
+# Node is the root of the current subtree. Length keeps track of how long the maze is (forward/backwards)
+# Width keeps track of the position to the right and left of the starting row (0 means it's in the starting row)
+# max_right and max_left keep track of the maximum displacements to the right and left of center.
+# Returns a tuple of each of the non-node parameters in the below order.
+def _maze_size(node, length, width, max_right, max_left):
+    if node != None:
+        # Get the orientation and adjust values accordingly
+        if node.get_orientation() == 0:
+            length += node.get_length()
+        elif node.get_orientation() == 1:
+            width += node.get_length()
+        #elif node.get_orientation() == 2:
+        #    length -= node.get_length()
+        elif node.get_orientation() == 3:
+            width -= node.get_length()
+
+        # Now adjust the max_right and max_left values accordingly.
+        if width > max_right:
+            max_right = width
+        if width < -max_left:
+            max_left = -width
+
+        # Now that we've adjusted those values, it's time to do our traversal.
+        # Find the maze size from the right node.
+        data = _maze_size(node.get_right(), length, width, max_right, max_left)
+        length = data[0]
+        width = data[1]
+        max_right = data[2]
+        max_left = data[3]
+
+        # Find the maze size from the front node.
+        data = _maze_size(node.get_front(), length, width, max_right, max_left)
+        length = data[0]
+        width = data[1]
+        max_right = data[2]
+        max_left = data[3]
+            
+        # find the maze size from the left node.
+        data = _maze_size(node.get_left(), length, width, max_right, max_left)
+        length = data[0]
+        width = data[1]
+        max_right = data[2]
+        max_left = data[3]
+
+    # Now that we have either traversed or ignored whatever was here, we return.
+    return (length, width, max_right, max_left)
+        
+def main():
+    root = navigate()
+    build_maze(root)
+
+if __name__ == "__main__":
+    main()
 
