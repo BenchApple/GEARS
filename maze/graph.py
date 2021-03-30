@@ -43,8 +43,38 @@ class GraphNode(object):
         self.child_left = None
         self.child_right = None
 
+        # Keeps track of whether or not the paths have been explored.
+        self.explored_front = False
+        self.explored_right = False
+        self.explored_left = False
+
+        # Keeps track of whether paths exist out of each of the directions.
+        self.exists_right = False
+        self.exists_left = False
+        self.exists_front = False
+
         # Length refers to the amount of standard units long that this node is. for example, a hall 40 cm long will have length 1.
         self.length = 0
+
+    def __str__(self):
+        return "Orientation: %d; Length: %d; Explored: Right - %d, Front - %d, Left - %d; Exists: Right - %d, Front - %d, Left - %d" % \
+                (self.orientation, self.length, self.explored_right, self.explored_front, self.explored_left, self.exists_right, self.exists_front, self.exists_left)
+
+    # Prints the inorder traversal with the current node as the root
+    def print_preorder(self):
+        print(self)
+        print("")
+        
+        if self.get_right() != None:
+            self.get_right().print_preorder()
+        
+        if self.get_front() != None:
+            self.get_front().print_preorder()
+
+        if self.get_left() != None:
+            self.get_left().print_preorder()
+
+
 
     # Returns the orientation of the node.
     def get_orientation(self):
@@ -60,9 +90,29 @@ class GraphNode(object):
     def get_length(self):
         return self._length
 
+    # Since there should be no need to set exists to false once it's been set to true, we won't even need a boolean argument.
+    # Dir specifies which direction is getting set 'f' and 'front' work for front, same for the other directions.
+    # These keep track of which paths explore coming out of this node.
+    # NOTE: These explored values are for the current node.
+    def set_exists(self, direc):
+        if direc == "f" or direc == "front":
+            self.exists_front = True
+            return self.get_exists()
+        elif direc == "r" or direc == "right":
+            self.exists_right = True
+            return self.get_exists()
+        elif direc == "l" or direc == "left":
+            self.exists_left = True
+            return self.get_exists()
+        else:
+            raise Exception("Error: Invalid direction for setting exists values.")
+
+    def get_exists(self):
+        return (self.exists_right, self.exists_front, self.exists_left)
+
     # Since there should be no need to set explored to false once it's been set to true, we won't even need a boolean argument.
     # Dir specifies which direction is getting set 'f' and 'front' work for front, same for the other directions.
-    # NOTE: These explored values are for the parent of the current node.
+    # NOTE: These explored values are for the current node, not the parent of the current node.
     def set_explored(self, direc):
         if direc == "f" or direc == "front":
             self.explored_front = True
@@ -77,9 +127,9 @@ class GraphNode(object):
             raise Exception("Error: Invalid direction for setting explored values.")
 
     # Returns a tuple of the exploration status of each of the directions.
-    # 0 - front, 1 - right, 2 - left
+    # 0 - right, 1 - front, 2 - left
     def get_explored(self):
-        return (self.explored_front, self.explored_right, self.explored_left)
+        return (self.explored_right, self.explored_front, self.explored_left)
 
     # Returns the parent of the current node.
     def get_parent(self):
