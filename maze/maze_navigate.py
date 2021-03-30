@@ -52,45 +52,101 @@ def navigate():
     while not navigated:
         sense = get_sensors()
 
-        if sense[0] == 1 or sense[2] == 1:
+        if sense[1] > 1:
+            print("We have traversed the maze!")
+            navigated = True
+        elif sense[0] or sense[2]:
             # Set the existence of paths.
-            if sense[0] == 1:
+            if sense[0]:
                 cur_node.set_exists("r")
-            if sense[1] == 1:
+            if sense[1]:
                 cur_node.set_exists("f")
-            if sense[2] == 1:
+            if sense[2]:
                 cur_node.set_exists("l")
 
             # Check to see which ones are open and travel down the first one.
-            if sense[0] == 1:
+            if sense[0]:
                 # Then choose the right one and travel down it.
                 new_node = GraphNode((cur_node.get_orientation() + 1) % 4, cur_node)
+                cur_node.set_explored("r")
                 cur_node.set_right(new_node)
                 print("Setting right child.")
-            elif sense[1] == 1:
+            elif sense[1]:
                 new_node = GraphNode(cur_node.get_orientation(), cur_node)
+                cur_node.set_explored("f")
                 cur_node.set_front(new_node)
                 print("Setting front child.")
-            elif sense[2] == 1:
+            elif sense[2]:
                 new_node = GraphNode((cur_node.get_orientation() - 1) % 4, cur_node)
+                cur_node.set_explored("l")
                 cur_node.set_left(new_node)
                 print("Setting left child.")
             
             cur_node = new_node
         # Since the previous if would have already caught the other cases, we only need to check this.
-        elif sense[1] == 1:
+        elif sense[1] == 1: # We have == 1 here so that we can catch when we're at the end of the maze
             # If forward is the only one available, just increment the length.
             print("Incrementing current node length")
             cur_node.set_length(cur_node.get_length() + 1)
         # Equivalent to asking if all of them are false
-        else:
+        elif not(sense[0] and sense[1] and sense[2]):
             # Then we need to initiate backtracking. 
             # Backtracking looks for the first parent that has an existent unexplored child.
-            pass
+            cur_node = backtrack(cur_node)
+            print("Backtracked node: " + str(cur_node))
 
+            # Now that we have the node we backtracked to, we choose the next direction to go in
+            exists = cur_node.get_exists()
+            explored = cur_node.get_explored()
+
+            # This should never be entered, but i'd rather have it here than not.
+            if exists[0] and not explored[0]:
+                new_node = GraphNode((cur_node.get_orientation() + 1) % 4, cur_node)
+                cur_node.set_explored("r")
+                cur_node.set_right(new_node)
+                print("Setting right child.")
+            elif exists[1] and not explored[1]:
+                new_node = GraphNode(cur_node.get_orientation(), cur_node)
+                cur_node.set_explored("f")
+                cur_node.set_front(new_node)
+                print("Setting front child.")
+            elif exists[2] and not explored[2]:
+                new_node = GraphNode((cur_node.get_orientation() - 1) % 4, cur_node)
+                cur_node.set_explored("l")
+                cur_node.set_left(new_node)
+                print("Setting left child.")
+            
+            # Set the current node to the new node
+            cur_node = new_node
+
+        print(cur_node)
+        print(cur_node.get_parent())
         print("")
 
     return root
+
+# Return the first node in the parent chain that has an unexplored existing child. 
+def backtrack(cur_node):
+    print(cur_node)
+    if cur_node.get_parent() != None:
+        # Set the current node to be the parent of the current node.
+        cur_node = cur_node.get_parent()
+
+        # Get the current node's existence and explored
+        exists = cur_node.get_exists()
+        explored = cur_node.get_explored()
+
+        print(exists)
+        print(explored)
+        print(exists[1] and not explored[1])
+        print("")
+
+        # If any of the paths both exist and are not explored, return the current node.
+        if (exists[0] and not explored[0]) or (exists[1] and not explored[1]) or (exists[2] and not explored[2]):
+            return cur_node
+        else:
+            # If not, repeat the process with the next parent.
+            backtrack(cur_node)
 
 # Returns a tuple which references the openness of the 
 def get_sensors():
@@ -102,6 +158,9 @@ def get_sensors():
 
 def main():
     root = navigate()
+
+    print("Pre-order traversal of the created tree.")
+    root.print_preorder()
 
 if __name__ == "__main__":
     main()

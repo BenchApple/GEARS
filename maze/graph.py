@@ -56,6 +56,26 @@ class GraphNode(object):
         # Length refers to the amount of standard units long that this node is. for example, a hall 40 cm long will have length 1.
         self.length = 0
 
+    def __str__(self):
+        return "Orientation: %d; Length: %d; Explored: Right - %d, Front - %d, Left - %d; Exists: Right - %d, Front - %d, Left - %d" % \
+                (self.orientation, self.length, self.explored_right, self.explored_front, self.explored_left, self.exists_right, self.exists_front, self.exists_left)
+
+    # Prints the inorder traversal with the current node as the root
+    def print_preorder(self):
+        print(self)
+        print("")
+        
+        if self.get_right() != None:
+            self.get_right().print_preorder()
+        
+        if self.get_front() != None:
+            self.get_front().print_preorder()
+
+        if self.get_left() != None:
+            self.get_left().print_preorder()
+
+
+
     # Returns the orientation of the node.
     def get_orientation(self):
         return self.orientation
@@ -76,10 +96,10 @@ class GraphNode(object):
     # NOTE: These explored values are for the current node.
     def set_exists(self, direc):
         if direc == "f" or direc == "front":
-            self.exists_right = True
+            self.exists_front = True
             return self.get_exists()
         elif direc == "r" or direc == "right":
-            self.exists_left = True
+            self.exists_right = True
             return self.get_exists()
         elif direc == "l" or direc == "left":
             self.exists_left = True
@@ -88,7 +108,7 @@ class GraphNode(object):
             raise Exception("Error: Invalid direction for setting exists values.")
 
     def get_exists(self):
-        return (self.explored_right, self.explored_front, self.explored_left)
+        return (self.exists_right, self.exists_front, self.exists_left)
 
     # Since there should be no need to set explored to false once it's been set to true, we won't even need a boolean argument.
     # Dir specifies which direction is getting set 'f' and 'front' work for front, same for the other directions.
