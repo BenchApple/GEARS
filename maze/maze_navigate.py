@@ -35,6 +35,8 @@
 from .graph import GraphNode
 
 def navigate():
+    maze_file = open("GEARS/maze/sample_maze.txt", 'r')
+
     root = GraphNode(0)
     cur_node = root
 
@@ -50,7 +52,12 @@ def navigate():
     #   backtracking recursively searches for the first parent node that has both existent and
     #   unexplored paths remaining. If this doesn't return, then the maze should have already been sovled.
     while not navigated:
-        sense = get_sensors()
+        sense = maze_file.readline()
+        sense = sense.split()
+        print(sense)
+        for i in range(0, len(sense)):
+            sense[i] = int(sense[i])
+        #sense = get_sensors()
 
         if sense[1] > 1:
             print("We have traversed the maze!")

@@ -39,12 +39,15 @@ def build_maze(root):
 
     # we need the length and width, so we do this.
     length = maze_size[0] + 1
+    print(maze_size[2])
+    print(maze_size[3])
+
     width = 1 + maze_size[2] + maze_size[3]
 
     # Initialize the maze map to a bunch of 0s, since that indicates nothing regions.
     maze_map = [[0 for i in range(0, length)] for j in range(0, width)]
     col = 0
-    row = maze_size[3] - 1
+    row = maze_size[3]
     coords = [row, col]
 
     print("Print maze pre-order traversal")
@@ -59,8 +62,8 @@ def build_maze(root):
     # Now taht we've printed everything we can actually fill the list with stuff.
     # This will get more complex as we add functionality to assist in making sure we know the maze entrance and exit.
     maze_map = fill_map(root, maze_map, coords)
-    for i in range(0, width):
-        print(maze_map[i])
+    #for i in range(0, width):
+        #print(maze_map[i])
     
 
 # Fills out the mazes map given the root of the graph, the current maze map, and the current coordinates.
@@ -68,8 +71,50 @@ def build_maze(root):
 def fill_map(node, maze_map, coords):
     if node != None:
         print(node)
-        position_offset = 0
-        
+
+        tracker = 0
+        has_entered = False
+
+        # Since we want to enter the loop once for all entries
+        while tracker < node.get_length() or not has_entered:
+            # Set the entry position to 2
+            if node.get_parent() == None and not has_entered:
+                maze_map[coords[0]][coords[1]] = 2
+                tracker += 1
+
+                # If the root node was only of length 1, break the loop.
+                if node.get_length() == 1:
+                    break
+            
+            # Now set the tracker to 2
+            has_entered = True
+
+            # Move to the proper position
+            if node.get_orientation() == 0:
+                coords[1] += 1
+            elif node.get_orientation() == 1:
+                coords[0] += 1
+            elif node.get_orientation() == 2:
+                coords[1] -= 1
+            elif node.get_orientation() == 3:
+                coords[0] -= 1
+
+            # Set the current position to having been occupied.
+            maze_map[coords[0]][coords[1]] = 1
+            print(coords)
+            for i in range(0, len(maze_map)):
+                print(maze_map[i])
+
+            assert(coords[1] >= 0)
+            assert(coords[1] < len(maze_map))
+            assert(coords[0] >= 0)
+            assert(coords[0] < len(maze_map[0]))
+
+            # Actually increment the tracker so we don't go forever.
+            tracker += 1
+            input("Enter to continue")
+
+        '''
         # We only want this to happen if we're working with the root
         if node.get_parent() == None:
             # Then fill out the nodes that this one occupies.
@@ -97,11 +142,9 @@ def fill_map(node, maze_map, coords):
             assert(coords[0] >= 0)
             assert(coords[0] < len(maze_map[0]))
             print(i)
+        '''
 
         print(coords)
-        # Now that we've set the values for the current one, we move on to all of its children.
-        for i in range(0, len(maze_map)):
-            print(maze_map[i])
         maze_map = fill_map(node.get_right(), maze_map, coords)
         maze_map = fill_map(node.get_front(), maze_map, coords)
         maze_map = fill_map(node.get_left(), maze_map, coords)
