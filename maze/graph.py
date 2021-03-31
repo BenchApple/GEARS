@@ -63,7 +63,6 @@ class GraphNode(object):
     # Prints the inorder traversal with the current node as the root
     def print_preorder(self):
         print(self)
-        print("")
         
         if self.get_right() != None:
             self.get_right().print_preorder()
