@@ -54,7 +54,7 @@ class GraphNode(object):
         self.exists_front = False
 
         # Length refers to the amount of standard units long that this node is. for example, a hall 40 cm long will have length 1.
-        self.length = 0
+        self.length = 1
 
     def __str__(self):
         return "Orientation: %d; Length: %d; Explored: Right - %d, Front - %d, Left - %d; Exists: Right - %d, Front - %d, Left - %d" % \
