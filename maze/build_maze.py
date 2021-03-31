@@ -88,7 +88,7 @@ def fill_map(node, maze_map, coords):
                 if node.get_length() == 1:
                     break
             
-            # Now set the tracker to 2
+            # Now set the tracker to let us know it's already entered.
             has_entered = True
 
             # Move to the proper position
