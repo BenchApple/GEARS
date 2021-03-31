@@ -62,8 +62,10 @@ def build_maze(root):
     # Now taht we've printed everything we can actually fill the list with stuff.
     # This will get more complex as we add functionality to assist in making sure we know the maze entrance and exit.
     maze_map = fill_map(root, maze_map, coords)
-    #for i in range(0, width):
-        #print(maze_map[i])
+    print("\nFinal Map:")
+    print("Exits the map at: " + str(coords))
+    for i in range(0, width):
+        print(maze_map[i])
     
 
 # Fills out the mazes map given the root of the graph, the current maze map, and the current coordinates.
@@ -106,47 +108,25 @@ def fill_map(node, maze_map, coords):
                 print(maze_map[i])
 
             assert(coords[1] >= 0)
-            assert(coords[1] < len(maze_map))
+            assert(coords[1] < len(maze_map[0]))
             assert(coords[0] >= 0)
-            assert(coords[0] < len(maze_map[0]))
+            assert(coords[0] < len(maze_map))
 
             # Actually increment the tracker so we don't go forever.
             tracker += 1
-            input("Enter to continue")
-
-        '''
-        # We only want this to happen if we're working with the root
-        if node.get_parent() == None:
-            # Then fill out the nodes that this one occupies.
-            maze_map[coords[0]][coords[1]] = 1
-            position_offset = 1
-        # TODO Fix the issue where when it goes in a straight line from one node to the next it doesn't
-        # quite print it properly.
-        # If there's more to the current node, go ahead and set its position.
-        for i in range(0, node.get_length() - 1):
-            if node.get_orientation() == 0:
-                coords[1] += 1
-            elif node.get_orientation() == 1:
-                coords[0] += 1
-            elif node.get_orientation() == 2:
-                coords[1] -= 1
-            elif node.get_orientation() == 3:
-                coords[0] -= 1
-
-            # Set the current position to having been occupied.
-            maze_map[coords[0]][coords[1]] = 1
-            print(coords)
-
-            assert(coords[1] >= 0)
-            assert(coords[1] < len(maze_map))
-            assert(coords[0] >= 0)
-            assert(coords[0] < len(maze_map[0]))
-            print(i)
-        '''
+            #input("Enter to continue")
 
         print(coords)
+        # Stores the coords locally so we can reset coords to the right value.
+        local_coords = coords.copy()
         maze_map = fill_map(node.get_right(), maze_map, coords)
+
+        # Update the coords to the local
+        coords = local_coords.copy()
         maze_map = fill_map(node.get_front(), maze_map, coords)
+
+        # Update the coords to the local
+        coords = local_coords.copy()
         maze_map = fill_map(node.get_left(), maze_map, coords)
         
     return maze_map

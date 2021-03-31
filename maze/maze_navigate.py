@@ -35,7 +35,7 @@
 from .graph import GraphNode
 
 def navigate():
-    maze_file = open("GEARS/maze/sample_maze.txt", 'r')
+    maze_file = open("GEARS/maze/maze1.txt", 'r')
 
     root = GraphNode(0)
     cur_node = root
@@ -100,6 +100,7 @@ def navigate():
             # Then we need to initiate backtracking. 
             # Backtracking looks for the first parent that has an existent unexplored child.
             cur_node = backtrack(cur_node)
+            print(cur_node)
             print("Backtracked node: " + str(cur_node))
 
             # Now that we have the node we backtracked to, we choose the next direction to go in
@@ -125,16 +126,17 @@ def navigate():
             
             # Set the current node to the new node
             cur_node = new_node
+            
 
         print(cur_node)
         print(cur_node.get_parent())
         print("")
+        #input("Enter to Continue")
 
     return root
 
 # Return the first node in the parent chain that has an unexplored existing child. 
 def backtrack(cur_node):
-    print(cur_node)
     if cur_node.get_parent() != None:
         # Set the current node to be the parent of the current node.
         cur_node = cur_node.get_parent()
@@ -143,6 +145,7 @@ def backtrack(cur_node):
         exists = cur_node.get_exists()
         explored = cur_node.get_explored()
 
+        #print(cur_node)
         print(exists)
         print(explored)
         print(exists[1] and not explored[1])
@@ -150,10 +153,11 @@ def backtrack(cur_node):
 
         # If any of the paths both exist and are not explored, return the current node.
         if (exists[0] and not explored[0]) or (exists[1] and not explored[1]) or (exists[2] and not explored[2]):
-            return cur_node
+            print(cur_node)
+            return (cur_node)
         else:
             # If not, repeat the process with the next parent.
-            backtrack(cur_node)
+            return backtrack(cur_node)
 
 # Returns a tuple which references the openness of the 
 def get_sensors():
