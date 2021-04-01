@@ -82,8 +82,6 @@ class GraphNode(object):
         if self.get_left() != None:
             self.get_left().print_preorder()
 
-
-
     # Returns the orientation of the node.
     def get_orientation(self):
         return self.orientation
@@ -196,6 +194,10 @@ class HazardNode(GraphNode):
 
         # set the hazard object as subservient
         self.hazard = _hazard
+
+    def __str__(self):
+        return "Type: %s; Hazard Data %s" % \
+                (self.h_type, self.hazard) 
 
     def get_length(self):
         return super().get_length()
