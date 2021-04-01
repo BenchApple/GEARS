@@ -195,6 +195,11 @@ class HazardNode(GraphNode):
         # set the hazard object as subservient
         self.hazard = _hazard
 
+        # Since we 100% don't have children of hazards, just set them all to None
+        self.child_right = None
+        self.child_front = None
+        self.child_left = None
+
     def __str__(self):
         return "Type: %s; Hazard Data %s" % \
                 (self.h_type, self.hazard) 
