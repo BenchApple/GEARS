@@ -41,15 +41,10 @@ from ..interfacing import grove_ultrasonic as ultra
 ## This code just drives the robot forward while keeping it between the walls
 def stay_between_walls(): 
     # Tuning parameters
-    KP = 0.5 # Proportional gain
-    KI = 0.5 # Integral gain
-    KD = 0.5 # Derivative gain
+    KP = 4 # Proportional gain
+    KI = 7 # Integral gain
+    KD = 9 # Derivative gain
     dt = 0.05
-
-    # Target pos represents where we want to be, which should be a sum of 240 cm^2
-    target_pos = 240 # we are trying to minimize the distance, so we just set it to 0
-
-    current_pos = 0
 
     P = 0
     I = 2
@@ -63,23 +58,43 @@ def stay_between_walls():
     m_right = bp.PORT_C
     m_left = bp.PORT_B
     motor.init_motors(bp, m_right, m_left)
-    m_dps = 80
+    m_dps = 250
 
     motor.set_limits(bp, m_right, m_left, 90, m_dps)
 
     u_right = 5
     u_left = 6
 
+    # Target pos represents where we want to be, which should be a sum of 240 cm^2
+    target_dist_sum  = ultra.readGroveUltrasonic(u_right) + ultra.readGroveUltrasonic(u_left)
+
     # Set the degrees per second for each motor
     motor.set_dps(bp, m_right, m_dps)
     motor.set_dps(bp, m_left, m_dps)
+
+    # Tracks which direction we have been turning. 1 means we have been turning to the left (CCW)
+    # -1 means we have been turning to the right (CW)
+    turn_dir = 0
+
+    # turn_tracker keeps track of how many iterations in a row we've been turning the opposite direction of the current turn_dir
+    turn_tracker = 0
+
+    # turn_limit denotes the amount of iteratiosn in a row that the turning direction has to be different in order to swithc the direction.
+    turn_limit = 5
 
     try:
         while True:
             u_right_reading = ultra.readGroveUltrasonic(u_right)
             u_left_reading = ultra.readGroveUltrasonic(u_left)
             # We can do it like this because we want them to be equidistant from the walls
-            error = u_right_reading - u_left_reading
+            dist_error = u_right_reading - u_left_reading
+
+            # dist_sum_error tracks the error in rotation by taking the sum of the distances.
+            dist_sum_error = (u_right_reading + u_left_reading) - target_dist_sum
+            dist_sum_error *= turn_dir
+
+            # Sum the two errors to get the final error.
+            error = dist_error + dist_sum_error
 
             P = KP * error
             I += KI * error * dt / 2
@@ -89,12 +104,14 @@ def stay_between_walls():
             # If value is greater than 0, then we need to turn to the right, otherwise we need to turn to the left
 
             m_turn_val = int(value * 0.1)
+            right_dps = m_dps - m_turn_val
+            left_dps = m_dps + m_turn_val
             # Adjust the motor values according to what we have.
-            motor.set_dps(bp, m_right, m_dps - m_turn_val)
-            motor.set_dps(bp, m_left, m_dps + m_turn_val)
+            motor.set_dps(bp, m_right, right_dps)
+            motor.set_dps(bp, m_left, left_dps)
 
-            print("Right motor dps: " + str(m_dps - m_turn_val))
-            print("Left motor dps: " + str(m_dps + m_turn_val))
+            print("Right motor dps: " + str(right_dps))
+            print("Left motor dps: " + str(left_dps))
 
            #  NOTE: System is working about as intended, needs testing though.
            # One pootential issue is rotation messing up the readings we want (needs to be tested)
@@ -102,6 +119,17 @@ def stay_between_walls():
            #       distance to the walls using trig
            # Overall we just need a lot more testing in order to make sure that this works well.
             
+            # Check to change the turn direction.
+            if right_dps > left_dps and turn_dir != -1:
+                turn_tracker += 1 
+                if turn_tracker > turn_limit:
+                    turn_dir = -1
+                    turn_tracker = 0
+            elif left_dps > right_dps and turn_dir != 1:
+                turn_tracker += 1
+                if turn_tracker > turn_limit:
+                    turn_dir = 1
+                    turn_tracker = 0
             
             print(value)
             time.sleep(dt)
