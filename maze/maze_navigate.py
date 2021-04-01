@@ -59,7 +59,7 @@ def navigate():
             sense[i] = int(sense[i])
         #sense = get_sensors()
 
-        if sense[1] > 1:
+        if sense[1] == 2:
             print("We have traversed the maze!")
             navigated = True
         elif sense[0] or sense[2]:
