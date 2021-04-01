@@ -63,28 +63,40 @@ def navigate():
         # Do all of the hazards stuff.
         if sense[0] == 2:
             # Then we have a heat source.
-            new_hazard = HazardNode("heat", "This is a heat hazard with attributes of fire and heat")
+            new_hazard = HazardNode("heat", \
+                                    "This is a heat hazard with attributes of fire and heat", \
+                                    cur_node, (cur_node.get_orientation() + 1) % 4)
             cur_node.set_right(new_hazard)
         elif sense[0] == 3:
-            new_hazard = HazardNode("magnet", "This is a magnet hazard with attributes of magneticy and fucking up your laptop.")
+            new_hazard = HazardNode("magnet", \
+                                    "This is a magnet hazard with attributes of magneticy and fucking up your laptop.", \
+                                    cur_node, (cur_node.get_orientation() + 1) % 4)
             cur_node.set_right(new_hazard)
 
         # now for the front.
         if sense[1] == 2:
             # Then we have a heat source.
-            new_hazard = HazardNode("heat", "This is a heat hazard with attributes of fire and heat")
+            new_hazard = HazardNode("heat", \
+                                    "This is a heat hazard with attributes of fire and heat", \
+                                    cur_node, cur_node.get_orientation())
             cur_node.set_front(new_hazard)
         elif sense[1] == 3:
-            new_hazard = HazardNode("magnet", "This is a magnet hazard with attributes of magneticy and fucking up your laptop.")
+            new_hazard = HazardNode("magnet", \
+                                    "This is a magnet hazard with attributes of magneticy and fucking up your laptop.", \
+                                    cur_node, cur_node.get_orientation())
             cur_node.set_front(new_hazard)
 
         # Now for the left
         if sense[2] == 2:
             # Then we have a heat source.
-            new_hazard = HazardNode("heat", "This is a heat hazard with attributes of fire and heat")
+            new_hazard = HazardNode("heat", \
+                                    "This is a heat hazard with attributes of fire and heat", \
+                                    cur_node, (cur_node.get_orientation() - 1) % 4)
             cur_node.set_left(new_hazard)
         elif sense[2] == 3:
-            new_hazard = HazardNode("magnet", "This is a magnet hazard with attributes of magneticy and fucking up your laptop.")
+            new_hazard = HazardNode("magnet", \
+                                    "This is a magnet hazard with attributes of magneticy and fucking up your laptop.", \
+                                    cur_node, (cur_node.get_orientation() - 1) % 4)
             cur_node.set_left(new_hazard)
 
         # All of these are maze navigation oriented. They do not care about hazards.

@@ -69,6 +69,9 @@ class GraphNode(object):
         self.is_end = True
         return self.is_end
 
+    def get_end(self):
+        return self.is_end
+
     # Prints the inorder traversal with the current node as the root
     def print_preorder(self):
         print(self)
@@ -185,7 +188,7 @@ class GraphNode(object):
 
 class HazardNode(GraphNode):
     # Initializes the Hazard object. Takes the type (magnetic or heat) as well as the corresponding hazard object.
-    def __init__(self, _type, _hazard):
+    def __init__(self, _type, _hazard, __parent, _orientation):
         # Length is just to help the printer.
         self.length = 1
 
@@ -195,14 +198,29 @@ class HazardNode(GraphNode):
         # set the hazard object as subservient
         self.hazard = _hazard
 
+        super().__init__(_orientation, _parent=__parent)
+        '''
         # Since we 100% don't have children of hazards, just set them all to None
         self.child_right = None
         self.child_front = None
         self.child_left = None
 
+        # Set the parent of the hazard so it's actually linked lol.
+        self.parent = _parent
+
+        # Set the orientation of the hazard so that the size tracking works.
+        self.orientation = _orientation
+        '''
+
     def __str__(self):
-        return "Type: %s; Hazard Data %s" % \
-                (self.h_type, self.hazard) 
+        return "Type: %s; Hazard Data: %s; Parent: %s" % \
+                (self.h_type, self.hazard, self.parent) 
+
+    def get_orientation(self):
+        return super().get_orientation()
+
+    def get_parent(self):
+        return super().get_parent()
 
     def get_length(self):
         return super().get_length()
@@ -235,10 +253,13 @@ def main():
     print(head.get_front())
     print(sub.get_parent)
 
-    h = HazardNode("ir", "lmao you think i have an object for this")
+    h = HazardNode("ir", "lmao you think i have an object for this", head)
     print(h.get_length())
     print(h.get_htype())
     print(h.get_hazard())
+
+    print(isinstance(head, HazardNode))
+    print(isinstance(h, HazardNode))
 
 
 if __name__ == "__main__":

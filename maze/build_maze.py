@@ -30,6 +30,7 @@
 # Outputs: Maze Data Structure
 
 from .graph import GraphNode
+from .graph import HazardNode
 from .maze_navigate import navigate
 
 # Takes the head of the graph structure created and builds the coordinate system that stores the actual output map.
@@ -61,6 +62,7 @@ def build_maze(root):
 
     # Now taht we've printed everything we can actually fill the list with stuff.
     # This will get more complex as we add functionality to assist in making sure we know the maze entrance and exit.
+    print("\n\nRebuilding Maze\n\n")
     maze_map = fill_map(root, maze_map, coords)
     print("\nFinal Map:")
     print("Exits the map at: " + str(coords))
@@ -76,6 +78,28 @@ def fill_map(node, maze_map, coords):
 
         tracker = 0
         has_entered = False
+
+        # Place the hazard in the correct spot.
+        # Check to see if the current node is a hazard node.
+        if isinstance(node, HazardNode):
+            # Move to the proper coords.
+            if node.get_orientation() == 0:
+                coords[1] += 1
+            elif node.get_orientation() == 1:
+                coords[0] += 1
+            elif node.get_orientation() == 2:
+                coords[1] -= 1
+            elif node.get_orientation() == 3:
+                coords[0] -= 1
+
+            if node.get_htype() == "heat":
+                maze_map[coords[0]][coords[1]] = 2
+            elif node.get_htype() == "magnet":
+                maze_map[coords[0]][coords[1]] = 3
+
+            # Make sure this doesn't enter the while loop.
+            tracker = node.get_length()
+            has_entered = True
 
         # Since we want to enter the loop once for all entries
         while tracker < node.get_length() or not has_entered:
@@ -103,6 +127,11 @@ def fill_map(node, maze_map, coords):
 
             # Set the current position to having been occupied.
             maze_map[coords[0]][coords[1]] = 1
+
+            # If the current position is the end of the maze indicate that.
+            if tracker == node.get_length() - 1 and node.get_end():
+                maze_map[coords[0]][coords[1]] = 4
+
             print(coords)
             for i in range(0, len(maze_map)):
                 print(maze_map[i])
@@ -114,7 +143,7 @@ def fill_map(node, maze_map, coords):
 
             # Actually increment the tracker so we don't go forever.
             tracker += 1
-            #input("Enter to continue")
+            input("Enter to continue")
 
         print(coords)
         # Stores the coords locally so we can reset coords to the right value.
