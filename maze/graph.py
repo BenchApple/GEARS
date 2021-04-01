@@ -56,9 +56,18 @@ class GraphNode(object):
         # Length refers to the amount of standard units long that this node is. for example, a hall 40 cm long will have length 1.
         self.length = 1
 
+        # Keep track of whether or not the last segment of this node is the end of the maze.
+        self.is_end = False
+
     def __str__(self):
         return "Orientation: %d; Length: %d; Explored: Right - %d, Front - %d, Left - %d; Exists: Right - %d, Front - %d, Left - %d" % \
                 (self.orientation, self.length, self.explored_right, self.explored_front, self.explored_left, self.exists_right, self.exists_front, self.exists_left)
+
+    # Set the end of the current node to be true. Should only be called once in the entire tree.
+    # TODO implement the implications of this change in maze_navigate and build_maze
+    def set_end(self):
+        self.is_end = True
+        return self.is_end
 
     # Prints the inorder traversal with the current node as the root
     def print_preorder(self):
@@ -176,6 +185,36 @@ class GraphNode(object):
     # Length refers to the amount of standard units long that this node is. for example, a hall 40 cm long will have length 1.
     length = property(get_length, set_length)
 
+class HazardNode(GraphNode):
+    # Initializes the Hazard object. Takes the type (magnetic or heat) as well as the corresponding hazard object.
+    def __init__(self, _type, _hazard):
+        # Length is just to help the printer.
+        self.length = 1
+
+        # Type keeps track of the specific data type.
+        self.h_type = _type
+
+        # set the hazard object as subservient
+        self.hazard = _hazard
+
+    def get_length(self):
+        return super().get_length()
+
+    def set_htype(self, _type):
+        if _type == "heat" or _type == "ir" or _type == 2:
+            self._h_type = "heat"
+        elif _type == "magnet" or _type == 3:
+            self._h_type = "magnet"
+        else:
+            raise Exception("Error: Invalid type for Hazard Node")
+    
+    def get_htype(self):
+        return self._h_type
+    
+    def get_hazard(self):
+        return self.hazard
+
+    h_type = property(get_htype, set_htype)
 
 def main():
     head = GraphNode(0)
@@ -188,6 +227,11 @@ def main():
     head.set_front(sub)
     print(head.get_front())
     print(sub.get_parent)
+
+    h = HazardNode("ir", "lmao you think i have an object for this")
+    print(h.get_length())
+    print(h.get_htype())
+    print(h.get_hazard())
 
 
 if __name__ == "__main__":
