@@ -40,13 +40,13 @@ from ..interfacing import imu_interface as i
 ## This code just drives the robot forward while keeping it between the walls
 def stay_between_walls(): 
     # Tuning parameters
-    KP = 4 # Proportional gain
-    KI = 7 # Integral gain
-    KD = 9 # Derivative gain
+    KP = 0.5 # Proportional gain
+    KI = 2 # Integral gain
+    KD = 3 # Derivative gain
     dt = 0.05
 
     P = 0
-    I = 0
+    I = 2
     D = 0
 
     e_prev = 0
@@ -95,7 +95,10 @@ def stay_between_walls():
 
             # dist_sum_error tracks the error in rotation by taking the sum of the distances.
             dist_sum_error = (u_right_reading + u_left_reading) - target_dist_sum
-            dist_sum_error *= turn_dir
+            dist_sum_error *= (10* turn_dir)
+
+            print("Distance Error: " + str(dist_error))
+            print("Distance Sum Error: " + str(dist_sum_error))
 
             # Sum the two errors to get the final error.
             error = dist_error + dist_sum_error
@@ -108,9 +111,10 @@ def stay_between_walls():
             value = P + I + D
             # If value is greater than 0, then we need to turn to the right, otherwise we need to turn to the left
 
-            m_turn_val = int(value * 0.1)
-            right_dps = m_dps - m_turn_val
-            left_dps = m_dps + m_turn_val
+            m_turn_val = int(value * 0.01)
+            print("Turn Value: " + str(m_turn_val))
+            right_dps = -(m_dps + m_turn_val)
+            left_dps = -(m_dps - m_turn_val)
             # Adjust the motor values according to what we have.
             motor.set_dps(bp, m_right, right_dps)
             motor.set_dps(bp, m_left, left_dps)
