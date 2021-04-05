@@ -9,7 +9,7 @@
 #  http://www.apache.org/licenses/
 #
 #  FaBo <info@fabo.io>
-from MPU9250 import MPU9250
+from .MPU9250 import MPU9250
 import numpy as np
 import sys
 import smbus
