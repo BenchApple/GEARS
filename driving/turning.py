@@ -30,7 +30,8 @@
 # Inputs: Driving, Wall Data, Maze Navigation Instructions
 # Outputs: Turns robot
 
-from GEARS.interfacing.motor import *
+from .interfacing.motor import *
+import time
  
 # Description: Has the GEARS bot perform a point rotation centered on the middle of the wheel axis (the center of the GEARS bot)
 # Arguments: 
