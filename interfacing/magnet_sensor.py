@@ -31,13 +31,18 @@
 
 # TODO: import "imu_interface" for "getMagnet"
 from math import sqrt
+from . import imu_interface as imu
+import time
 
 # Determines if there is a within one maze block to the left, front, or right.
 # Returns "none" if no magnet is detected, "1eft" if magnet is detected to the left, "front" if magnet is detected to the front, "right" if magnet is detected to the right
 # NOTE: This function should only be called after the GEARS bot has been centered within the maze block and realigned.
 # NOTE: If the MAGNET_MAGNITUDE_CUTOFF has too small of a magnitude, then the function may report a magnet in a maze block diagonal from the GEARS bot as existing within a connected maze block.
 def checkMag(IMU):
-    magVector = getMagnet(IMU)
+    MAGNET_MAGNITUDE_CUTOFF = 120 
+
+    magVector = imu.getMagnet(IMU)
+    print(magVector)
     
     magCompX = magVector['x']
     magCompY = magVector['y']
@@ -45,6 +50,7 @@ def checkMag(IMU):
     
     # getMagnMagnitude was not directly called to prevent double retrieving the IMU magnetometer readings
     magnetMagnitude = sqrt((magCompX * magCompX) + (magCompY * magCompY) + (magCompZ * magCompZ))
+    print(magnetMagnitude)
     
     # TODO: Need to experimentally determine magnetMagnitude cutoff
     if (magnetMagnitude > MAGNET_MAGNITUDE_CUTOFF):
@@ -59,3 +65,15 @@ def checkMag(IMU):
             return "right"
             
     return "none"
+
+def main():
+    imu_obj = imu.init()
+
+    while True:
+        result = checkMag(imu_obj)
+        print(result)
+        time.sleep(0.2)
+
+
+if __name__ == "__main__":
+    main()
