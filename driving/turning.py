@@ -30,8 +30,10 @@
 # Inputs: Driving, Wall Data, Maze Navigation Instructions
 # Outputs: Turns robot
 
-from .interfacing.motor import *
+from ..interfacing.motor import *
+import math as m
 import time
+import brickpi3
  
 # Description: Has the GEARS bot perform a point rotation centered on the middle of the wheel axis (the center of the GEARS bot)
 # Arguments: 
@@ -41,9 +43,12 @@ import time
 #   dps = Speed at which the two motors will turn (will typically be set to the maximum dps defined in main)
 #   direction = "CW" for clockwise turning and "CCW" for counter-clockwise turning
 #   degrees = number of degrees the GEARS bot should turn
-def turn_X_degrees(bp, left_motor_port, right_motor_port, dps, direction, degrees):
+def turn_X_degrees(bp, LEFT_MOTOR_PORT, RIGHT_MOTOR_PORT, dps, direction, degrees):
     set_dps(bp, LEFT_MOTOR_PORT, 0)
     set_dps(bp, RIGHT_MOTOR_PORT, 0)
+
+    robotCircumference = 18 * 3.14159
+    wheelCircumference = 4.2 * 2 * 3.14159
     
     degreesTurn = m.floor(((robotCircumference * (degrees / 360)) / wheelCircumference) * 360)
 
@@ -72,3 +77,20 @@ def turn_90_degrees(bp, left_motor_port, right_motor_port, dps, direction):
 def turn_180_degrees(bp, left_motor_port, right_motor_port, dps):
     turn_X_degrees(bp, left_motor_port, right_motor_port, dps, "CW", 180)
     return
+
+def main():
+    bp = brickpi3.BrickPi3()
+    left = bp.PORT_C
+    right = bp.PORT_B
+    init_motors(bp, right, left)
+
+    #for d in range(20, 361, 20):
+    #    turn_X_degrees(bp, left, right, 150, "CW", d)
+    #    time.sleep(1)
+    turn_X_degrees(bp, left, right, 150, "CCW", 100)
+    bp.reset_all()
+
+if __name__ == "__main__":
+    main()
+
+
