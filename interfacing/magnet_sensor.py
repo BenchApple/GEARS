@@ -29,9 +29,9 @@
 # Inputs: IMU Sensor Data
 # Outputs: Magnetic Hazards
 
-# TODO: import "imu_interface" for "getMagnet"
-from math import sqrt
+from math
 from . import imu_interface as imu
+# TODO import turning
 import time
 
 # Determines if there is a within one maze block to the left, front, or right.
@@ -44,24 +44,53 @@ def checkMag(IMU):
     magVector = imu.getMagnet(IMU)
     print(magVector)
     
-    magCompX = magVector['x']
-    magCompY = magVector['y']
-    magCompZ = magVector['z']
+    magCompX1 = magVector['x']
+    magCompY1 = magVector['y']
+    magCompZ1 = magVector['z']
+    magCompX1_reverse = magCompX1 * -1
+    magCompY1_reverse = magCompY1 * -1
+    magCompZ1_reverse = magCompZ1 * -1
     
     # getMagnMagnitude was not directly called to prevent double retrieving the IMU magnetometer readings
-    magnetMagnitude = sqrt((magCompX * magCompX) + (magCompY * magCompY) + (magCompZ * magCompZ))
-    print(magnetMagnitude)
+    magnetMagnitude1 = math.sqrt((magCompX1 * magCompX1) + (magCompY1 * magCompY1) + (magCompZ1 * magCompZ1))
+    print(magnetMagnitude1)
     
-    # TODO: Need to experimentally determine magnetMagnitude cutoff
-    if (magnetMagnitude > MAGNET_MAGNITUDE_CUTOFF):
+    if (magnetMagnitude1 > MAGNET_MAGNITUDE_CUTOFF):
+        # TODO call turn90degrees, with appropriate parameters
+        
+        magCompX2 = magVector['x']
+        magCompY2 = magVector['y']
+        magCompZ2 = magVector['z']
+        magCompX2_reverse = magCompX2 * -1
+        magCompY2_reverse = magCompY2 * -1
+        magCompZ2_reverse = magCompZ2 * -1
+        
+        # TODO add the difference between the IMU's intial and final positions
+        magCompY2 += IMU_DIFFERENCE
+        magCompY2_reverse += IMU_DIFFERENCE
+        
+        magnetMagnitude2 = math.sqrt((magCompX2 * magCompX2) + (magCompY2 * magCompY2) + (magCompZ2 * magCompZ2))
+        
+        # TODO call turnXdegrees for -90 degrees, with appropriate parameters
+        
+        # Calculate the interior angle between the first and second readings direction vectors and their opposing direction vector
+        readingDifference = math.acos((magCompX1 * magCompX2 + magCompY1 * magCompY2 + magCompZ1 * magCompZ2) / (magnetMagnitude1 * magnetMagnitude2))
+        reverseDifference = math.acos((magCompX1_reverse * magCompX2_reverse + magCompY1_reverse * magCompY2_reverse + magCompZ1_reverse * magCompZ2_reverse) / (magnetMagnitude1 * magnetMagnitude2))
+        
+        if (reverseDifference < readingDifference):
+            # Same thing as using reverse direction for determining direction
+            magCompX1 *= -1
+            magCompY1 *= -1
+            magCompZ1 *= -1
+        
         # Direction vectors determined through trigonometry, can provide derivation if necessary
         # The magVector is determined if it is within the range via two cross products and the resulting sign
         # NOTE: If a magVector is the same as one of the direction vectors then the program will report no magnet.  This should not cause an error as this should not occur in real-life.  (Famous last words)
-        if ((((-0.62348 * magCompY) - (0.78184 * magCompX)) > 0) and (((-0.80154 * magCompY) - (-0.59795 * magCompX)) < 0)):
+        if ((((-0.62348 * magCompY1) - (0.78184 * magCompX1)) > 0) and (((-0.80154 * magCompY1) - (-0.59795 * magCompX1)) < 0)):
             return "left"
-        elif ((((0.62348 * magCompY) - (0.79184 * magCompX)) > 0) and (((-0.62348 * magCompY) - (0.79184 * magCompX)) < 0)):
+        elif ((((0.62348 * magCompY1) - (0.79184 * magCompX1)) > 0) and (((-0.62348 * magCompY1) - (0.79184 * magCompX1)) < 0)):
             return "front"
-        elif ((((0.80154 * magCompY) - (-0.59795 * magCompX)) > 0) and (((0.62348 * magCompY) - (0.79184 * magCompX)) < 0)):
+        elif ((((0.80154 * magCompY1) - (-0.59795 * magCompX1)) > 0) and (((0.62348 * magCompY1) - (0.79184 * magCompX1)) < 0)):
             return "right"
             
     return "none"
