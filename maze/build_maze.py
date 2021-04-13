@@ -39,16 +39,16 @@ def build_maze(root):
     maze_size = get_maze_size(root)
 
     # we need the length and width, so we do this.
-    length = maze_size[0] + 1
+    length = maze_size[0] - 1
     print(maze_size[2])
     print(maze_size[3])
 
-    width = 1 + maze_size[2] + maze_size[3]
+    width = maze_size[2] + maze_size[3] + 2
 
     # Initialize the maze map to a bunch of 0s, since that indicates nothing regions.
     maze_map = [[0 for i in range(0, length)] for j in range(0, width)]
     col = 0
-    row = maze_size[3]
+    row = maze_size[3] + 1
     coords = [row, col]
 
     print("Print maze pre-order traversal")
@@ -100,63 +100,69 @@ def fill_map(node, maze_map, coords):
             # Make sure this doesn't enter the while loop.
             tracker = node.get_length()
             has_entered = True
+        else:
+            # Since we want to enter the loop once for all entries
+            while tracker < node.get_length() or not has_entered:
+                # Set the entry position to 2
+                if node.get_parent() == None and not has_entered:
+                    maze_map[coords[0]][coords[1]] = 2
+                    tracker += 1
 
-        # Since we want to enter the loop once for all entries
-        while tracker < node.get_length() or not has_entered:
-            # Set the entry position to 2
-            if node.get_parent() == None and not has_entered:
-                maze_map[coords[0]][coords[1]] = 2
+                    # If the root node was only of length 1, break the loop.
+                    if node.get_length() == 1:
+                        break
+
+                # Now set the tracker to let us know it's already entered.
+                has_entered = True
+
+                # Move to the proper position
+                if node.get_orientation() == 0:
+                    coords[1] += 1
+                elif node.get_orientation() == 1:
+                    coords[0] += 1
+                elif node.get_orientation() == 2:
+                    coords[1] -= 1
+                elif node.get_orientation() == 3:
+                    coords[0] -= 1
+
+                # Set the current position to having been occupied.
+                maze_map[coords[0]][coords[1]] = 1
+
+                # If the current position is the end of the maze indicate that.
+                if tracker == node.get_length() - 1 and node.get_end():
+                    maze_map[coords[0]][coords[1]] = 4
+
+                print("Coords: " + str(coords))
+                for i in range(0, len(maze_map)):
+                    print(maze_map[i])
+
+                assert(coords[1] >= 0)
+                assert(coords[1] < len(maze_map[0]))
+                assert(coords[0] >= 0)
+                assert(coords[0] < len(maze_map))
+
+                # Actually increment the tracker so we don't go forever.
                 tracker += 1
+                input("Enter to continue")
 
-                # If the root node was only of length 1, break the loop.
-                if node.get_length() == 1:
-                    break
-            
-            # Now set the tracker to let us know it's already entered.
-            has_entered = True
+            print("Coords: " + str(coords))
+            # Stores the coords locally so we can reset coords to the right value.
+            local_coords = coords.copy()
+            print("At Node: " + str(node))
+            print("Traversing Right")
+            maze_map = fill_map(node.get_right(), maze_map, coords)
 
-            # Move to the proper position
-            if node.get_orientation() == 0:
-                coords[1] += 1
-            elif node.get_orientation() == 1:
-                coords[0] += 1
-            elif node.get_orientation() == 2:
-                coords[1] -= 1
-            elif node.get_orientation() == 3:
-                coords[0] -= 1
+            # Update the coords to the local
+            print("At Node: " + str(node))
+            print("Traversing Front")
+            coords = local_coords.copy()
+            maze_map = fill_map(node.get_front(), maze_map, coords)
 
-            # Set the current position to having been occupied.
-            maze_map[coords[0]][coords[1]] = 1
-
-            # If the current position is the end of the maze indicate that.
-            if tracker == node.get_length() - 1 and node.get_end():
-                maze_map[coords[0]][coords[1]] = 4
-
-            print(coords)
-            for i in range(0, len(maze_map)):
-                print(maze_map[i])
-
-            assert(coords[1] >= 0)
-            assert(coords[1] < len(maze_map[0]))
-            assert(coords[0] >= 0)
-            assert(coords[0] < len(maze_map))
-
-            # Actually increment the tracker so we don't go forever.
-            tracker += 1
-            input("Enter to continue")
-
-        print(coords)
-        # Stores the coords locally so we can reset coords to the right value.
-        local_coords = coords.copy()
-        maze_map = fill_map(node.get_right(), maze_map, coords)
-
-        # Update the coords to the local
-        coords = local_coords.copy()
-        maze_map = fill_map(node.get_front(), maze_map, coords)
-
-        # Update the coords to the local
-        coords = local_coords.copy()
-        maze_map = fill_map(node.get_left(), maze_map, coords)
+            # Update the coords to the local
+            print("At Node: " + str(node))
+            print("Traversing Left")
+            coords = local_coords.copy()
+            maze_map = fill_map(node.get_left(), maze_map, coords)
         
     return maze_map
 

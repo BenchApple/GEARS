@@ -28,11 +28,15 @@
 # This is the file for the main data structure used in maze navigation and building. 
 # This is basically just the structuring of how all that stuff works efficiently.
 
+# Sequence stores the which node this is - the order of it i mean.
 class GraphNode(object):
-    def __init__(self, _orientation, _parent = None):
+    def __init__(self, _orientation, _parent = None, _number=0):
         # Orientation refers to which direction the node is oritented when first going through it. 
         # 0 means aligned with maze entrance, 1 is 90 degrees right, 2 is backwards aligned with entrance, 3 is backwards to 1.
         self.orientation = _orientation
+
+        # Mostly for debugging purposes
+        self.number = _number
 
         # When backtracking, parent node represents the node this node stemmed from
         # NOTE Backtracking will effectively have to go back to the parent node and work from there.
@@ -60,8 +64,8 @@ class GraphNode(object):
         self.is_end = False
 
     def __str__(self):
-        return "Orientation: %d; Length: %d; Explored: Right - %d, Front - %d, Left - %d; Exists: Right - %d, Front - %d, Left - %d" % \
-                (self.orientation, self.length, self.explored_right, self.explored_front, self.explored_left, self.exists_right, self.exists_front, self.exists_left)
+        return "Number: %d; Orientation: %d; Length: %d; Explored: Right - %d, Front - %d, Left - %d; Exists: Right - %d, Front - %d, Left - %d" % \
+                (self.number, self.orientation, self.length, self.explored_right, self.explored_front, self.explored_left, self.exists_right, self.exists_front, self.exists_left)
 
     # Set the end of the current node to be true. Should only be called once in the entire tree.
     # TODO implement the implications of this change in maze_navigate and build_maze
@@ -253,7 +257,7 @@ def main():
     print(head.get_front())
     print(sub.get_parent)
 
-    h = HazardNode("ir", "lmao you think i have an object for this", head)
+    h = HazardNode("ir", "lmao you think i have an object for this", head, 0)
     print(h.get_length())
     print(h.get_htype())
     print(h.get_hazard())
