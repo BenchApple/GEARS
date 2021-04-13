@@ -36,7 +36,7 @@ from .graph import GraphNode
 from .graph import HazardNode
 
 def navigate():
-    maze_file = open("GEARS/maze/maze1.txt", 'r')
+    maze_file = open("GEARS/maze/maze2.txt", 'r')
 
     root = GraphNode(0)
     cur_node = root
