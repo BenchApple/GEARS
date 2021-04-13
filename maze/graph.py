@@ -189,6 +189,5 @@ def main():
     print(head.get_front())
     print(sub.get_parent)
 
-
 if __name__ == "__main__":
     main()
