@@ -29,10 +29,11 @@
 # Inputs: IMU Sensor Data
 # Outputs: Magnetic Hazards
 
-from math
-from . import imu_interface as imu
-# TODO import turning
+import math
 import time
+from . import imu_interface as imu
+from ..driving import turning
+
 
 # Determines if there is a within one maze block to the left, front, or right.
 # Returns "none" if no magnet is detected, "1eft" if magnet is detected to the left, "front" if magnet is detected to the front, "right" if magnet is detected to the right
@@ -56,7 +57,7 @@ def checkMag(IMU):
     print(magnetMagnitude1)
     
     if (magnetMagnitude1 > MAGNET_MAGNITUDE_CUTOFF):
-        # TODO call turn90degrees, with appropriate parameters
+        turning.turn180degrees();
         
         magCompX2 = magVector['x']
         magCompY2 = magVector['y']
@@ -71,7 +72,7 @@ def checkMag(IMU):
         
         magnetMagnitude2 = math.sqrt((magCompX2 * magCompX2) + (magCompY2 * magCompY2) + (magCompZ2 * magCompZ2))
         
-        # TODO call turnXdegrees for -90 degrees, with appropriate parameters
+        turning.turn180degrees();
         
         # Calculate the interior angle between the first and second readings direction vectors and their opposing direction vector
         readingDifference = math.acos((magCompX1 * magCompX2 + magCompY1 * magCompY2 + magCompZ1 * magCompZ2) / (magnetMagnitude1 * magnetMagnitude2))
