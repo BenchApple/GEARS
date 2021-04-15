@@ -38,8 +38,9 @@ from ..driving import turning
 # Determines if there is a within one maze block to the left, front, or right.
 # Returns "none" if no magnet is detected, "1eft" if magnet is detected to the left, "front" if magnet is detected to the front, "right" if magnet is detected to the right
 # NOTE: This function should only be called after the GEARS bot has been centered within the maze block and realigned.
-# NOTE: If the MAGNET_MAGNITUDE_CUTOFF has too small of a magnitude, then the function may report a magnet in a maze block diagonal from the GEARS bot as existing within a connected maze block.
-def checkMag(IMU):
+# NOTE: If the MAGNET_MAGNITUDE_CUTOFF has too large of a magnitude, then the function may report a magnet in a maze block diagonal from the GEARS bot as existing within a connected maze block.
+# NOTE: All parameters sent aside from IMU are for turning the GEARS bot 180 degrees
+def checkMag(IMU, bp, left_motor_port, right_motor_port, dps):
     MAGNET_MAGNITUDE_CUTOFF = 120 
 
     magVector = imu.getMagnet(IMU)
@@ -57,7 +58,7 @@ def checkMag(IMU):
     print(magnetMagnitude1)
     
     if (magnetMagnitude1 > MAGNET_MAGNITUDE_CUTOFF):
-        turning.turn180degrees();
+        turning.turn_180_degrees(bp, left_motor_port, right_motor_port, dps):
         
         magCompX2 = magVector['x']
         magCompY2 = magVector['y']
@@ -72,7 +73,7 @@ def checkMag(IMU):
         
         magnetMagnitude2 = math.sqrt((magCompX2 * magCompX2) + (magCompY2 * magCompY2) + (magCompZ2 * magCompZ2))
         
-        turning.turn180degrees();
+        turning.turn_180_degrees(bp, left_motor_port, right_motor_port, dps):
         
         # Calculate the interior angle between the first and second readings direction vectors and their opposing direction vector
         readingDifference = math.acos((magCompX1 * magCompX2 + magCompY1 * magCompY2 + magCompZ1 * magCompZ2) / (magnetMagnitude1 * magnetMagnitude2))
