@@ -88,3 +88,14 @@ class Robot:
         self.node_number = 0
         self.navigated = False # VERY IMPORTANT. This variable tracks whether or not we have finished the maze
 
+        self.cur_orientation = 0
+
+    def get_orientation(self):
+        return self._cur_orientation
+
+    def set_orientation(self, new_orient):
+        self._cur_orientation = (new_orient % 4)
+
+    cur_orientation = property(get_orientation, set_orientation)
+
+
