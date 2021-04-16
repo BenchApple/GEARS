@@ -37,9 +37,42 @@ import brickpi3
 from ..interfacing import motor as motor
 #import GEARS.interfacing.motor as motor
 from ..interfacing import grove_ultrasonic as ultra
+from ..import constants as c
 
 # Takes the robot object and performs one loop of PID on it.
-def pid_one_loop(robot)
+def pid_one_loop(robot):
+    u_right_reading = ultra.readGroveUltrasonic(robot.u_right)
+    u_left_reading = ultra.readGroveUltrasonic(robot.u_left)
+    # We can do it like this because we want them to be equidistant from the walls
+    error = u_right_reading - u_left_reading
+
+    P = KP * error
+    I += KI * error * dt / 2
+    D = KD * (error - e_prev) / dt
+
+    value = P + I + D
+    # If value is greater than 0, then we need to turn to the right, otherwise we need to turn to the left
+
+    m_turn_val = int(value * 0.1)
+    # Adjust the motor values according to what we have.
+    motor.set_dps(bp, m_right, m_dps - m_turn_val)
+    motor.set_dps(bp, m_left, m_dps + m_turn_val)
+
+    print("Right motor dps: " + str(m_dps - m_turn_val))
+    print("Left motor dps: " + str(m_dps + m_turn_val))
+
+    #  NOTE: System is working about as intended, needs testing though.
+    # One pootential issue is rotation messing up the readings we want (needs to be tested)
+    # Can offset this using the gyroscope to calculate relative orientation and calculate actual
+    #       distance to the walls using trig
+    # Overall we just need a lot more testing in order to make sure that this works well.
+    
+    
+    print(value)
+    time.sleep(dt)
+    print("")
+
+
 
 ## This code just drives the robot forward while keeping it between the walls
 def stay_between_walls(): 

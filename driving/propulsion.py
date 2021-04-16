@@ -29,3 +29,28 @@
 # Tells the motor interfacing what to do. Most driving code should at least go through here.
 # Inputs: Motor Data, Caller's Data
 # Outputs: Driving the Bot
+
+from ..interfacing import motor as m 
+from . import turning
+import math
+import time
+
+# Drive the GEARS bot one maze unit forward (40 cm)
+def forward(bp, left_motor_port, right_motor_port, dps):
+    m.set_dps(bp, left_motor_port, 0)
+    m.set_dps(bp, right_motor_port, 0)
+    
+    WHEEL_RADIUS = 4.08
+    DISTANCE = 40
+    
+    driveTime = ((DISTANCE / (2 * math.pi * WHEEL_RADIUS)) * 360) / dps
+    
+    m.set_dps(bp, left_motor_port, dps)
+    m.set_dps(bp, right_motor_port, dps)
+    
+    time.sleep(driveTime)
+    
+    m.set_dps(bp, left_motor_port, 0)
+    m.set_dps(bp, right_motor_port, 0)
+    
+    return
