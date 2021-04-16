@@ -38,6 +38,9 @@ from ..interfacing import motor as motor
 #import GEARS.interfacing.motor as motor
 from ..interfacing import grove_ultrasonic as ultra
 
+# Takes the robot object and performs one loop of PID on it.
+def pid_one_loop(robot)
+
 ## This code just drives the robot forward while keeping it between the walls
 def stay_between_walls(): 
     # Tuning parameters
