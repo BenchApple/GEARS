@@ -43,8 +43,6 @@ from .maze.graph import HazardNode
 
 import brickpi3
 
-
-
 class Robot:
     def __init__(self):
         # The ultrasonic ports for the right and the left.
@@ -81,6 +79,10 @@ class Robot:
         self.KI = 9 
         self.KD = 7
         self.dt = 0.05
+
+        self.P = 0
+        self.I = 2
+        self.D = 0
 
         # Stores variables that we need to keep track of for maze traversal
         self.root = GraphNode(0) # This is the first node of the maze
