@@ -32,16 +32,16 @@
 # Outputs: a fair amount.
 
 # Imports
-from .interfacing import motor as motor
-from .interfacing import imu_interface as imu
-from .interfacing import grove_ultrasonic as grove_ultra
-from .interfacing import ir_sensor as ir
-from .interfacing import lego_ultrasonic as lego_ultra
+#from .interfacing import motor as motor
+#from .interfacing import imu_interface as imu
+#from .interfacing import grove_ultrasonic as grove_ultra
+#from .interfacing import ir_sensor as ir
+#from .interfacing import lego_ultrasonic as lego_ultra
 
 from .maze.graph import GraphNode
 from .maze.graph import HazardNode
 
-import brickpi3
+#import brickpi3
 
 class Robot:
     def __init__(self):
@@ -50,25 +50,25 @@ class Robot:
         self.l_ultra = 6
 
         # The IMU object
-        self.imu_obj = imu.init()
+        #self.imu_obj = imu.init()
 
         # the sensor port for the IR sensor.
         self.ir_port = 4
 
         # Everything that we need for the motors
-        self.bp = brickpi3.BrickPi3()
-        self.r_motor = self.bp.PORT_C
-        self.l_motor = self.bp.PORT_B
+        #self.bp = brickpi3.BrickPi3()
+        #self.r_motor = self.bp.PORT_C
+        #self.l_motor = self.bp.PORT_B
 
         self.dps = 250
         
         # Initialize the motors, which offsets the motor encoders and then set the motor limits.
-        motor.init_motors(self.bp, self.r_motor, self.l_motor)
-        motor.set_limits(self.bp, self.r_motor, self.l_motor, 100, self.dps)
+        #motor.init_motors(self.bp, self.r_motor, self.l_motor)
+        #motor.set_limits(self.bp, self.r_motor, self.l_motor, 100, self.dps)
         
         # Lego ultrasonic stuff.
-        self.f_ultra = self.bp.PORT_1
-        lego_ultra.init(self.bp, self.f_ultra)
+        #self.f_ultra = self.bp.PORT_1
+        #lego_ultra.init(self.bp, self.f_ultra)
 
         # List to store all of the hazards we've accumulated.
         self.hazards_list = []
