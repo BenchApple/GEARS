@@ -39,7 +39,7 @@ from .. import constants as r
 def test_navigation_step():
     robot = r.Robot()
 
-    maze_file = open("GEARS/maze/maze1.txt", 'r')
+    maze_file = open("GEARS/maze/maze2.txt", 'r')
 
     while not robot.navigated:
         sense = maze_file.readline()
@@ -98,14 +98,14 @@ def navigation_step(robot, right_status, front_status, left_status):
     print(cur_node.get_front())
 
     # Now for the left
-    if front_status == 2:
+    if left_status == 2:
         # Then we have a heat source.
         new_hazard = HazardNode("heat",
                                 "This is a heat hazard with attributes of fire and heat",
                                 cur_node, (cur_node.get_orientation() - 1) % 4)
         cur_node.set_left(new_hazard)
         print("Setting Left Hazard")
-    elif front_status == 3:
+    elif left_status == 3:
         new_hazard = HazardNode("magnet",
                                 "This is a magnet hazard with attributes of magneticy and fucking up your laptop.",
                                 cur_node, (cur_node.get_orientation() - 1) % 4)
@@ -123,9 +123,9 @@ def navigation_step(robot, right_status, front_status, left_status):
         # Set the existence of paths.
         if right_status == 1:
             cur_node.set_exists("r")
-        if left_status == 1:
-            cur_node.set_exists("f")
         if front_status == 1:
+            cur_node.set_exists("f")
+        if left_status == 1:
             cur_node.set_exists("l")
 
         # Check to see which ones are open and travel down the first one.
@@ -135,13 +135,13 @@ def navigation_step(robot, right_status, front_status, left_status):
             cur_node.set_explored("r")
             cur_node.set_right(new_node)
             print("Setting right child.")
-        elif left_status == 1:
+        elif front_status == 1:
             new_node = GraphNode(
                 cur_node.get_orientation(), cur_node)
             cur_node.set_explored("f")
             cur_node.set_front(new_node)
             print("Setting front child.")
-        elif front_status == 1:
+        elif left_status == 1:
             new_node = GraphNode((cur_node.get_orientation() - 1) % 4, cur_node)
             cur_node.set_explored("l")
             cur_node.set_left(new_node)
@@ -149,7 +149,7 @@ def navigation_step(robot, right_status, front_status, left_status):
 
         robot.cur_node = new_node
     # Since the previous if would have already caught the other cases, we only need to check this.
-    elif left_status == 1:  # We have == 1 here so that we can catch when we're at the end of the maze
+    elif front_status == 1:  # We have == 1 here so that we can catch when we're at the end of the maze
         # If forward is the only one available, just increment the length.
         print("Incrementing current node length")
         cur_node.set_length(cur_node.get_length() + 1)
@@ -196,7 +196,7 @@ def navigation_step(robot, right_status, front_status, left_status):
 
 
 def navigate():
-    maze_file = open("GEARS/maze/maze1.txt", 'r')
+    maze_file = open("GEARS/maze/maze2.txt", 'r')
 
     root = GraphNode(0)
     cur_node = root
@@ -396,7 +396,6 @@ def main():
     test_navigation_step()
 
     #root = navigate()
-
     #print("Pre-order traversal of the created tree.")
     #root.print_preorder()
 
