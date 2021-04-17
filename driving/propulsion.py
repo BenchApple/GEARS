@@ -34,6 +34,11 @@ from ..interfacing import motor as m
 from . import turning
 import math
 import time
+from .. import constants as r
+
+def forward_with_robot(robot):
+    m.set_dps(robot.bp, robot.l_motor, 0)
+    m.set_dps(robot.bp, robot.r_motor, 0)
 
 # Drive the GEARS bot one maze unit forward (40 cm)
 def forward(bp, left_motor_port, right_motor_port, dps):
