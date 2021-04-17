@@ -53,6 +53,11 @@ def forward_with_robot(robot):
     m.set_dps(robot.bp, robot.r_motor, robot.dps)
     while time.time() - start_time <= driveTime:
         bw.pid_one_loop(robot)
+        time.sleep(robot.dt)
+
+    m.set_dps(robot.bp, robot.l_motor, 0)
+    m.set_dps(robot.bp, robot.r_motor, 0)
+    
 
 
 # Drive the GEARS bot one maze unit forward (40 cm)
@@ -78,7 +83,11 @@ def forward(bp, left_motor_port, right_motor_port, dps):
 def main():
     robot = r.Robot()
 
-    forward_with_robot(robot)
+    try:
+        forward_with_robot(robot)
+    except KeyboardInterrupt:
+        robot.bp.reset_all()
+ 
 
 if __name__ == "__main__":
     main()
