@@ -35,10 +35,25 @@ from . import turning
 import math
 import time
 from .. import constants as r
+from . import between_walls as bw
 
+# This loop should move the robot one unit forward while using PID to keep the robot between the walls.
 def forward_with_robot(robot):
     m.set_dps(robot.bp, robot.l_motor, 0)
     m.set_dps(robot.bp, robot.r_motor, 0)
+
+    WHEEL_RADIUS = 4.08
+    DISTANCE = 40
+
+    driveTime = ((DISTANCE / (2 * math.pi * WHEEL_RADIUS)) * 360) / robot.dps
+
+    start_time = time.time()
+
+    m.set_dps(robot.bp, robot.l_motor, robot.dps)
+    m.set_dps(robot.bp, robot.r_motor, robot.dps)
+    while time.time() - start_time <= driveTime:
+        bw.pid_one_loop(robot)
+
 
 # Drive the GEARS bot one maze unit forward (40 cm)
 def forward(bp, left_motor_port, right_motor_port, dps):
