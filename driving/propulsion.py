@@ -74,3 +74,11 @@ def forward(bp, left_motor_port, right_motor_port, dps):
     m.set_dps(bp, right_motor_port, 0)
     
     return
+
+def main():
+    robot = r.Robot()
+
+    forward_with_robot(robot)
+
+if __name__ == "__main__":
+    main()
