@@ -31,10 +31,18 @@ from .driving import propulsion as forward
 from .driving import turning as turn
 from .hazards import hazard_process
 from .hazards import hazard_sense
+from .maze import graph
+from .maze import maze_navigate as navigate
+from .maze import build_maze as build
+from .misc import cargo_release as cargo
+from .walls import wall_sensing
 
 # This is the main loop of the robot.
 def main():
-    pass
+    robot = 
+
+    # First we move forward 1 unit. This might have to be changed to account for 
+    # getting to the center of an intersection.
 
 if __name__ == "__main__":
     main()
