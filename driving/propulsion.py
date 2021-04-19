@@ -31,6 +31,7 @@
 # Outputs: Driving the Bot
 
 from ..interfacing import motor as m 
+from ..interfacing import grove_ultrasonic as ultra
 from . import turning
 import math
 import time
@@ -58,6 +59,27 @@ def forward_with_robot(robot, distance):
     m.set_dps(robot.bp, robot.l_motor, 0)
     m.set_dps(robot.bp, robot.r_motor, 0)
     
+def test_missing_wall(robot):
+    m.set_dps(robot.bp, robot.l_motor, 0)
+    m.set_dps(robot.bp, robot.r_motor, 0)
+
+    WHEEL_RADIUS = 4.08
+    DISTANCE = 40
+
+    driveTime = ((DISTANCE / (2 * math.pi * WHEEL_RADIUS)) * 360) / robot.dps
+
+    start_time = time.time()
+
+    init_reading = ultra.readGroveUltrasonic(robot.r_ultra)
+
+    m.set_dps(robot.bp, robot.l_motor, robot.dps)
+    m.set_dps(robot.bp, robot.r_motor, robot.dps)
+    while time.time() - start_time <= driveTime:
+        bw.pid_missing_wall(robot, "left", init_reading)
+        time.sleep(robot.dt)
+
+    m.set_dps(robot.bp, robot.l_motor, 0)
+    m.set_dps(robot.bp, robot.r_motor, 0)
 
 
 # Drive the GEARS bot one maze unit forward (40 cm)
