@@ -88,6 +88,8 @@ def forward_with_robot(robot, distance):
             bw.pid_missing_wall(robot, dropped_wall, initial_reading)
         # In all other cases just use the normal PID.
         else:
+            if dropped_wall != None:
+                dropped_wall = None
             bw.pid_one_loop(robot)
 
         time.sleep(robot.dt)
