@@ -54,10 +54,10 @@ def turn_X_degrees(bp, LEFT_MOTOR_PORT, RIGHT_MOTOR_PORT, dps, direction, degree
 
     turnTime = (1 / dps) * degreesTurn
 
-    if (direction == "CW"):
+    if (direction == "CCW"):
         set_dps(bp, LEFT_MOTOR_PORT, dps)
         set_dps(bp, RIGHT_MOTOR_PORT, (-1 * dps))
-    elif (direction == "CCW"):
+    elif (direction == "CW"):
         set_dps(bp, LEFT_MOTOR_PORT, (-1 * dps))
         set_dps(bp, RIGHT_MOTOR_PORT, dps)
 
