@@ -41,7 +41,7 @@ from .interfacing import lego_ultrasonic as lego_ultra
 from .maze.graph import GraphNode
 from .maze.graph import HazardNode
 
-#import brickpi3
+import brickpi3
 
 class Robot:
     def __init__(self):
@@ -75,9 +75,9 @@ class Robot:
 
         # Stuff that we need to keep track of for the PID system.
         self.e_prev = 0
-        self.KP = 4 
-        self.KI = 9 
-        self.KD = 7
+        self.KP = 1 
+        self.KI = 9/4 
+        self.KD = 7/4
         self.dt = 0.05
 
         self.P = 0

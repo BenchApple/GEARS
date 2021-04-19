@@ -42,8 +42,8 @@ from ..import constants as c
 # Takes the robot object and performs one loop of PID on it.
 # This one does not include the time step that the normal one has at the end.
 def pid_one_loop(robot):
-    u_right_reading = ultra.readGroveUltrasonic(robot.u_right)
-    u_left_reading = ultra.readGroveUltrasonic(robot.u_left)
+    u_right_reading = ultra.readGroveUltrasonic(robot.r_ultra)
+    u_left_reading = ultra.readGroveUltrasonic(robot.l_ultra)
     # We can do it like this because we want them to be equidistant from the walls
     error = u_right_reading - u_left_reading
 
@@ -56,8 +56,8 @@ def pid_one_loop(robot):
 
     m_turn_val = int(value * 0.1)
     # Adjust the motor values according to what we have.
-    motor.set_dps(robot.bp, robot.m_right, robot.dps - m_turn_val)
-    motor.set_dps(robot.bp, robot.m_left, robot.dps + m_turn_val)
+    motor.set_dps(robot.bp, robot.r_motor, robot.dps + m_turn_val)
+    motor.set_dps(robot.bp, robot.l_motor, robot.dps - m_turn_val)
 
     print("Right motor dps: " + str(robot.dps - m_turn_val))
     print("Left motor dps: " + str(robot.dps + m_turn_val))

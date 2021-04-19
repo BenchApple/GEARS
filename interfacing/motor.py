@@ -69,7 +69,7 @@ def set_position_absolute(bp, port, target):
 
 # Sets the motor dps given the target dps and port. Returns the final dps of the motor
 def set_dps(bp, port, target):
-    bp.set_motor_dps(port, target)
+    bp.set_motor_dps(port, -target)
     return target
 
 
