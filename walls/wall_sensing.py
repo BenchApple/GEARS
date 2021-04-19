@@ -37,20 +37,21 @@ from .. import constants as r
 
 def senseWalls(robot):
 
-    value = 20
+    value = 11
     list = [0,0,0]
     rightSense = grove_ultrasonic.readGroveUltrasonic(robot.r_ultra)
     leftSense = grove_ultrasonic.readGroveUltrasonic(robot.l_ultra)
-    #frontSense = lego_ultrasonic.legoUltrasonic(robot.bp, robot.f_ultra)
-    frontSense = 30
+    frontSense = lego_ultrasonic.legoUltrasonic(robot.bp, robot.f_ultra)
+    print("Front distance: " + str(frontSense))
 
     if (rightSense < value):
         print("Sensing right wall")
         list[0] += 1
     if (frontSense < value):
-        print("Sensing left wall")
+        print("Front Wall Sensed")
         list[1] += 1
     if  (leftSense < value):
+        print("Sensing left wall")
         list[2] += 1
 
     return list

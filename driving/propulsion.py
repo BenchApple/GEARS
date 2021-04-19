@@ -50,6 +50,7 @@ def forward_with_robot(robot, distance):
     driveTime = ((DISTANCE / (2 * math.pi * WHEEL_RADIUS)) * 360) / robot.dps
 
     start_time = time.time()
+    print(start_time)
 
     m.set_dps(robot.bp, robot.l_motor, robot.dps)
     m.set_dps(robot.bp, robot.r_motor, robot.dps)
@@ -63,9 +64,11 @@ def forward_with_robot(robot, distance):
     # This loop is what actually keeps the robot along the desired line.
     while time.time() - start_time <= driveTime:
         wall_status = wall.senseWalls(robot)
+        print(wall_status)
 
         # If the front wall is too close (ie exists), stop moving.
         if wall_status[1] == 1:
+            print("Front Wall Detected Abort")
             break
         # If both of the side walls have dropped, go without PID for the rest of the cell.
         elif wall_status[0] == 0 and wall_status[2] == 0:
@@ -89,6 +92,7 @@ def forward_with_robot(robot, distance):
 
         time.sleep(robot.dt)
 
+    print("went far enough")
     m.set_dps(robot.bp, robot.l_motor, 0)
     m.set_dps(robot.bp, robot.r_motor, 0)
 
@@ -163,6 +167,8 @@ def main():
         forward_with_robot(robot, 40)
     except KeyboardInterrupt:
         robot.bp.reset_all()
+
+    robot.bp.reset_all()
  
 
 if __name__ == "__main__":

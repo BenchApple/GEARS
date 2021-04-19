@@ -68,8 +68,8 @@ class Robot:
         motor.set_limits(self.bp, self.r_motor, self.l_motor, 100, self.dps)
         
         # Lego ultrasonic stuff.
-        self.f_ultra = self.bp.PORT_1
-        lego_ultra.init(self.bp, self.f_ultra)
+        self.f_ultra = self.bp.PORT_3
+        lego_ultra.init(self.bp, self.bp.PORT_3)
 
         # List to store all of the hazards we've accumulated.
         self.hazards_list = []
