@@ -76,7 +76,8 @@ def pid_missing_wall(robot, side, init_reading):
     elif side == "left" or side == "l":
         u_right_reading = ultra.readGroveUltrasonic(robot.r_ultra)
         # We can do it like this because we want them to be equidistant from the walls
-        error = init_reading - u_right_reading
+        error = u_right_reading - init_reading
+        #error = init_reading - u_right_reading
 
     robot.P = robot.KP * error
     robot.I += robot.KI * error * robot.dt / 2
@@ -87,8 +88,8 @@ def pid_missing_wall(robot, side, init_reading):
 
     m_turn_val = int(value * 0.1)
     # Adjust the motor values according to what we have.
-    motor.set_dps(robot.bp, robot.r_motor, robot.dps - m_turn_val)
-    motor.set_dps(robot.bp, robot.l_motor, robot.dps + m_turn_val)
+    motor.set_dps(robot.bp, robot.r_motor, robot.dps + m_turn_val)
+    motor.set_dps(robot.bp, robot.l_motor, robot.dps - m_turn_val)
 
     print("Right motor dps: " + str(robot.dps - m_turn_val))
     print("Left motor dps: " + str(robot.dps + m_turn_val)) 

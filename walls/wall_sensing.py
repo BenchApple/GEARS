@@ -41,13 +41,16 @@ def senseWalls(robot):
     list = [0,0,0]
     rightSense = grove_ultrasonic.readGroveUltrasonic(robot.r_ultra)
     leftSense = grove_ultrasonic.readGroveUltrasonic(robot.l_ultra)
-    frontSense = lego_ultrasonic.legoUltrasonic(robot.bp, robot.f_ultra)
+    #frontSense = lego_ultrasonic.legoUltrasonic(robot.bp, robot.f_ultra)
+    frontSense = 30
 
-    if (rightSense > value):
+    if (rightSense < value):
+        print("Sensing right wall")
         list[0] += 1
-    elif (frontSense > value):
+    if (frontSense < value):
+        print("Sensing left wall")
         list[1] += 1
-    elif  (leftSense > value):
+    if  (leftSense < value):
         list[2] += 1
 
     return list

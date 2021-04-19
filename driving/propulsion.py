@@ -74,9 +74,11 @@ def forward_with_robot(robot, distance):
         # If the left wall has dropped, use the right aligned PID.
         elif wall_status[0] == 0 or wall_status[2] == 0:
             if dropped_wall == None and wall_status[0] == 0:
+                print("\nRight wall dropped\n")
                 dropped_wall = "r"
                 initial_reading = ultra.readGroveUltrasonic(robot.l_ultra)
             elif dropped_wall == None and wall_status[2] == 0:
+                print("\nLeft wall dropped\n")
                 dropped_wall = "l"
                 initial_reading = ultra.readGroveUltrasonic(robot.r_ultra)
 
