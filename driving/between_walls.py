@@ -62,6 +62,51 @@ def pid_one_loop(robot):
     print("Right motor dps: " + str(robot.dps - m_turn_val))
     print("Left motor dps: " + str(robot.dps + m_turn_val))
 
+# Performs the pid loop if we're missing one wall, ie when we enter an intersection.
+# robot is the robot object, side is the side missing. "right" or "r" means right side missing, 
+# "left" or "l" means left side missing
+# initial reading takes the reading of the non-missing side right before it dropped off. This will
+# be the target value.
+def pid_missing_wall(robot, side, init_reading):
+    if side == "right" or side == "r":
+        u_left_reading = ultra.readGroveUltrasonic(robot.u_left)
+        # We can do it like this because we want them to be equidistant from the walls
+        error = u_left_reading - init_reading
+
+        robot.P = robot.KP * error
+        robot.I += robot.KI * error * robot.dt / 2
+        robot.D = robot.KD * (error - robot.e_prev) / robot.dt
+
+        value = robot.P + robot.I + robot.D
+        # If value is greater than 0, then we need to turn to the right, otherwise we need to turn to the left
+
+        m_turn_val = int(value * 0.1)
+        # Adjust the motor values according to what we have.
+        motor.set_dps(robot.bp, robot.m_right, robot.dps - m_turn_val)
+        motor.set_dps(robot.bp, robot.m_left, robot.dps + m_turn_val)
+
+        print("Right motor dps: " + str(robot.dps - m_turn_val))
+        print("Left motor dps: " + str(robot.dps + m_turn_val)) 
+    elif side == "left" or side == "l":
+        u_right_reading = ultra.readGroveUltrasonic(robot.u_right)
+        # We can do it like this because we want them to be equidistant from the walls
+        error = init_reading - u_right_reading
+
+        robot.P = robot.KP * error
+        robot.I += robot.KI * error * robot.dt / 2
+        robot.D = robot.KD * (error - robot.e_prev) / robot.dt
+
+        value = robot.P + robot.I + robot.D
+        # If value is greater than 0, then we need to turn to the right, otherwise we need to turn to the left
+
+        m_turn_val = int(value * 0.1)
+        # Adjust the motor values according to what we have.
+        motor.set_dps(robot.bp, robot.m_right, robot.dps - m_turn_val)
+        motor.set_dps(robot.bp, robot.m_left, robot.dps + m_turn_val)
+
+        print("Right motor dps: " + str(robot.dps - m_turn_val))
+        print("Left motor dps: " + str(robot.dps + m_turn_val))
+
 ## This code just drives the robot forward while keeping it between the walls
 def stay_between_walls(): 
     # Tuning parameters
