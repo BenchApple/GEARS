@@ -130,7 +130,6 @@ def stay_between_walls():
             print(value)
             time.sleep(dt)
             print("")
-
     except KeyboardInterrupt:
         #bp.reset_all()
         pass
