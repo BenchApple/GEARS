@@ -80,5 +80,11 @@ def main():
             # Handle the backtracking here. This will suck, yes I know
             pass
 
+    # Now that we have traversed the maze, output the final maze layout and the hazards
+    # Output hazards here
+
+    # Print the output maze
+    build.build_maze(robot.root)
+    
 if __name__ == "__main__":
     main()
