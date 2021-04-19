@@ -39,6 +39,15 @@ from .misc import cargo_release as cargo
 from .walls import wall_sensing
 from . import constants as r
 
+def testing_walls():
+    walls = [0,0,0]
+
+    walls[0] = int(input("Enter right wall status: "))
+    walls[1] = int(input("Enter front wall status: "))
+    walls[2] = int(input("Enter left wall status: "))
+
+    return walls
+
 # This is the main loop of the robot.
 def main():
     robot = r.Robot()
@@ -50,7 +59,8 @@ def main():
         forward.forward_with_robot(robot, CELL_DIST)
 
         # Now we take the sensor readings
-        walls = wall_sensing.senseWalls(robot)
+        #walls = wall_sensing.senseWalls(robot)
+        walls = testing_walls()
 
         # Now deal with how the sensors read the hazards. We can now use this to change the walls
         # variable to deal with hazards and stuff.
@@ -65,6 +75,7 @@ def main():
         # Now we check to see if we're backtracking and act accordingly.
         if not robot.is_backtracking :
             instruct.standard_intersection(robot, prev_node)
+            print("Robot orientation is " + str(robot.cur_orientation))
         else:
             # Handle the backtracking here. This will suck, yes I know
             pass
