@@ -17,15 +17,36 @@
 # Cole Kingery
 # Trevor Moorman
 # Alex Wiseman
-# 
+#
 # The electronic signatures above indicate that the program
 # submitted for evaluation is the combined effort of all
 # team members and that each member of the team was an
 # equal participant in its creation. In addition, each
 # member of the team has a general understanding of
 # all aspects of the program development and execution.
-# 
+#
 # Interfacing between ultrasonic data and various processing. Determines whether or not a corridor is passable or not and sends that to processing to turn into usable data.
 # Inputs: Ultrasonic Data, Hazard Existence
 # Outputs: Wall/Corridor Data
 
+import math
+import time
+from ..interfacing import grove_ultrasonic
+from ..interfacing import lego_ultrasonic
+
+def senseWalls(rightPort, frontPort, leftPort):
+
+    value = 100
+    list = [0,0,0]
+    rightSense = grove_ultrasonic.readGroveUltrasonic(rightPort)
+    leftSense = grove_ultrasonic.readGroveUltrasonic(leftPort)
+    frontSense = lego_ultrasonic.legoUltrasonic(bp, frontPort)
+
+    if (rightSense < value):
+        list[0] += 1
+    elif (frontSense < value):
+        list[1] += 1
+    elif  (leftSense < value):
+        list[2] += 1
+
+    return list
