@@ -38,12 +38,12 @@ from .. import constants as r
 from . import between_walls as bw
 
 # This loop should move the robot one unit forward while using PID to keep the robot between the walls.
-def forward_with_robot(robot):
+def forward_with_robot(robot, distance):
     m.set_dps(robot.bp, robot.l_motor, 0)
     m.set_dps(robot.bp, robot.r_motor, 0)
 
     WHEEL_RADIUS = 4.08
-    DISTANCE = 40
+    DISTANCE = distance
 
     driveTime = ((DISTANCE / (2 * math.pi * WHEEL_RADIUS)) * 360) / robot.dps
 
@@ -84,7 +84,7 @@ def main():
     robot = r.Robot()
 
     try:
-        forward_with_robot(robot)
+        forward_with_robot(robot, 40)
     except KeyboardInterrupt:
         robot.bp.reset_all()
  

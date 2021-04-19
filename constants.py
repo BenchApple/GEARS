@@ -42,6 +42,7 @@ from .maze.graph import GraphNode
 from .maze.graph import HazardNode
 
 import brickpi3
+import queue
 
 class Robot:
     def __init__(self):
@@ -91,6 +92,10 @@ class Robot:
         self.navigated = False # VERY IMPORTANT. This variable tracks whether or not we have finished the maze
 
         self.cur_orientation = 0
+
+        # These deal with backtracking
+        self.is_backtracking = False # Stores whether or not we're in backtracking mode
+        self.back_queue = queue.Queue() # Stores the backtracking queue.
 
     def get_orientation(self):
         return self._cur_orientation
