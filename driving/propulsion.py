@@ -70,12 +70,12 @@ def test_missing_wall(robot):
 
     start_time = time.time()
 
-    init_reading = ultra.readGroveUltrasonic(robot.u_left)
+    init_reading = ultra.readGroveUltrasonic(robot.r_ultra)
 
     m.set_dps(robot.bp, robot.l_motor, robot.dps)
     m.set_dps(robot.bp, robot.r_motor, robot.dps)
     while time.time() - start_time <= driveTime:
-        bw.pid_missing_wall(robot, "right", init_reading)
+        bw.pid_missing_wall(robot, "left", init_reading)
         time.sleep(robot.dt)
 
     m.set_dps(robot.bp, robot.l_motor, 0)
