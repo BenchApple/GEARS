@@ -32,6 +32,7 @@
 
 from ..interfacing import motor as m 
 from ..interfacing import grove_ultrasonic as ultra
+from ..walls import wall_sensing as wall
 from . import turning
 import math
 import time
@@ -40,6 +41,57 @@ from . import between_walls as bw
 
 # This loop should move the robot one unit forward while using PID to keep the robot between the walls.
 def forward_with_robot(robot, distance):
+    m.set_dps(robot.bp, robot.l_motor, 0)
+    m.set_dps(robot.bp, robot.r_motor, 0)
+
+    WHEEL_RADIUS = 4.08
+    DISTANCE = distance
+
+    driveTime = ((DISTANCE / (2 * math.pi * WHEEL_RADIUS)) * 360) / robot.dps
+
+    start_time = time.time()
+
+    m.set_dps(robot.bp, robot.l_motor, robot.dps)
+    m.set_dps(robot.bp, robot.r_motor, robot.dps)
+
+    # Keeps track of whether or not a wall has been dropped.
+    # None means no walls have dropped, "r" means right dropped
+    # "l" means left dropped.
+    dropped_wall = None
+    initial_reading = 10 # This is a placeholder and will never hold the actual value
+
+    # This loop is what actually keeps the robot along the desired line.
+    while time.time() - start_time <= driveTime:
+        wall_status = wall.senseWalls(robot)
+
+        # If the front wall is too close (ie exists), stop moving.
+        if wall_status[1] == 1:
+            break
+        # If both of the side walls have dropped, go without PID for the rest of the cell.
+        elif wall_status[0] == 0 and wall_status[2] == 0:
+            pass # Just do nothing because no PID
+        # If just the right wall has dropped, just use the left aligned PID.
+        # If the left wall has dropped, use the right aligned PID.
+        elif wall_status[0] == 0 or wall_status[2] == 0:
+            if dropped_wall == None and wall_status[0] == 0:
+                dropped_wall = "r"
+                initial_reading = ultra.readGroveUltrasonic(robot.l_ultra)
+            elif dropped_wall == None and wall_status[2] == 0:
+                dropped_wall = "l"
+                initial_reading = ultra.readGroveUltrasonic(robot.r_ultra)
+
+            bw.pid_missing_wall(robot, dropped_wall, initial_reading)
+        # In all other cases just use the normal PID.
+        else:
+            bw.pid_one_loop(robot)
+
+        time.sleep(robot.dt)
+
+    m.set_dps(robot.bp, robot.l_motor, 0)
+    m.set_dps(robot.bp, robot.r_motor, 0)
+
+@DeprecationWarning
+def forward_with_robot_old(robot, distance):
     m.set_dps(robot.bp, robot.l_motor, 0)
     m.set_dps(robot.bp, robot.r_motor, 0)
 
