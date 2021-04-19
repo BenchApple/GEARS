@@ -33,20 +33,21 @@ import math
 import time
 from ..interfacing import grove_ultrasonic
 from ..interfacing import lego_ultrasonic
+from .. import constants as r
 
-def senseWalls(rightPort, frontPort, leftPort):
+def senseWalls(robot):
 
-    value = 100
+    value = 20
     list = [0,0,0]
-    rightSense = grove_ultrasonic.readGroveUltrasonic(rightPort)
-    leftSense = grove_ultrasonic.readGroveUltrasonic(leftPort)
-    frontSense = lego_ultrasonic.legoUltrasonic(bp, frontPort)
+    rightSense = grove_ultrasonic.readGroveUltrasonic(robot.r_ultra)
+    leftSense = grove_ultrasonic.readGroveUltrasonic(robot.l_ultra)
+    frontSense = lego_ultrasonic.legoUltrasonic(robot.bp, robot.f_ultra)
 
-    if (rightSense < value):
+    if (rightSense > value):
         list[0] += 1
-    elif (frontSense < value):
+    elif (frontSense > value):
         list[1] += 1
-    elif  (leftSense < value):
+    elif  (leftSense > value):
         list[2] += 1
 
     return list
