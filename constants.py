@@ -79,9 +79,9 @@ class Robot:
 
         # Stuff that we need to keep track of for the PID system.
         self.e_prev = 0
-        self.KP = 1 
-        self.KI = 9/4 
-        self.KD = 7/4
+        self.KP = 0.125
+        self.KI = 2.5
+        self.KD = 3.75
         self.dt = 0.05
 
         self.P = 0

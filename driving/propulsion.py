@@ -123,7 +123,7 @@ def test_missing_wall(robot):
     m.set_dps(robot.bp, robot.r_motor, 0)
 
     WHEEL_RADIUS = 4.08
-    DISTANCE = 120
+    DISTANCE = 100
 
     driveTime = ((DISTANCE / (2 * math.pi * WHEEL_RADIUS)) * 360) / robot.dps
 
@@ -144,7 +144,7 @@ def test_PID(robot):
     m.set_dps(robot.bp, robot.r_motor, 0)
 
     WHEEL_RADIUS = 4.08
-    DISTANCE = 120
+    DISTANCE = 100
 
     driveTime = ((DISTANCE / (2 * math.pi * WHEEL_RADIUS)) * 360) / robot.dps
 
@@ -158,7 +158,6 @@ def test_PID(robot):
 
     m.set_dps(robot.bp, robot.l_motor, 0)
     m.set_dps(robot.bp, robot.r_motor, 0)
-
 
 
 # Drive the GEARS bot one maze unit forward (40 cm)
@@ -185,7 +184,9 @@ def main():
     robot = r.Robot()
 
     try:
-        forward_with_robot(robot, 40)
+        test_missing_wall(robot)
+        #test_PID(robot)
+        #forward_with_robot(robot, 40)
     except KeyboardInterrupt:
         robot.bp.reset_all()
 
