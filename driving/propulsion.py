@@ -79,14 +79,12 @@ def forward_with_robot(robot, distance):
             if dropped_wall != "r" and wall_status[0] == 1:
                 print("\nRight wall dropped\n")
                 dropped_wall = "r"
-                initial_reading = ultra.readGroveUltrasonic(robot.l_ultra)
             elif dropped_wall != "l" and wall_status[2] == 1:
                 print("\nLeft wall dropped\n")
                 dropped_wall = "l"
-                initial_reading = ultra.readGroveUltrasonic(robot.r_ultra)
 
             print("Following wall opposite of " + dropped_wall)
-            bw.pid_missing_wall(robot, dropped_wall, initial_reading)
+            bw.pid_missing_wall(robot, dropped_wall)
         # In all other cases just use the normal PID.
         else:
             if dropped_wall != None:
@@ -125,22 +123,42 @@ def test_missing_wall(robot):
     m.set_dps(robot.bp, robot.r_motor, 0)
 
     WHEEL_RADIUS = 4.08
-    DISTANCE = 40
+    DISTANCE = 120
 
     driveTime = ((DISTANCE / (2 * math.pi * WHEEL_RADIUS)) * 360) / robot.dps
 
     start_time = time.time()
 
-    init_reading = ultra.readGroveUltrasonic(robot.r_ultra)
-
     m.set_dps(robot.bp, robot.l_motor, robot.dps)
     m.set_dps(robot.bp, robot.r_motor, robot.dps)
     while time.time() - start_time <= driveTime:
-        bw.pid_missing_wall(robot, "left", init_reading)
+        bw.pid_missing_wall(robot, "left")
         time.sleep(robot.dt)
 
     m.set_dps(robot.bp, robot.l_motor, 0)
     m.set_dps(robot.bp, robot.r_motor, 0)
+
+# Tests the PID when there are no missing walls.
+def test_PID(robot):
+    m.set_dps(robot.bp, robot.l_motor, 0)
+    m.set_dps(robot.bp, robot.r_motor, 0)
+
+    WHEEL_RADIUS = 4.08
+    DISTANCE = 120
+
+    driveTime = ((DISTANCE / (2 * math.pi * WHEEL_RADIUS)) * 360) / robot.dps
+
+    start_time = time.time()
+
+    m.set_dps(robot.bp, robot.l_motor, robot.dps)
+    m.set_dps(robot.bp, robot.r_motor, robot.dps)
+    while time.time() - start_time <= driveTime:
+        bw.pid_one_loop(robot)
+        time.sleep(robot.dt)
+
+    m.set_dps(robot.bp, robot.l_motor, 0)
+    m.set_dps(robot.bp, robot.r_motor, 0)
+
 
 
 # Drive the GEARS bot one maze unit forward (40 cm)
@@ -172,7 +190,6 @@ def main():
         robot.bp.reset_all()
 
     robot.bp.reset_all()
- 
 
 if __name__ == "__main__":
     main()

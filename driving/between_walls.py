@@ -67,16 +67,16 @@ def pid_one_loop(robot):
 # "left" or "l" means left side missing
 # initial reading takes the reading of the non-missing side right before it dropped off. This will
 # be the target value.
-def pid_missing_wall(robot, side, init_reading):
+def pid_missing_wall(robot, side):
     if side == "right" or side == "r":
         u_left_reading = ultra.readGroveUltrasonic(robot.l_ultra)
         # We can do it like this because we want them to be equidistant from the walls
-        error = init_reading - u_left_reading
+        error = robot.CENTER_DIST - u_left_reading
 
     elif side == "left" or side == "l":
         u_right_reading = ultra.readGroveUltrasonic(robot.r_ultra)
         # We can do it like this because we want them to be equidistant from the walls
-        error = u_right_reading - init_reading
+        error = u_right_reading - robot.CENTER_DIST 
         #error = init_reading - u_right_reading
 
     print("Calculated Error is: " + str(error))
@@ -103,11 +103,6 @@ def stay_between_walls():
     KI = 0.5 # Integral gain
     KD = 0.5 # Derivative gain
     dt = 0.05
-
-    # Target pos represents where we want to be, which should be a sum of 240 cm^2
-    target_pos = 240 # we are trying to minimize the distance, so we just set it to 0
-
-    current_pos = 0
 
     P = 0
     I = 2
