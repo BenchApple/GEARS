@@ -48,7 +48,7 @@ def build_maze(root):
     # Initialize the maze map to a bunch of 0s, since that indicates nothing regions.
     maze_map = [[0 for i in range(0, length)] for j in range(0, width)]
     col = 0
-    row = maze_size[3] + 1
+    row = maze_size[3] + 2
     coords = [row, col]
 
     print("Print maze pre-order traversal")
@@ -143,7 +143,7 @@ def fill_map(node, maze_map, coords):
 
                 # Actually increment the tracker so we don't go forever.
                 tracker += 1
-#                input("Enter to continue")
+                input("Enter to continue")
 
             print("Coords: " + str(coords))
             # Stores the coords locally so we can reset coords to the right value.
@@ -168,7 +168,7 @@ def fill_map(node, maze_map, coords):
 
 # Uses the root and an inorder traversal to get the dimensions of the maze.
 def get_maze_size(root):
-    return _maze_size(root, 1, 1, 1, 1)
+    return _maze_size(root, 0, 0, 0, 0)
 
 # Gets the dimensions of the maze from this node on. Uses pre-order traversal.
 # Node is the root of the current subtree. Length keeps track of how long the maze is (forward/backwards)
