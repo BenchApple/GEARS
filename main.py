@@ -82,7 +82,7 @@ def main():
             # Handle the backtracking here. This will suck, yes I know
             pass
 
-        input("Hit any button to continue")
+        #input("Hit any button to continue")
 
     build.build_maze(robot.root)
 

@@ -143,7 +143,7 @@ def fill_map(node, maze_map, coords):
 
                 # Actually increment the tracker so we don't go forever.
                 tracker += 1
-                input("Enter to continue")
+                #input("Enter to continue")
 
             print("Coords: " + str(coords))
             # Stores the coords locally so we can reset coords to the right value.
