@@ -38,6 +38,7 @@ from .maze import maze_instructions as instruct
 from .misc import cargo_release as cargo
 from .walls import wall_sensing
 from . import constants as r
+import queue
 
 def testing_walls():
     walls = [0,0,0]
@@ -73,12 +74,25 @@ def main():
         navigate.navigation_step(robot, walls[0], walls[1], walls[2])
 
         # Now we check to see if we're backtracking and act accordingly.
-        if not robot.is_backtracking :
+        if not robot.is_backtracking:
             instruct.standard_intersection(robot, prev_node)
             print("Robot orientation is " + str(robot.cur_orientation))
         else:
             # Handle the backtracking here. This will suck, yes I know
-            pass
+            # Remember that cur_node becomes the next node that we will go to. 
+            # The pre-inntersection node is not included in the FIFO queue either.
+            # TODO Test to see if the FIFO queue is working correctly.
+            temp_queue = queue.Queue()
+            while not robot.back_queue.empty():
+                val = robot.back_queue.get()
+                temp_queue.put(val)
+                print(val)
+
+            # TODO next step is to write the instructional code that handles actually leading the 
+            # robot back through the maze
+
+            # Now that we're done with backtracking, we just need to reset the backtracking tracker
+            robot.is_backtracking = False
 
 if __name__ == "__main__":
     main()
