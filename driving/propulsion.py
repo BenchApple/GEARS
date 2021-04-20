@@ -118,7 +118,7 @@ def forward_with_robot_old(robot, distance):
     m.set_dps(robot.bp, robot.l_motor, 0)
     m.set_dps(robot.bp, robot.r_motor, 0)
     
-def test_missing_wall(robot):
+def test_missing_wall(robot, side):
     m.set_dps(robot.bp, robot.l_motor, 0)
     m.set_dps(robot.bp, robot.r_motor, 0)
 
@@ -132,7 +132,7 @@ def test_missing_wall(robot):
     m.set_dps(robot.bp, robot.l_motor, robot.dps)
     m.set_dps(robot.bp, robot.r_motor, robot.dps)
     while time.time() - start_time <= driveTime:
-        bw.pid_missing_wall(robot, "left")
+        bw.pid_missing_wall(robot, side)
         time.sleep(robot.dt)
 
     m.set_dps(robot.bp, robot.l_motor, 0)
@@ -184,7 +184,7 @@ def main():
     robot = r.Robot()
 
     try:
-        test_missing_wall(robot)
+        test_missing_wall(robot, "right")
         #test_PID(robot)
         #forward_with_robot(robot, 40)
     except KeyboardInterrupt:
