@@ -64,7 +64,7 @@ class Robot:
         self.r_motor = self.bp.PORT_C
         self.l_motor = self.bp.PORT_B
 
-        self.dps = 250
+        self.dps = 300
         
         # Initialize the motors, which offsets the motor encoders and then set the motor limits.
         motor.init_motors(self.bp, self.r_motor, self.l_motor)
