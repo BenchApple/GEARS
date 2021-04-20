@@ -39,6 +39,8 @@ from .misc import cargo_release as cargo
 from .walls import wall_sensing
 from . import constants as r
 
+import brickpi3
+
 def testing_walls():
     walls = [0,0,0]
 
@@ -59,8 +61,8 @@ def main():
         forward.forward_with_robot(robot, CELL_DIST)
 
         # Now we take the sensor readings
-        #walls = wall_sensing.senseWalls(robot)
-        walls = testing_walls()
+        walls = wall_sensing.senseWalls(robot)
+        #walls = testing_walls()
 
         # Now deal with how the sensors read the hazards. We can now use this to change the walls
         # variable to deal with hazards and stuff.
@@ -80,5 +82,13 @@ def main():
             # Handle the backtracking here. This will suck, yes I know
             pass
 
+        input("Hit any button to continue")
+
+    build.build_maze(robot.root)
+
 if __name__ == "__main__":
-    main()
+    try: 
+         main()
+    except KeyboardInterrupt:
+        brickpi3.BrickPi3().reset_all()
+        

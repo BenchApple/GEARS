@@ -67,24 +67,25 @@ def forward_with_robot(robot, distance):
         print(wall_status)
 
         # If the front wall is too close (ie exists), stop moving.
-        if wall_status[1] == 1:
+        if wall_status[1] == 0:
             print("Front Wall Detected Abort")
             break
         # If both of the side walls have dropped, go without PID for the rest of the cell.
-        elif wall_status[0] == 0 and wall_status[2] == 0:
+        elif wall_status[0] == 1 and wall_status[2] == 1:
             pass # Just do nothing because no PID
         # If just the right wall has dropped, just use the left aligned PID.
         # If the left wall has dropped, use the right aligned PID.
-        elif wall_status[0] == 0 or wall_status[2] == 0:
-            if dropped_wall == None and wall_status[0] == 0:
+        elif wall_status[0] == 1 or wall_status[2] == 1:
+            if dropped_wall != "r" and wall_status[0] == 1:
                 print("\nRight wall dropped\n")
                 dropped_wall = "r"
                 initial_reading = ultra.readGroveUltrasonic(robot.l_ultra)
-            elif dropped_wall == None and wall_status[2] == 0:
+            elif dropped_wall != "l" and wall_status[2] == 1:
                 print("\nLeft wall dropped\n")
                 dropped_wall = "l"
                 initial_reading = ultra.readGroveUltrasonic(robot.r_ultra)
 
+            print("Following wall opposite of " + dropped_wall)
             bw.pid_missing_wall(robot, dropped_wall, initial_reading)
         # In all other cases just use the normal PID.
         else:

@@ -71,13 +71,15 @@ def pid_missing_wall(robot, side, init_reading):
     if side == "right" or side == "r":
         u_left_reading = ultra.readGroveUltrasonic(robot.l_ultra)
         # We can do it like this because we want them to be equidistant from the walls
-        error = u_left_reading - init_reading
+        error = init_reading - u_left_reading
 
     elif side == "left" or side == "l":
         u_right_reading = ultra.readGroveUltrasonic(robot.r_ultra)
         # We can do it like this because we want them to be equidistant from the walls
         error = u_right_reading - init_reading
         #error = init_reading - u_right_reading
+
+    print("Calculated Error is: " + str(error))
 
     robot.P = robot.KP * error
     robot.I += robot.KI * error * robot.dt / 2
