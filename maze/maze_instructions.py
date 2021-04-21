@@ -71,7 +71,7 @@ def backtrack_instruct(robot):
         cur_node = robot.back_queue.get()
 
         # Match the orientation of the robot with the opposite of that of the current node.
-        match_orientation(robot, (cur_node.get_orientation + 2) % 4)
+        match_orientation(robot, (cur_node.get_orientation() + 2) % 4)
         print("Current robot orientation is " + str(robot.cur_orientation))
 
         # Move forward however long the current node is for that length.
