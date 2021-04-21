@@ -32,6 +32,7 @@
 # Outputs: Maze Instructions
 
 from ..driving import turning as turn
+from ..driving import propulsion as forward
 from .. import constants as r
 
 # This function turns the robot based on where it needs to go
@@ -60,7 +61,50 @@ def standard_intersection(robot, prev_node):
 # This function takes the robot object while it's in backtracking mode and gets it back to where it needs to be
 def backtrack_instruct(robot):
     # First step is to always turn 180 degrees
-    pass
+    print("Turn around nerd")
+    turn.turn_180_degrees(robot.bp, robot.l_motor, robot.r_motor, robot.dps)
+    robot.set_orientation(robot.cur_orientation + 2)
+
+    # We continue through the loop until the backtracking queue is empty
+    while not robot.back_queue.empty():
+        # We need to move forward as many times as the length of the current node.
+        cur_node = robot.back_queue.get()
+
+        # Match the orientation of the robot with the opposite of that of the current node.
+        match_orientation(robot, (cur_node.get_orientation + 2) % 4)
+        print("Current robot orientation is " + str(robot.cur_orientation))
+
+        # Move forward however long the current node is for that length.
+        for i in range(0, cur_node.get_length()):
+            # We want to move forward one cell distance
+            # magic number i know i know
+            forward.forward_with_robot(robot, 40)
+            print("Moving forward " + str(i) + "times")
+
+    # Now we need to handle the intersection that we're left at.
+    match_orientation(robot, robot.cur_node.get_orientation())
+
+# This function matches the current orientation of the robot and matches it with the desired orientation
+def match_orientation(robot, target_orientation):
+    # Compare the old node to the previous node to determine where to turn.
+    if (robot.cur_orientation + 1) % 4 == target_orientation:
+        # Turn 90 degrees clockwise.
+        turn.turn_90_degrees(robot.bp, robot.l_motor, robot.r_motor, robot.dps, "CW")
+
+        # Update the orientation of the robot.
+        robot.set_orientation(target_orientation)
+    
+    elif (robot.cur_orientation - 1) % 4 == target_orientation:
+        # Turn 90 degrees counterclockwise.
+        turn.turn_90_degrees(robot.bp, robot.l_motor, robot.r_motor, robot.dps, "CCW")
+        
+        # Update the orientation of the robot.
+        robot.set_orientation(target_orientation)
+    # This handles both a new node in front as well as a non-new node that's front.
+    else:
+        # Do nothing because nothing needs to be done. Orientation stays the same and we don't turn.
+        pass
+
 
 
 
