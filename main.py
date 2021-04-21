@@ -86,6 +86,7 @@ def main():
 
             # TODO next step is to write the instructional code that handles actually leading the 
             # robot back through the maze
+            instruct.backtrack_instruct(robot)
 
             # Now that we're done with backtracking, we just need to reset the backtracking tracker
             robot.is_backtracking = False
