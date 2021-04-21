@@ -68,10 +68,6 @@ def navigation_step(robot, right_status, front_status, left_status):
     if right_status == 2:
         # Then we have a heat source.
         # TODO figure out how to get the hazard information to here.
-        new_hazard = HazardNode("heat",
-                                "This is a heat hazard with attributes of fire and heat",
-                                cur_node, (cur_node.get_orientation() + 1) % 4)
-        cur_node.set_right(new_hazard)
         print("Setting Right Hazard")
     elif right_status == 3:
         new_hazard = HazardNode("magnet",
@@ -203,6 +199,7 @@ def backtrack_queue(robot, cur_node):
     if cur_node.get_parent() != None:
         # Add the current node to the backtracking queue.
         robot.back_queue.put(cur_node)
+        print("Just added " + str(cur_node) + " to the queue")
 
         # Set the current node to be the parent of the current node.
         cur_node = cur_node.get_parent()
@@ -211,7 +208,6 @@ def backtrack_queue(robot, cur_node):
         exists = cur_node.get_exists()
         explored = cur_node.get_explored()
 
-        # print(cur_node)
         print(exists)
         print(explored)
         print(exists[1] and not explored[1])
@@ -223,7 +219,7 @@ def backtrack_queue(robot, cur_node):
             return (cur_node)
         else:
             # If not, repeat the process with the next parent.
-            return backtrack(cur_node)
+            return backtrack_queue(robot, cur_node)
 
 
 def navigate():
