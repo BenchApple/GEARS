@@ -56,3 +56,26 @@ def standard_intersection(robot, prev_node):
     else:
         # Do nothing because nothing needs to be done. Orientation stays the same and we don't turn.
         pass
+
+# This function takes the robot object while it's in backtracking mode and gets it back to where it needs to be
+def backtrack_instruct(robot):
+    # First step is to always turn 180 degrees
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -83,14 +83,6 @@ def main():
             # Handle the backtracking here. This will suck, yes I know
             # Remember that cur_node becomes the next node that we will go to. 
             # The pre-inntersection node is not included in the FIFO queue either.
-            # TODO Test to see if the FIFO queue is working correctly.
-            temp_queue = queue.Queue()
-            print("Backtracking Nodes")
-            while not robot.back_queue.empty():
-                val = robot.back_queue.get()
-                temp_queue.put(val)
-                print(val)
-            print("Done recounting backtracking nodes\n")
 
             # TODO next step is to write the instructional code that handles actually leading the 
             # robot back through the maze
