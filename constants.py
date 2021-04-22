@@ -59,6 +59,9 @@ class Robot:
         # the sensor port for the IR sensor.
         self.ir_port = 4
 
+        self.yellow_light = 2
+        self.green_light = 3
+
         # Everything that we need for the motors
         self.bp = brickpi3.BrickPi3()
         self.r_motor = self.bp.PORT_C
