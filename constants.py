@@ -85,7 +85,7 @@ class Robot:
         self.dt = 0.05
 
         self.P = 0
-        self.I = 2
+        self.I = 0
         self.D = 0
 
         # Stores variables that we need to keep track of for maze traversal
