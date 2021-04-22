@@ -38,6 +38,7 @@ from .maze import maze_instructions as instruct
 from .misc import cargo_release as cargo
 from .walls import wall_sensing
 from . import constants as r
+import queue
 
 import brickpi3
 
@@ -61,8 +62,8 @@ def main():
         forward.forward_with_robot(robot, CELL_DIST)
 
         # Now we take the sensor readings
-        walls = wall_sensing.senseWalls(robot)
-        #walls = testing_walls()
+        #walls = wall_sensing.senseWalls(robot)
+        walls = testing_walls()
 
         # Now deal with how the sensors read the hazards. We can now use this to change the walls
         # variable to deal with hazards and stuff.
@@ -75,12 +76,20 @@ def main():
         navigate.navigation_step(robot, walls[0], walls[1], walls[2])
 
         # Now we check to see if we're backtracking and act accordingly.
-        if not robot.is_backtracking :
+        if not robot.is_backtracking:
             instruct.standard_intersection(robot, prev_node)
             print("Robot orientation is " + str(robot.cur_orientation))
         else:
             # Handle the backtracking here. This will suck, yes I know
-            pass
+            # Remember that cur_node becomes the next node that we will go to. 
+            # The pre-inntersection node is not included in the FIFO queue either.
+
+            # TODO next step is to write the instructional code that handles actually leading the 
+            # robot back through the maze
+            instruct.backtrack_instruct(robot)
+
+            # Now that we're done with backtracking, we just need to reset the backtracking tracker
+            robot.is_backtracking = False
 
         #input("Hit any button to continue")
 

@@ -59,7 +59,6 @@ def forward_with_robot(robot, distance):
     # None means no walls have dropped, "r" means right dropped
     # "l" means left dropped.
     dropped_wall = None
-    initial_reading = 10 # This is a placeholder and will never hold the actual value
 
     # This loop is what actually keeps the robot along the desired line.
     while time.time() - start_time <= driveTime:
@@ -93,6 +92,9 @@ def forward_with_robot(robot, distance):
 
         time.sleep(robot.dt)
 
+    # Reset the integral gain value of the robot to 0.
+    robot.I = 0
+
     print("went far enough")
     m.set_dps(robot.bp, robot.l_motor, 0)
     m.set_dps(robot.bp, robot.r_motor, 0)
@@ -123,7 +125,7 @@ def test_missing_wall(robot, side):
     m.set_dps(robot.bp, robot.r_motor, 0)
 
     WHEEL_RADIUS = 4.08
-    DISTANCE = 100
+    DISTANCE = 150
 
     driveTime = ((DISTANCE / (2 * math.pi * WHEEL_RADIUS)) * 360) / robot.dps
 
@@ -184,7 +186,7 @@ def main():
     robot = r.Robot()
 
     try:
-        test_missing_wall(robot, "right")
+        test_missing_wall(robot, "left")
         #test_PID(robot)
         #forward_with_robot(robot, 40)
     except KeyboardInterrupt:

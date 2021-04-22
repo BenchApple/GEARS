@@ -79,13 +79,13 @@ class Robot:
 
         # Stuff that we need to keep track of for the PID system.
         self.e_prev = 0
-        self.KP = 0.125
-        self.KI = 2.5
-        self.KD = 3.75
+        self.KP = 0.13
+        self.KI = 1.5
+        self.KD = 4.5
         self.dt = 0.05
 
         self.P = 0
-        self.I = 2
+        self.I = 0
         self.D = 0
 
         # Stores variables that we need to keep track of for maze traversal

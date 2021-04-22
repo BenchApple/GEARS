@@ -68,10 +68,6 @@ def navigation_step(robot, right_status, front_status, left_status):
     if right_status == 2:
         # Then we have a heat source.
         # TODO figure out how to get the hazard information to here.
-        new_hazard = HazardNode("heat",
-                                "This is a heat hazard with attributes of fire and heat",
-                                cur_node, (cur_node.get_orientation() + 1) % 4)
-        cur_node.set_right(new_hazard)
         print("Setting Right Hazard")
     elif right_status == 3:
         new_hazard = HazardNode("magnet",
@@ -156,9 +152,12 @@ def navigation_step(robot, right_status, front_status, left_status):
     # Equivalent to asking if all of them are false
     elif (right_status == 0 and front_status == 0 and left_status == 0):
         print("Entering Backtracking")
+        # Set the backtracking status to true.
+        robot.is_backtracking = True
+
         # Then we need to initiate backtracking.
         # Backtracking looks for the first parent that has an existent unexplored child.
-        cur_node = backtrack(cur_node)
+        cur_node = backtrack_queue(robot, cur_node)
         print(cur_node)
         print("Backtracked node: " + str(cur_node))
 
@@ -193,6 +192,34 @@ def navigation_step(robot, right_status, front_status, left_status):
     print(robot.cur_node.get_parent())
     print("")
     #input("Enter to Continue")
+
+# Return the first node in the parent chain that has an unexplored existing child.
+# Adds all of the backtracked nodes into a FIFO queue so that we can accurately get back to the starting node.
+def backtrack_queue(robot, cur_node):
+    if cur_node.get_parent() != None:
+        # Add the current node to the backtracking queue.
+        robot.back_queue.put(cur_node)
+        print("Just added " + str(cur_node) + " to the queue")
+
+        # Set the current node to be the parent of the current node.
+        cur_node = cur_node.get_parent()
+
+        # Get the current node's existence and explored
+        exists = cur_node.get_exists()
+        explored = cur_node.get_explored()
+
+        print(exists)
+        print(explored)
+        print(exists[1] and not explored[1])
+        print("")
+
+        # If any of the paths both exist and are not explored, return the current node.
+        if (exists[0] and not explored[0]) or (exists[1] and not explored[1]) or (exists[2] and not explored[2]):
+            print(cur_node)
+            return (cur_node)
+        else:
+            # If not, repeat the process with the next parent.
+            return backtrack_queue(robot, cur_node)
 
 
 def navigate():
