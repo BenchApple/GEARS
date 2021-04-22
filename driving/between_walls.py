@@ -59,8 +59,8 @@ def pid_one_loop(robot):
     motor.set_dps(robot.bp, robot.r_motor, robot.dps + m_turn_val)
     motor.set_dps(robot.bp, robot.l_motor, robot.dps - m_turn_val)
 
-    print("Right motor dps: " + str(robot.dps - m_turn_val))
-    print("Left motor dps: " + str(robot.dps + m_turn_val))
+    #print("Right motor dps: " + str(robot.dps - m_turn_val))
+    #print("Left motor dps: " + str(robot.dps + m_turn_val))
 
 # Performs the pid loop if we're missing one wall, ie when we enter an intersection.
 # robot is the robot object, side is the side missing. "right" or "r" means right side missing, 
@@ -93,8 +93,8 @@ def pid_missing_wall(robot, side):
     motor.set_dps(robot.bp, robot.r_motor, robot.dps + m_turn_val)
     motor.set_dps(robot.bp, robot.l_motor, robot.dps - m_turn_val)
 
-    print("Right motor dps: " + str(robot.dps - m_turn_val))
-    print("Left motor dps: " + str(robot.dps + m_turn_val)) 
+    #print("Right motor dps: " + str(robot.dps - m_turn_val))
+    #print("Left motor dps: " + str(robot.dps + m_turn_val)) 
 
 ## This code just drives the robot forward while keeping it between the walls
 def stay_between_walls(): 
