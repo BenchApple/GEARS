@@ -81,7 +81,7 @@ class Robot:
         self.e_prev = 0
         self.KP = 0.125
         self.KI = 2.5
-        self.KD = 3.75
+        self.KD = 5.5
         self.dt = 0.05
 
         self.P = 0
