@@ -29,3 +29,5 @@
 # Inputs: None
 # Outputs: Cargo Released
 
+print("cargo release yay")
+
