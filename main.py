@@ -40,6 +40,8 @@ from .misc import external_comms as lights
 from .walls import wall_sensing
 from . import constants as r
 import queue
+import grovepi
+import time
 
 import brickpi3
 
@@ -105,7 +107,7 @@ def main():
 
     build.build_maze(robot.root)
 
-    time.sleep(2)
+    time.sleep(5)
 
     lights.deactivate_green(robot.green_pin)
 
