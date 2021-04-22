@@ -59,6 +59,9 @@ class Robot:
         # the sensor port for the IR sensor.
         self.ir_port = 4
 
+        self.yellow_light = 2
+        self.green_light = 3
+
         # Everything that we need for the motors
         self.bp = brickpi3.BrickPi3()
         self.r_motor = self.bp.PORT_C
@@ -79,13 +82,13 @@ class Robot:
 
         # Stuff that we need to keep track of for the PID system.
         self.e_prev = 0
-        self.KP = 0.125
+        self.KP = 0.2
         self.KI = 2.5
-        self.KD = 5.5
+        self.KD = 5
         self.dt = 0.05
 
         self.P = 0
-        self.I = 2
+        self.I = 0
         self.D = 0
 
         # Stores variables that we need to keep track of for maze traversal

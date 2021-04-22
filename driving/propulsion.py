@@ -92,6 +92,9 @@ def forward_with_robot(robot, distance):
 
         time.sleep(robot.dt)
 
+    # Reset the integral gain value of the robot to 0.
+    robot.I = 0
+
     print("went far enough")
     m.set_dps(robot.bp, robot.l_motor, 0)
     m.set_dps(robot.bp, robot.r_motor, 0)
