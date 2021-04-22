@@ -64,7 +64,7 @@ class Robot:
         self.r_motor = self.bp.PORT_C
         self.l_motor = self.bp.PORT_B
 
-        self.dps = 250
+        self.dps = 300
         
         # Initialize the motors, which offsets the motor encoders and then set the motor limits.
         motor.init_motors(self.bp, self.r_motor, self.l_motor)
@@ -79,13 +79,13 @@ class Robot:
 
         # Stuff that we need to keep track of for the PID system.
         self.e_prev = 0
-        self.KP = 0.125
+        self.KP = 0.2
         self.KI = 2.5
-        self.KD = 3.75
+        self.KD = 4.5
         self.dt = 0.05
 
         self.P = 0
-        self.I = 2
+        self.I = 0
         self.D = 0
 
         # Stores variables that we need to keep track of for maze traversal

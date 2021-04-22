@@ -85,7 +85,7 @@ def pid_missing_wall(robot, side):
     robot.I += robot.KI * error * robot.dt / 2
     robot.D = robot.KD * (error - robot.e_prev) / robot.dt
 
-    value = robot.P + robot.I + robot.D
+    value = robot.P - robot.I + robot.D
     # If value is greater than 0, then we need to turn to the right, otherwise we need to turn to the left
 
     m_turn_val = int(value * 0.1)
