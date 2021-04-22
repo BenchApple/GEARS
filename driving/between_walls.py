@@ -51,7 +51,15 @@ def pid_one_loop(robot):
     robot.I += robot.KI * error * robot.dt / 2
     robot.D = robot.KD * (error - robot.e_prev) / robot.dt
 
-    value = robot.P + robot.I + robot.D
+    # If the error is near 0, invert the integral error
+    # This aims to get the robot back to straight if it just spent a long time to one side but is near
+    # the center of the hallway again.
+    if abs(error) <= 1:
+        I = -robot.I
+    else:
+        I  = robot.I
+
+    value = robot.P + I + robot.D
     # If value is greater than 0, then we need to turn to the right, otherwise we need to turn to the left
 
     m_turn_val = int(value * 0.1)
@@ -84,6 +92,17 @@ def pid_missing_wall(robot, side):
     robot.P = robot.KP * error
     robot.I += robot.KI * error * robot.dt / 2
     robot.D = robot.KD * (error - robot.e_prev) / robot.dt
+
+    # If the error is near 0, invert the integral error
+    # This aims to get the robot back to straight if it just spent a long time to one side but is near
+    # the center of the hallway again.
+    if abs(error) <= 1:
+        I = -robot.I
+    else:
+        I  = robot.I
+
+    value = robot.P + I + robot.D
+    # If value is greater than 0, then we need to turn to the right, otherwise we need to turn to the left
 
     value = robot.P + robot.I + robot.D
     # If value is greater than 0, then we need to turn to the right, otherwise we need to turn to the left
