@@ -125,7 +125,7 @@ def test_missing_wall(robot, side):
     m.set_dps(robot.bp, robot.r_motor, 0)
 
     WHEEL_RADIUS = 4.08
-    DISTANCE = 100
+    DISTANCE = 200
 
     driveTime = ((DISTANCE / (2 * math.pi * WHEEL_RADIUS)) * 360) / robot.dps
 
@@ -186,7 +186,7 @@ def main():
     robot = r.Robot()
 
     try:
-        test_missing_wall(robot, "right")
+        test_missing_wall(robot, "left")
         #test_PID(robot)
         #forward_with_robot(robot, 40)
     except KeyboardInterrupt:
