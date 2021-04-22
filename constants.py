@@ -58,7 +58,6 @@ class Robot:
 
         # the sensor port for the IR sensor.
         self.ir_port = 4
-
         
         self.yellow_pin = 3
         self.green_pin = 2

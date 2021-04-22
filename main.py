@@ -36,6 +36,7 @@ from .maze import maze_navigate as navigate
 from .maze import build_maze as build
 from .maze import maze_instructions as instruct
 from .misc import cargo_release as cargo
+from .misc import external_comms as lights
 from .walls import wall_sensing
 from . import constants as r
 import queue
@@ -57,6 +58,9 @@ def main():
     CELL_DIST = 40
 
     while not robot.navigated:
+        # Turn the LED on  
+        lights.activate_yellow(robot.yellow_pin)
+
         # First we move forward 1 unit. This might have to be changed to account for 
         # getting to the center of an intersection.
         forward.forward_with_robot(robot, CELL_DIST)
@@ -91,9 +95,19 @@ def main():
             # Now that we're done with backtracking, we just need to reset the backtracking tracker
             robot.is_backtracking = False
 
+        lights.deactivate_yellow(robot.yellow_pin)
+        time.sleep(robot.dt)
+
         #input("Hit any button to continue")
 
+    # Turn on the green lights and offload the cargo
+    lights.activate_green(robot.green_pin)
+
     build.build_maze(robot.root)
+
+    time.sleep(2)
+
+    lights.deactivate_green(robot.green_pin)
 
 if __name__ == "__main__":
     try: 
