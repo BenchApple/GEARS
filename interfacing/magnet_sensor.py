@@ -67,9 +67,10 @@ def checkMag(IMU, bp, left_motor_port, right_motor_port, dps):
         magCompY2_reverse = magCompY2 * -1
         magCompZ2_reverse = magCompZ2 * -1
         
-        # TODO add the difference between the IMU's intial and final positions
-        magCompY2 += IMU_DIFFERENCE
-        magCompY2_reverse += IMU_DIFFERENCE
+        # Add the difference between the IMU's intial and final positions
+        # NOTE: May need to scale the difference by the overall magnitude of the magnetic force to get an exact location
+        magCompY2 += 6
+        magCompY2_reverse += 6
         
         magnetMagnitude2 = math.sqrt((magCompX2 * magCompX2) + (magCompY2 * magCompY2) + (magCompZ2 * magCompZ2))
         
