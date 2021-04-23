@@ -58,7 +58,7 @@ def checkMag(IMU, bp, left_motor_port, right_motor_port, dps):
     print(magnetMagnitude1)
     
     if (magnetMagnitude1 > MAGNET_MAGNITUDE_CUTOFF):
-        turning.turn_180_degrees(bp, left_motor_port, right_motor_port, dps):
+        turning.turn_180_degrees(bp, left_motor_port, right_motor_port, dps)
         
         magCompX2 = magVector['x']
         magCompY2 = magVector['y']
@@ -74,7 +74,7 @@ def checkMag(IMU, bp, left_motor_port, right_motor_port, dps):
         
         magnetMagnitude2 = math.sqrt((magCompX2 * magCompX2) + (magCompY2 * magCompY2) + (magCompZ2 * magCompZ2))
         
-        turning.turn_180_degrees(bp, left_motor_port, right_motor_port, dps):
+        turning.turn_180_degrees(bp, left_motor_port, right_motor_port, dps)
         
         # Calculate the interior angle between the first and second readings direction vectors and their opposing direction vector
         readingDifference = math.acos((magCompX1 * magCompX2 + magCompY1 * magCompY2 + magCompZ1 * magCompZ2) / (magnetMagnitude1 * magnetMagnitude2))
