@@ -42,7 +42,7 @@ from .. import constants as r
 # NOTE: If the MAGNET_MAGNITUDE_CUTOFF has too large of a magnitude, then the function may report a magnet in a maze block diagonal from the GEARS bot as existing within a connected maze block.
 # NOTE: All parameters sent aside from IMU are for turning the GEARS bot 180 degrees
 def checkMag(IMU, bp, left_motor_port, right_motor_port, dps):
-    MAGNET_MAGNITUDE_CUTOFF = 120 
+    MAGNET_MAGNITUDE_CUTOFF = 200
 
     magVector = imu.getMagnet(IMU)
     print(magVector)
@@ -79,6 +79,7 @@ def checkMag(IMU, bp, left_motor_port, right_motor_port, dps):
         
         # Calculate the interior angle between the first and second readings direction vectors and their opposing direction vector
         readingDifference = math.acos((magCompX1 * magCompX2 + magCompY1 * magCompY2 + magCompZ1 * magCompZ2) / (magnetMagnitude1 * magnetMagnitude2))
+        print((magCompX1_reverse * magCompX2_reverse + magCompY1_reverse * magCompY2_reverse + magCompZ1_reverse * magCompZ2_reverse) / (magnetMagnitude1 * magnetMagnitude2))
         reverseDifference = math.acos((magCompX1_reverse * magCompX2_reverse + magCompY1_reverse * magCompY2_reverse + magCompZ1_reverse * magCompZ2_reverse) / (magnetMagnitude1 * magnetMagnitude2))
         
         if (reverseDifference < readingDifference):
@@ -103,12 +104,14 @@ def main():
     imu_obj = imu.init()
     robot = r.Robot()
 
-    while True:
+    try: 
+        while True:
 #def checkMag(IMU, bp, left_motor_port, right_motor_port, dps):
-        result = checkMag(imu_obj, robot.bp, robot.l_motor, robot.r_motor, robot.dps)
-        print(result)
-        time.sleep(1)
-
+       	    result = checkMag(imu_obj, robot.bp, robot.l_motor, robot.r_motor, robot.dps)
+       	    print(result)
+       	    time.sleep(1)
+    except KeyboardInterrupt:
+        robot.bp.reset_all()
 
 if __name__ == "__main__":
     main()
