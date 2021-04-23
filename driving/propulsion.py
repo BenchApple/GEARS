@@ -39,8 +39,102 @@ import time
 from .. import constants as r
 from . import between_walls as bw
 
-# This loop should move the robot one unit forward while using PID to keep the robot between the walls.
+# This version of the function follows the heuristic that for any 40 cm move, there will be
+# at msot one wall status change. This method takes advantage of that by moving until that wall status
+# is changed and then moving 20 cm, or moving all 40 cm if there is no wall change
+# NOTE: This could run into issues with a bad PID where it detects a wall change where there is none
+# due to the robot going too far to one side of the hallway.
+# This should be able to eliminate that issue due to its ability to properly eliminate an amount
+# of error from the robot.
 def forward_with_robot(robot, distance):
+    m.set_dps(robot.bp, robot.l_motor, 0)
+    m.set_dps(robot.bp, robot.r_motor, 0)
+
+    WHEEL_RADIUS = 4.08
+    DISTANCE = distance
+    HALF_DIST = 20 # Stores the distance of half of a cell
+
+    driveTime = ((DISTANCE / (2 * math.pi * WHEEL_RADIUS)) * 360) / robot.dps
+
+    start_time = time.time()
+    print(start_time)
+
+    m.set_dps(robot.bp, robot.l_motor, robot.dps)
+    m.set_dps(robot.bp, robot.r_motor, robot.dps)
+
+    have_walls_changed = False
+    orig_wall_status = wall.senseWalls(robot)
+    dropped_wall = None
+
+    # move forward either until we've moved distance or we have come to a change in the walls.
+    while time.time() - start_time <= driveTime and not have_walls_changed:
+        # Get the current wall status.
+        cur_wall_status = wall.senseWalls(robot)
+
+        # Step the PID once
+        dropped_wall = step_pid(robot, cur_wall_status, dropped_wall)
+
+        # If there is a front wall, stop moving
+        if dropped_wall == -1:
+            break
+
+        have_walls_changed = detect_wall_change(robot, orig_wall_status, cur_wall_status)
+
+    # If we have detected a wall change, enter this.
+    if have_walls_changed:
+        # This recursive call style should work in theory, but there's no guarentee it will for sure
+        # This needs to be tested for sure so we can be sure of it actually working.
+        # NOTE In the case where this is a lot of error, there is a chance that normal PID operation
+        # will result in the loss of a wall. While our normal stuff can handle that will good accuracy
+        # this solution has the chance to completely throw off everything.
+        forward_with_robot(robot, HALF_DIST)
+
+
+# Steps the PID once
+# Returns the current dropped wall,  -1 if we need to stop moving forward.
+def step_pid(robot, wall_status, dropped_wall):
+    # If the front wall is too close, stop
+    if wall_status[1] == 0:
+        print("Front Wall Detected. Stopping.")
+        return -1
+    # If both of the side walls have dropped, go without PID for the rest of the cell.
+    elif wall_status[0] == 1 and wall_status[2] == 1:
+        pass # Just do nothing because no PID
+    # If just the right wall has dropped, just use the left aligned PID.
+    # If the left wall has dropped, use the right aligned PID.
+    # All of this stays here just so that we can keep the alignment PIDs working.
+    elif wall_status[0] == 1 or wall_status[2] == 1:
+        if wall_status[0] == 1 and dropped_wall != "r":
+            print("\nRight wall dropped\n")
+            dropped_wall = "r"
+        elif wall_status[2] == 1 and dropped_wall != "l":
+            print("\nLeft wall dropped\n")
+            dropped_wall = "l"
+
+        print("Following wall opposite of " + dropped_wall)
+        bw.pid_missing_wall(robot, dropped_wall)
+    # In all other cases just use the normal PID.
+    else:
+        if dropped_wall != None:
+            dropped_wall = None
+        bw.pid_one_loop(robot)
+
+    time.sleep(robot.dt)
+    return dropped_wall
+
+
+
+# Returns whether or not the wall status has changed taking a new reading of the walls.
+# A true return means the walls have changed.
+def detect_wall_change(robot, orig_walls, cur_walls):
+    # Check to see if any of the wall statuses are different from before.
+    if cur_walls[0] != orig_walls[0] or cur_walls[1] != orig_walls[1] or cur_walls[2] != orig_walls[2]:
+        return True
+    return False
+
+# This loop should move the robot one unit forward while using PID to keep the robot between the walls.
+@DeprecationWarning
+def forward_with_robot_2(robot, distance):
     m.set_dps(robot.bp, robot.l_motor, 0)
     m.set_dps(robot.bp, robot.r_motor, 0)
 

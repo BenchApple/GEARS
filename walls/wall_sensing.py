@@ -38,7 +38,7 @@ from .. import constants as r
 def senseWalls(robot):
 
     front_value = 10
-    side_value = 15
+    side_value = 17
     list = [0,0,0]
     rightSense = grove_ultrasonic.readGroveUltrasonic(robot.r_ultra)
     leftSense = grove_ultrasonic.readGroveUltrasonic(robot.l_ultra)
