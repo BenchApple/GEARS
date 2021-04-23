@@ -33,6 +33,7 @@ import math
 import time
 from . import imu_interface as imu
 from ..driving import turning
+from .. import constants as r
 
 
 # Determines if there is a within one maze block to the left, front, or right.
@@ -58,7 +59,7 @@ def checkMag(IMU, bp, left_motor_port, right_motor_port, dps):
     print(magnetMagnitude1)
     
     if (magnetMagnitude1 > MAGNET_MAGNITUDE_CUTOFF):
-        turning.turn_180_degrees(bp, left_motor_port, right_motor_port, dps):
+        turning.turn_180_degrees(bp, left_motor_port, right_motor_port, dps)
         
         magCompX2 = magVector['x']
         magCompY2 = magVector['y']
@@ -73,7 +74,7 @@ def checkMag(IMU, bp, left_motor_port, right_motor_port, dps):
         
         magnetMagnitude2 = math.sqrt((magCompX2 * magCompX2) + (magCompY2 * magCompY2) + (magCompZ2 * magCompZ2))
         
-        turning.turn_180_degrees(bp, left_motor_port, right_motor_port, dps):
+        turning.turn_180_degrees(bp, left_motor_port, right_motor_port, dps)
         
         # Calculate the interior angle between the first and second readings direction vectors and their opposing direction vector
         readingDifference = math.acos((magCompX1 * magCompX2 + magCompY1 * magCompY2 + magCompZ1 * magCompZ2) / (magnetMagnitude1 * magnetMagnitude2))
@@ -99,11 +100,13 @@ def checkMag(IMU, bp, left_motor_port, right_motor_port, dps):
 
 def main():
     imu_obj = imu.init()
+    robot = r.Robot()
 
     while True:
-        result = checkMag(imu_obj)
+#def checkMag(IMU, bp, left_motor_port, right_motor_port, dps):
+        result = checkMag(imu_obj, robot.bp, robot.l_motor, robot.r_motor, robot.dps)
         print(result)
-        time.sleep(0.2)
+        time.sleep(1)
 
 
 if __name__ == "__main__":
