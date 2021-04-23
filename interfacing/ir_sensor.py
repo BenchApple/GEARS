@@ -35,3 +35,26 @@ def readIR(sensor): #sensor port is input for IR
     grovepi.pinMode(sensor, "INPUT")
 
     return(grovepi.analogRead(sensor))
+
+# Returns true if an IR sensor is detected within the target range ahead of the robot.
+def ir_exists(sensor):
+    IR_THRESHOLD = 30
+    reading = readIR(sensor)
+
+    if reading >= IR_THRESHOLD:
+        return True
+    return False
+
+def main():
+    ir_pin = 2
+    
+    while True:
+        try:
+            print(ir_exists(ir_pin))
+            time.sleep(0.1)
+        except KeyboardInterrupt:
+            break
+
+if __name__ == "__main__":
+    main()
+
