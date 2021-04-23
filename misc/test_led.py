@@ -32,39 +32,31 @@
 import time
 import grovepi
 
-def activate_yellow(yellow_port): 
-    grovepi.pinMode(yellow_port, "OUTPUT")
-
-    grovepi.digitalWrite(yellow_port,1)		# Send HIGH to switch on LED
-
-def deactivate_yellow(yellow_port):
-    grovepi.digitalWrite(yellow_port,0)		# Send low to switch on LED
-
-def activate_green(green_port):
-    grovepi.pinMode(green_port, "OUTPUT")
-
-    grovepi.digitalWrite(green_port, 1)
-
-def deactivate_green(green_port):
-    grovepi.digitalWrite(green_port, 0)
-
 def greenLed(digitalPort): #green led blink input digital port it will be plugged into
-    grovepi.pinMode(digitalPort,"OUTPUT")
+    grovpei.pinMode(digitalPort,"OUTPUT")
     time.sleep(1)
         #Blink the LED
-    grovepi.digitalWrite(digitalPort,1)		# Send HIGH to switch on LED
+    grovpei.digitalWrite(digitalPort,1)		# Send HIGH to switch on LED
     time.sleep(1)
 
-    grovepi.digitalWrite(digitalPort,0)		# Send LOW to switch off LED
+    grovpei.digitalWrite(digitalPort,0)		# Send LOW to switch off LED
     time.sleep(1)
 
 
 def yellowLed(digitalPort): #yellow led blink input digital port it will be plugged into
-    grovepi.pinMode(digitalPort,"OUTPUT")
+    grovpei.pinMode(digitalPort,"OUTPUT")
     time.sleep(1)
         #Blink the LED
-    grovepi.digitalWrite(digitalPort,1)		# Send HIGH to switch on LED
+    grovpei.digitalWrite(digitalPort,1)		# Send HIGH to switch on LED
     time.sleep(1)
 
-    grovepi.digitalWrite(digitalPort,0)		# Send LOW to switch off LED
+    grovpei.digitalWrite(digitalPort,0)		# Send LOW to switch off LED
     time.sleep(1)
+
+while True
+    try:
+        greenLed(2)
+        yellowLed(3)
+        
+    except IOError:				# Print "Error" if communication error encountered
+        print ("Error")

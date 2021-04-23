@@ -37,6 +37,64 @@ import brickpi3
 from ..interfacing import motor as motor
 #import GEARS.interfacing.motor as motor
 from ..interfacing import grove_ultrasonic as ultra
+from ..import constants as c
+
+# Takes the robot object and performs one loop of PID on it.
+# This one does not include the time step that the normal one has at the end.
+def pid_one_loop(robot):
+    u_right_reading = ultra.readGroveUltrasonic(robot.r_ultra)
+    u_left_reading = ultra.readGroveUltrasonic(robot.l_ultra)
+    # We can do it like this because we want them to be equidistant from the walls
+    error = u_right_reading - u_left_reading
+
+    robot.P = robot.KP * error
+    robot.I += robot.KI * error * robot.dt / 2
+    robot.D = robot.KD * (error - robot.e_prev) / robot.dt
+
+    value = robot.P - robot.I + robot.D
+    # If value is greater than 0, then we need to turn to the right, otherwise we need to turn to the left
+
+    m_turn_val = int(value * 0.1)
+    # Adjust the motor values according to what we have.
+    motor.set_dps(robot.bp, robot.r_motor, robot.dps + m_turn_val)
+    motor.set_dps(robot.bp, robot.l_motor, robot.dps - m_turn_val)
+
+    #print("Right motor dps: " + str(robot.dps - m_turn_val))
+    #print("Left motor dps: " + str(robot.dps + m_turn_val))
+
+# Performs the pid loop if we're missing one wall, ie when we enter an intersection.
+# robot is the robot object, side is the side missing. "right" or "r" means right side missing, 
+# "left" or "l" means left side missing
+# initial reading takes the reading of the non-missing side right before it dropped off. This will
+# be the target value.
+def pid_missing_wall(robot, side):
+    if side == "right" or side == "r":
+        u_left_reading = ultra.readGroveUltrasonic(robot.l_ultra)
+        # We can do it like this because we want them to be equidistant from the walls
+        error = robot.CENTER_DIST - u_left_reading
+
+    elif side == "left" or side == "l":
+        u_right_reading = ultra.readGroveUltrasonic(robot.r_ultra)
+        # We can do it like this because we want them to be equidistant from the walls
+        error = u_right_reading - robot.CENTER_DIST 
+        #error = init_reading - u_right_reading
+
+    print("Calculated Error is: " + str(error))
+
+    robot.P = robot.KP * error
+    robot.I += robot.KI * error * robot.dt 
+    robot.D = robot.KD * 2 * (error - robot.e_prev) / robot.dt
+
+    value = robot.P - robot.I + robot.D
+    # If value is greater than 0, then we need to turn to the right, otherwise we need to turn to the left
+
+    m_turn_val = int(value * 0.1)
+    # Adjust the motor values according to what we have.
+    motor.set_dps(robot.bp, robot.r_motor, robot.dps + m_turn_val)
+    motor.set_dps(robot.bp, robot.l_motor, robot.dps - m_turn_val)
+
+    #print("Right motor dps: " + str(robot.dps - m_turn_val))
+    #print("Left motor dps: " + str(robot.dps + m_turn_val)) 
 
 ## This code just drives the robot forward while keeping it between the walls
 def stay_between_walls(): 
@@ -45,11 +103,6 @@ def stay_between_walls():
     KI = 0.5 # Integral gain
     KD = 0.5 # Derivative gain
     dt = 0.05
-
-    # Target pos represents where we want to be, which should be a sum of 240 cm^2
-    target_pos = 240 # we are trying to minimize the distance, so we just set it to 0
-
-    current_pos = 0
 
     P = 0
     I = 2
@@ -106,7 +159,6 @@ def stay_between_walls():
             print(value)
             time.sleep(dt)
             print("")
-
     except KeyboardInterrupt:
         #bp.reset_all()
         pass

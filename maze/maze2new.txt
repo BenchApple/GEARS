@@ -1,0 +1,217 @@
+['0', '1', '0']
+None
+None
+None
+Incrementing current node length
+Number: 0; Orientation: 0; Length: 2; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+None
+
+['1', '1', '0']
+None
+None
+None
+Setting right child.
+Number: 0; Orientation: 1; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 0; Length: 2; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 1, Left - 0
+
+['0', '1', '0']
+None
+None
+None
+Incrementing current node length
+Number: 0; Orientation: 1; Length: 2; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 0; Length: 2; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 1, Left - 0
+
+['0', '1', '1']
+None
+None
+None
+Setting front child.
+Number: 0; Orientation: 1; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 1; Length: 2; Explored: Right - 0, Front - 1, Left - 0; Exists: Right - 0, Front - 1, Left - 1
+
+['0', '3', '0']
+None
+Setting Front Hazard
+Type: magnet; Hazard Data: This is a magnet hazard with attributes of magneticy and fucking up your laptop.; Parent: Number: 0; Orientation: 1; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+None
+Number: 0; Orientation: 1; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 1; Length: 2; Explored: Right - 0, Front - 1, Left - 0; Exists: Right - 0, Front - 1, Left - 1
+
+['0', '1', '0']
+None
+Type: magnet; Hazard Data: This is a magnet hazard with attributes of magneticy and fucking up your laptop.; Parent: Number: 0; Orientation: 1; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+None
+Incrementing current node length
+Number: 0; Orientation: 1; Length: 2; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 1; Length: 2; Explored: Right - 0, Front - 1, Left - 0; Exists: Right - 0, Front - 1, Left - 1
+
+['0', '0', '1']
+None
+Type: magnet; Hazard Data: This is a magnet hazard with attributes of magneticy and fucking up your laptop.; Parent: Number: 0; Orientation: 1; Length: 2; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+None
+Setting left child.
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 1; Length: 2; Explored: Right - 0, Front - 0, Left - 1; Exists: Right - 0, Front - 0, Left - 1
+
+['0', '2', '0']
+None
+Setting Front Hazard
+Type: heat; Hazard Data: This is a heat hazard with attributes of fire and heat; Parent: Number: 0; Orientation: 0; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+None
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 1; Length: 2; Explored: Right - 0, Front - 0, Left - 1; Exists: Right - 0, Front - 0, Left - 1
+
+['0', '2', '1']
+None
+Setting Front Hazard
+Type: heat; Hazard Data: This is a heat hazard with attributes of fire and heat; Parent: Number: 0; Orientation: 0; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+None
+Setting left child.
+Number: 0; Orientation: 3; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 0, Front - 0, Left - 1; Exists: Right - 0, Front - 0, Left - 1
+
+['0', '0', '1']
+None
+None
+None
+Setting left child.
+Number: 0; Orientation: 2; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 3; Length: 1; Explored: Right - 0, Front - 0, Left - 1; Exists: Right - 0, Front - 0, Left - 1
+
+['1', '0', '0']
+None
+None
+None
+Setting right child.
+Number: 0; Orientation: 3; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 2; Length: 1; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 0, Left - 0
+
+['0', '1', '0']
+None
+None
+None
+Incrementing current node length
+Number: 0; Orientation: 3; Length: 2; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 2; Length: 1; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 0, Left - 0
+
+['1', '1', '0']
+None
+None
+None
+Setting right child.
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 3; Length: 2; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 1, Left - 0
+
+['1', '0', '0']
+None
+None
+None
+Setting right child.
+Number: 0; Orientation: 1; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 0, Left - 0
+
+['0', '0', '1']
+None
+None
+None
+Setting left child.
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 1; Length: 1; Explored: Right - 0, Front - 0, Left - 1; Exists: Right - 0, Front - 0, Left - 1
+
+['0', '0', '1']
+None
+None
+None
+Setting left child.
+Number: 0; Orientation: 3; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 0, Front - 0, Left - 1; Exists: Right - 0, Front - 0, Left - 1
+
+['1', '0', '0']
+None
+None
+None
+Setting right child.
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 3; Length: 1; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 0, Left - 0
+
+['1', '0', '0']
+None
+None
+None
+Setting right child.
+Number: 0; Orientation: 1; Length: 1; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 0, Left - 0
+
+['0', '1', '0']
+None
+None
+None
+Incrementing current node length
+Number: 0; Orientation: 1; Length: 2; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 0, Left - 0
+
+['0', '1', '0']
+None
+None
+None
+Incrementing current node length
+Number: 0; Orientation: 1; Length: 3; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 0, Left - 0
+
+['0', '1', '0']
+None
+None
+None
+Incrementing current node length
+Number: 0; Orientation: 1; Length: 4; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 0, Left - 0
+
+['0', '1', '0']
+None
+None
+None
+Incrementing current node length
+Number: 0; Orientation: 1; Length: 5; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 0, Left - 0
+
+['0', '1', '0']
+None
+None
+None
+Incrementing current node length
+Number: 0; Orientation: 1; Length: 6; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 0, Left - 0
+
+['0', '1', '0']
+None
+None
+None
+Incrementing current node length
+Number: 0; Orientation: 1; Length: 7; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 0, Left - 0
+
+['0', '4', '0']
+None
+None
+None
+We have traversed the maze!
+Number: 0; Orientation: 1; Length: 7; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 0, Left - 0
+
+Printing Pre-order traversal
+Number: 0; Orientation: 0; Length: 2; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 1, Left - 0
+Number: 0; Orientation: 1; Length: 2; Explored: Right - 0, Front - 1, Left - 0; Exists: Right - 0, Front - 1, Left - 1
+Number: 0; Orientation: 1; Length: 2; Explored: Right - 0, Front - 0, Left - 1; Exists: Right - 0, Front - 0, Left - 1
+Type: magnet; Hazard Data: This is a magnet hazard with attributes of magneticy and fucking up your laptop.; Parent: Number: 0; Orientation: 1; Length: 2; Explored: Right - 0, Front - 0, Left - 1; Exists: Right - 0, Front - 0, Left - 1
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 0, Front - 0, Left - 1; Exists: Right - 0, Front - 0, Left - 1
+Type: heat; Hazard Data: This is a heat hazard with attributes of fire and heat; Parent: Number: 0; Orientation: 0; Length: 1; Explored: Right - 0, Front - 0, Left - 1; Exists: Right - 0, Front - 0, Left - 1
+Number: 0; Orientation: 3; Length: 1; Explored: Right - 0, Front - 0, Left - 1; Exists: Right - 0, Front - 0, Left - 1
+Number: 0; Orientation: 2; Length: 1; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 0, Left - 0
+Number: 0; Orientation: 3; Length: 2; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 1, Left - 0
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 0, Left - 0
+Number: 0; Orientation: 1; Length: 1; Explored: Right - 0, Front - 0, Left - 1; Exists: Right - 0, Front - 0, Left - 1
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 0, Front - 0, Left - 1; Exists: Right - 0, Front - 0, Left - 1
+Number: 0; Orientation: 3; Length: 1; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 0, Left - 0
+Number: 0; Orientation: 0; Length: 1; Explored: Right - 1, Front - 0, Left - 0; Exists: Right - 1, Front - 0, Left - 0
+Number: 0; Orientation: 1; Length: 7; Explored: Right - 0, Front - 0, Left - 0; Exists: Right - 0, Front - 0, Left - 0
