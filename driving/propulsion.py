@@ -82,6 +82,7 @@ def forward_with_robot(robot, distance):
 
     # If we have detected a wall change, enter this.
     if have_walls_changed:
+        print("\nEntering Second Phase\n")
         # This recursive call style should work in theory, but there's no guarentee it will for sure
         # This needs to be tested for sure so we can be sure of it actually working.
         # NOTE In the case where this is a lot of error, there is a chance that normal PID operation

@@ -68,8 +68,8 @@ def main():
         forward.forward_with_robot(robot, CELL_DIST)
 
         # Now we take the sensor readings
-        #walls = wall_sensing.senseWalls(robot)
-        walls = testing_walls()
+        walls = wall_sensing.senseWalls(robot)
+        #walls = testing_walls()
 
         # Now deal with how the sensors read the hazards. We can now use this to change the walls
         # variable to deal with hazards and stuff.

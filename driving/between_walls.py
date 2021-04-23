@@ -46,6 +46,7 @@ def pid_one_loop(robot):
     u_left_reading = ultra.readGroveUltrasonic(robot.l_ultra)
     # We can do it like this because we want them to be equidistant from the walls
     error = u_right_reading - u_left_reading
+    print("Error: " + str(error))
 
     robot.P = robot.KP * error
     robot.I += robot.KI * error * robot.dt / 2
@@ -61,6 +62,8 @@ def pid_one_loop(robot):
 
     #print("Right motor dps: " + str(robot.dps - m_turn_val))
     #print("Left motor dps: " + str(robot.dps + m_turn_val))
+    #print("Right distance: " + str(robot.dps - m_turn_val))
+    #print("Left distance: " + str(robot.dps + m_turn_val))
 
 # Performs the pid loop if we're missing one wall, ie when we enter an intersection.
 # robot is the robot object, side is the side missing. "right" or "r" means right side missing, 
@@ -77,13 +80,12 @@ def pid_missing_wall(robot, side):
         u_right_reading = ultra.readGroveUltrasonic(robot.r_ultra)
         # We can do it like this because we want them to be equidistant from the walls
         error = u_right_reading - robot.CENTER_DIST 
-        #error = init_reading - u_right_reading
 
     print("Calculated Error is: " + str(error))
 
     robot.P = robot.KP * error
-    robot.I += robot.KI * error * robot.dt 
-    robot.D = robot.KD * 2 * (error - robot.e_prev) / robot.dt
+    robot.I += robot.KI * error * robot.dt / 2
+    robot.D = robot.KD * (error - robot.e_prev) / robot.dt
 
     value = robot.P - robot.I + robot.D
     # If value is greater than 0, then we need to turn to the right, otherwise we need to turn to the left
