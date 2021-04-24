@@ -65,49 +65,15 @@ def navigation_step(robot, right_status, front_status, left_status):
     cur_node = robot.cur_node
 
     # Do all of the hazards stuff.
-    if right_status == 2:
-        # Then we have a heat source.
-        # TODO figure out how to get the hazard information to here.
-        print("Setting Right Hazard")
-    elif right_status == 3:
-        new_hazard = HazardNode("magnet",
-                                "This is a magnet hazard with attributes of magneticy and fucking up your laptop.",
-                                cur_node, (cur_node.get_orientation() + 1) % 4)
-        cur_node.set_right(new_hazard)
-        print("Setting Right Hazard")
-    print(cur_node.get_right())
+    if right_status == 2 or right_status == 3:
+        cur_node.set_right(robot.hazards_list[-1]
 
     # now for the front.
-    if front_status == 2:
-        # Then we have a heat source.
-        new_hazard = HazardNode("heat",
-                                "This is a heat hazard with attributes of fire and heat",
-                                cur_node, cur_node.get_orientation())
-        cur_node.set_front(new_hazard)
-        print("Setting Front Hazard")
-    elif front_status == 3:
-        new_hazard = HazardNode("magnet",
-                                "This is a magnet hazard with attributes of magneticy and fucking up your laptop.",
-                                cur_node, cur_node.get_orientation())
-        cur_node.set_front(new_hazard)
-        print("Setting Front Hazard")
-    print(cur_node.get_front())
+    if front_status == 2 or front_status == 3:
+        cur_node.set_front(robot.hazards_list[-1])
 
-    # Now for the left
-    if left_status == 2:
-        # Then we have a heat source.
-        new_hazard = HazardNode("heat",
-                                "This is a heat hazard with attributes of fire and heat",
-                                cur_node, (cur_node.get_orientation() - 1) % 4)
-        cur_node.set_left(new_hazard)
-        print("Setting Left Hazard")
-    elif left_status == 3:
-        new_hazard = HazardNode("magnet",
-                                "This is a magnet hazard with attributes of magneticy and fucking up your laptop.",
-                                cur_node, (cur_node.get_orientation() - 1) % 4)
-        cur_node.set_left(new_hazard)
-        print("Setting Left Hazard")
-    print(cur_node.get_left())
+    if left_status == 2 or left_status == 3:
+        cur_node.set_left(robot.hazards_list[-1])
 
     # All of these are maze navigation oriented. They do not care about hazards.
     # Hazards are effectively impassable for them.

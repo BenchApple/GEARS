@@ -38,6 +38,7 @@ from .maze import maze_instructions as instruct
 from .misc import cargo_release as cargo
 from .misc import external_comms as lights
 from .walls import wall_sensing
+from .hazards import hazard_sense as hazard 
 from . import constants as r
 import queue
 import grovepi
@@ -73,6 +74,16 @@ def main():
 
         # Now deal with how the sensors read the hazards. We can now use this to change the walls
         # variable to deal with hazards and stuff.
+        cur_hazard = hazard.get_hazards((robot))
+
+        if cur_hazard.type == "heat":
+            walls[1] = 2
+        elif cur_hazard.type == "magnet":
+            walls[1] = 3
+
+        # If we have a hazard, append it to the hazards list.
+        if cur_hazard != None:
+            robot.hazards_list.append(cur_hazard)
 
         # Now we navigate the maze using the graph structure.
         prev_node = robot.cur_node # Stores the current node of the robot so we can compare.
