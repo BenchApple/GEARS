@@ -46,13 +46,13 @@ from . import between_walls as bw
 # due to the robot going too far to one side of the hallway.
 # This should be able to eliminate that issue due to its ability to properly eliminate an amount
 # of error from the robot.
-def forward_with_robot(robot, distance):
+def forward_with_robot(robot, distance, going_half=False):
     m.set_dps(robot.bp, robot.l_motor, 0)
     m.set_dps(robot.bp, robot.r_motor, 0)
 
     WHEEL_RADIUS = 4.08
     DISTANCE = distance
-    HALF_DIST = 20 # Stores the distance of half of a cell
+    HALF_DIST = 9 # Stores distace to move after detecting wall change
 
     driveTime = ((DISTANCE / (2 * math.pi * WHEEL_RADIUS)) * 360) / robot.dps
 
@@ -76,19 +76,32 @@ def forward_with_robot(robot, distance):
 
         # If there is a front wall, stop moving
         if dropped_wall == -1:
+            # If we're catching a wall super early in a move foward, 
+            # we want to take one length away from the current node
+            if time.time() - start_time <= (driveTime / 4):
+                robot.cur_node.set_length(robot.cur_node.get_length() - 1)
             break
 
         have_walls_changed = detect_wall_change(robot, orig_wall_status, cur_wall_status)
+        if have_walls_changed:
+            break
 
     # If we have detected a wall change, enter this.
-    if have_walls_changed:
+    if have_walls_changed and not going_half:
         print("\nEntering Second Phase\n")
+        '''
+        m.set_dps(robot.bp, robot.l_motor, 0)
+        m.set_dps(robot.bp, robot.r_motor, 0)
+        input("press a button to conitune")
+        m.set_dps(robot.bp, robot.l_motor, robot.dps)
+        m.set_dps(robot.bp, robot.r_motor, robot.dps)
+        '''
         # This recursive call style should work in theory, but there's no guarentee it will for sure
         # This needs to be tested for sure so we can be sure of it actually working.
         # NOTE In the case where this is a lot of error, there is a chance that normal PID operation
         # will result in the loss of a wall. While our normal stuff can handle that will good accuracy
         # this solution has the chance to completely throw off everything.
-        forward_with_robot(robot, HALF_DIST)
+        forward_with_robot(robot, HALF_DIST, going_half=True)
 
 
 # Steps the PID once
@@ -123,11 +136,11 @@ def step_pid(robot, wall_status, dropped_wall):
     time.sleep(robot.dt)
     return dropped_wall
 
-
-
 # Returns whether or not the wall status has changed taking a new reading of the walls.
 # A true return means the walls have changed.
 def detect_wall_change(robot, orig_walls, cur_walls):
+    print(orig_walls)
+    print(cur_walls)
     # Check to see if any of the wall statuses are different from before.
     if cur_walls[0] != orig_walls[0] or cur_walls[1] != orig_walls[1] or cur_walls[2] != orig_walls[2]:
         return True

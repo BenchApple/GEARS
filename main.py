@@ -38,6 +38,7 @@ from .maze import maze_instructions as instruct
 from .misc import cargo_release as cargo
 from .misc import external_comms as lights
 from .walls import wall_sensing
+from .interfacing import motor as m
 from . import constants as r
 import queue
 import grovepi
@@ -102,6 +103,10 @@ def main():
 
         #input("Hit any button to continue")
 
+    # Stop the robot lol
+    m.set_dps(robot.bp, robot.l_motor, 0)
+    m.set_dps(robot.bp, robot.r_motor, 0)
+    
     # Turn on the green lights and offload the cargo
     lights.activate_green(robot.green_pin)
 

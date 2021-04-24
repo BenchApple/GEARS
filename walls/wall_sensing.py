@@ -37,7 +37,8 @@ from .. import constants as r
 
 def senseWalls(robot):
 
-    front_value = 10
+    front_stop_value = 10
+    front_value = 17
     side_value = 17
     list = [0,0,0]
     rightSense = grove_ultrasonic.readGroveUltrasonic(robot.r_ultra)
@@ -49,9 +50,10 @@ def senseWalls(robot):
     if (rightSense >= side_value):
         print("right path sensed")
         list[0] += 1
-    if (frontSense >= front_value and frontSense != 0.0):
+    if (frontSense >= front_stop_value):
         print("Front path Sensed")
         list[1] += 1
+        
     if  (leftSense >= side_value):
         print("left path sensed")
         list[2] += 1
