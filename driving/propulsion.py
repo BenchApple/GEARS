@@ -66,7 +66,7 @@ def forward_with_robot(robot, distance, going_half=False):
     dropped_wall = None
 
     # move forward either until we've moved distance or we have come to a change in the walls.
-    while time.time() - start_time <= driveTime and not have_walls_changed:
+    while (time.time() - start_time <= driveTime and not have_walls_changed) or going_half:
         # Get the current wall status.
         cur_wall_status = wall.senseWalls(robot)
 
@@ -100,6 +100,7 @@ def forward_with_robot(robot, distance, going_half=False):
         # NOTE In the case where this is a lot of error, there is a chance that normal PID operation
         # will result in the loss of a wall. While our normal stuff can handle that will good accuracy
         # this solution has the chance to completely throw off everything.
+        time.sleep(robot.dt)
         forward_with_robot(robot, robot.HALF_DIST, going_half=True)
 
 
