@@ -40,7 +40,7 @@ def senseWalls(robot):
     front_stop_value = 10
     front_value = 17 # maybe needs to be used if node length fix from earlier doesn't work properly.
     side_value = 17
-    list = [0,0,0]
+    l = [0,0,0]
     rightSense = grove_ultrasonic.readGroveUltrasonic(robot.r_ultra)
     leftSense = grove_ultrasonic.readGroveUltrasonic(robot.l_ultra)
     frontSense = lego_ultrasonic.legoUltrasonic(robot.bp, robot.f_ultra)
@@ -56,6 +56,6 @@ def senseWalls(robot):
         
     if  (leftSense >= side_value):
         print("left path sensed")
-        list[2] += 1
+        l[2] += 1
 
-    return list
+    return l

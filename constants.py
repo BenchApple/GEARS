@@ -58,7 +58,7 @@ class Robot:
         self.imu_obj = imu.init()
 
         # the sensor port for the IR sensor.
-        self.ir_port = 4
+        self.ir_port = 2
         
         self.yellow_pin = 3
         self.green_pin = 2

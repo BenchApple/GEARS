@@ -28,3 +28,18 @@
 # Senses hazards, outputs to hazard processing.
 # Inputs: IR Data
 # Outputs: Magnet Data
+
+from ..interfacing import magnet_sensor as mag
+from ..interfacing import ir_sensor as ir
+from . import hazard_process as h
+
+# Tells us whether or not there is a hazard ahead of us and returns its hazard object.
+def get_hazards(robot):
+    return_hazard = None
+
+    if mag.checkMag(robot.imu_obj, robot.bp, robot.l_motor, robot.r_motor, robot.dps) == "front":
+        return_hazard = h.Hazard("Magnet", "uT", 400)
+    elif ir.ir_exists(robot.ir_pin):
+        return_hazard = h.Hazard("Heat", "J", 3600)
+
+    return return_hazard
