@@ -43,6 +43,7 @@ from .maze.graph import HazardNode
 
 import brickpi3
 import queue
+import time
 
 class Robot:
     def __init__(self):
@@ -51,7 +52,7 @@ class Robot:
         self.l_ultra = 6
 
         # Keeps track of the distance from either ultrasonic to the wall of the maze when the bot is exactly between the two walls
-        self.CENTER_DIST = 10
+        self.CENTER_DIST = 9
 
         # The IMU object
         self.imu_obj = imu.init()
@@ -99,6 +100,8 @@ class Robot:
         self.navigated = False # VERY IMPORTANT. This variable tracks whether or not we have finished the maze
 
         self.cur_orientation = 0
+
+        time.sleep(8)
 
         # These deal with backtracking
         self.is_backtracking = False # Stores whether or not we're in backtracking mode
