@@ -37,7 +37,6 @@ import brickpi3 # import the BrickPi3 drivers
 
 def init(bp, port):
     bp.set_sensor_type(port, bp.SENSOR_TYPE.EV3_ULTRASONIC_CM)
-    time.sleep(5)
 
 def legoUltrasonic(bp, sensor): #port must be declared in same way as brick would i.e. BP.PORT_1
     return(bp.get_sensor(sensor))
