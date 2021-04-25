@@ -52,7 +52,6 @@ def forward_with_robot(robot, distance, going_half=False):
 
     WHEEL_RADIUS = 4.08
     DISTANCE = distance
-    HALF_DIST = 9 # Stores distace to move after detecting wall change
 
     driveTime = ((DISTANCE / (2 * math.pi * WHEEL_RADIUS)) * 360) / robot.dps
 
@@ -71,6 +70,10 @@ def forward_with_robot(robot, distance, going_half=False):
         # Get the current wall status.
         cur_wall_status = wall.senseWalls(robot)
 
+        have_walls_changed = detect_wall_change(robot, orig_wall_status, cur_wall_status)
+        if have_walls_changed:
+            break
+
         # Step the PID once
         dropped_wall = step_pid(robot, cur_wall_status, dropped_wall)
 
@@ -78,12 +81,8 @@ def forward_with_robot(robot, distance, going_half=False):
         if dropped_wall == -1:
             # If we're catching a wall super early in a move foward, 
             # we want to take one length away from the current node
-            if time.time() - start_time <= (driveTime / 4):
+            if time.time() - start_time <= (driveTime / 4) and not robot.is_backtracking:
                 robot.cur_node.set_length(robot.cur_node.get_length() - 1)
-            break
-
-        have_walls_changed = detect_wall_change(robot, orig_wall_status, cur_wall_status)
-        if have_walls_changed:
             break
 
     # If we have detected a wall change, enter this.
@@ -101,7 +100,7 @@ def forward_with_robot(robot, distance, going_half=False):
         # NOTE In the case where this is a lot of error, there is a chance that normal PID operation
         # will result in the loss of a wall. While our normal stuff can handle that will good accuracy
         # this solution has the chance to completely throw off everything.
-        forward_with_robot(robot, HALF_DIST, going_half=True)
+        forward_with_robot(robot, robot.HALF_DIST, going_half=True)
 
 
 # Steps the PID once

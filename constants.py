@@ -107,6 +107,8 @@ class Robot:
         self.is_backtracking = False # Stores whether or not we're in backtracking mode
         self.back_queue = queue.Queue() # Stores the backtracking queue.
 
+        self.HALF_DIST = 10 # Stores how far we need to go after catching a wall change.
+
     def get_orientation(self):
         return self._cur_orientation
 
