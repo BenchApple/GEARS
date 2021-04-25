@@ -75,7 +75,7 @@ def backtrack_instruct(robot):
         print("Current robot orientation is " + str(robot.cur_orientation))
 
         # Move forward however long the current node is for that length.
-        for i in range(0, cur_node.get_length() - 1):
+        for i in range(0, cur_node.get_length()):
             # We want to move forward one cell distance
             # magic number i know i know
             forward.forward_with_robot(robot, 40)

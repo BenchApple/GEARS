@@ -66,7 +66,7 @@ def forward_with_robot(robot, distance, going_half=False):
     dropped_wall = None
 
     # move forward either until we've moved distance or we have come to a change in the walls.
-    while (time.time() - start_time <= driveTime and not have_walls_changed) or going_half:
+    while time.time() - start_time <= driveTime and (not have_walls_changed or going_half):
         # Get the current wall status.
         cur_wall_status = wall.senseWalls(robot)
 
