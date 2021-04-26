@@ -29,3 +29,13 @@
 # Inputs: None
 # Outputs: Cargo Released
 
+import time
+from ..interfacing import motor
+from .. import constants as r
+
+def release_cargo(motor_port):
+    robot = r.Robot()
+    motor.set_dps(robot.bp, motor_port, 300)
+    time.sleep(2)
+    motor.set_dps(robot.bp, motor_port, 0)
+    
