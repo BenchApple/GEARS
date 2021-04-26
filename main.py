@@ -39,6 +39,7 @@ from .misc import cargo_release as cargo
 from .misc import external_comms as lights
 from .walls import wall_sensing
 from .interfacing import motor as m
+from .hazards import hazard_sense as hazard 
 from . import constants as r
 import queue
 import grovepi
@@ -61,6 +62,10 @@ def main():
     CELL_DIST = 40
 
     while not robot.navigated:
+        # Right now this assumes that we will only encounter hazards after moving forward.
+        # The problem with adding another check for this here is that it would cause
+        # the pathfinding algorithm to break as far as im aware.
+
         # Turn the LED on  
         lights.activate_yellow(robot.yellow_pin)
 
@@ -74,6 +79,15 @@ def main():
 
         # Now deal with how the sensors read the hazards. We can now use this to change the walls
         # variable to deal with hazards and stuff.
+        cur_hazard = hazard.get_hazards((robot))
+
+        if cur_hazard != None:
+            if cur_hazard.type == "heat":
+                walls[1] = 2
+            elif cur_hazard.type == "magnet":
+                walls[1] = 3
+
+            robot.hazards_list.append(cur_hazard)
 
         # Now we navigate the maze using the graph structure.
         prev_node = robot.cur_node # Stores the current node of the robot so we can compare.
