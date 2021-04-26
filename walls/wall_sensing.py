@@ -49,10 +49,10 @@ def senseWalls(robot):
 
     if (rightSense >= side_value):
         print("right path sensed")
-        list[0] += 1
+        l[0] += 1
     if (frontSense >= front_stop_value):
         print("Front path Sensed")
-        list[1] += 1
+        l[1] += 1
         
     if  (leftSense >= side_value):
         print("left path sensed")

@@ -66,10 +66,10 @@ def navigation_step(robot, right_status, front_status, left_status):
 
     # Do all of the hazards stuff.
     if right_status == 2 or right_status == 3:
-        cur_node.set_right(robot.hazards_list[-1]
+        cur_node.set_right(robot.hazards_list[-1])
 
     # now for the front.
-    if front_status == 2 or front_status == 3:
+    if (front_status == 2 or front_status == 3):
         cur_node.set_front(robot.hazards_list[-1])
 
     if left_status == 2 or left_status == 3:
