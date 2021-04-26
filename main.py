@@ -81,13 +81,12 @@ def main():
         # variable to deal with hazards and stuff.
         cur_hazard = hazard.get_hazards((robot))
 
-        if cur_hazard.type == "heat":
-            walls[1] = 2
-        elif cur_hazard.type == "magnet":
-            walls[1] = 3
-
-        # If we have a hazard, append it to the hazards list.
         if cur_hazard != None:
+            if cur_hazard.type == "heat":
+                walls[1] = 2
+            elif cur_hazard.type == "magnet":
+                walls[1] = 3
+
             robot.hazards_list.append(cur_hazard)
 
         # Now we navigate the maze using the graph structure.

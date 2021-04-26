@@ -48,7 +48,7 @@ def build_maze(root):
     # Initialize the maze map to a bunch of 0s, since that indicates nothing regions.
     maze_map = [[0 for i in range(0, length)] for j in range(0, width)]
     col = 0
-    row = maze_size[3] + 1
+    row = maze_size[3]
     coords = [row, col]
 
     print("Print maze pre-order traversal")

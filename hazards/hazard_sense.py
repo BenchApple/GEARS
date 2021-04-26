@@ -39,7 +39,9 @@ def get_hazards(robot):
 
     if mag.checkMag(robot.imu_obj, robot.bp, robot.l_motor, robot.r_motor, robot.dps) == "front":
         return_hazard = h.Hazard("Magnet", "uT", 400)
-    elif ir.ir_exists(robot.ir_pin):
+    elif ir.ir_exists(robot.ir_port):
         return_hazard = h.Hazard("Heat", "J", 3600)
+
+    print("Hazard is " + str(return_hazard))
 
     return return_hazard

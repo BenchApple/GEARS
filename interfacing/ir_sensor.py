@@ -38,7 +38,7 @@ def readIR(sensor): #sensor port is input for IR
 
 # Returns true if an IR sensor is detected within the target range ahead of the robot.
 def ir_exists(sensor):
-    IR_THRESHOLD = 30
+    IR_THRESHOLD = 5 # normally 30
     reading = readIR(sensor)
 
     if reading >= IR_THRESHOLD:
