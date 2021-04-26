@@ -29,18 +29,23 @@
 # Inputs: None
 # Outputs: Cargo Released
 
-<<<<<<< HEAD
-print("cargo release yay")
-
-=======
 import time
 from ..interfacing import motor
 from .. import constants as r
 
-def release_cargo(motor_port):
+def release_cargo():
     robot = r.Robot()
-    motor.set_dps(robot.bp, motor_port, 300)
-    time.sleep(2)
-    motor.set_dps(robot.bp, motor_port, 0)
+    motor.set_dps(robot.bp, robot.bp.PORT_D, -300)
+    motor.set_dps(robot.bp, robot.r_motor, robot.dps)
+    motor.set_dps(robot.bp, robot.l_motor, robot.dps)
+    time.sleep(0.5)
+    motor.set_dps(robot.bp, robot.bp.PORT_D, 0)
+    motor.set_dps(robot.bp, robot.r_motor, 0)
+    motor.set_dps(robot.bp, robot.l_motor, 0)
+
+def main():
+    release_cargo()
+
+if __name__ == "__main__":
+    main()
     
->>>>>>> 9be1bb584ff5cebc10e018ddfc8c6330e0ef95b9
