@@ -62,6 +62,10 @@ def main():
     CELL_DIST = 40
 
     while not robot.navigated:
+        # Right now this assumes that we will only encounter hazards after moving forward.
+        # The problem with adding another check for this here is that it would cause
+        # the pathfinding algorithm to break as far as im aware.
+
         # Turn the LED on  
         lights.activate_yellow(robot.yellow_pin)
 
