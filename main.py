@@ -30,6 +30,7 @@
 from .driving import propulsion as forward
 from .driving import turning as turn
 from .hazards import hazard_process
+from .hazards import hazard_output
 from .hazards import hazard_sense
 from .maze import graph
 from .maze import maze_navigate as navigate
@@ -125,6 +126,7 @@ def main():
     lights.activate_green(robot.green_pin)
 
     build.build_maze(robot.root)
+    hazard_output.output_hazards(robot)
 
     time.sleep(5)
 
