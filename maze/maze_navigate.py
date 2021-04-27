@@ -59,7 +59,14 @@ def test_navigation_step():
 def navigation_step(robot, right_status, front_status, left_status):
     # In case Cole didn't lisetn to me
     if right_status == 1 and front_status == 1 and left_status == 1:
-        front_status = 4
+        # If this is the second four way in a row, then we're done.
+        if robot.prev_was_fourway:
+            front_status = 4
+        else:
+            robot.prev_was_fourway = True
+    else:
+        # If we don't encounter a four way, this will always be false.
+        robot.prev_was_fourway = False
 
     # Set the cur node to make this easier
     cur_node = robot.cur_node

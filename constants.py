@@ -47,6 +47,11 @@ import time
 
 class Robot:
     def __init__(self):
+        # Stores a flag keeping track of if the previous intersection we encountered
+        # was a four way. If there are 2 four ways in a row then we stop traversing the
+        # maze
+        self.prev_was_fourway = False
+
         # The ultrasonic ports for the right and the left.
         self.r_ultra = 5
         self.l_ultra = 6
