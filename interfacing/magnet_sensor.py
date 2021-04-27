@@ -98,7 +98,7 @@ def checkMag(IMU, bp, left_motor_port, right_motor_port, dps):
         elif ((((0.80154 * magCompY1) - (-0.59795 * magCompX1)) > 0) and (((0.62348 * magCompY1) - (0.79184 * magCompX1)) < 0)):
             return "right"
             
-    return "none"
+    return None
 
 def main():
     imu_obj = imu.init()

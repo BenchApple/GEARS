@@ -37,11 +37,15 @@ from . import hazard_process as h
 def get_hazards(robot):
     return_hazard = None
 
-    if mag.checkMag(robot.imu_obj, robot.bp, robot.l_motor, robot.r_motor, robot.dps) == "front":
+    mag_direction = mag.checkMag(robot.imu_obj, robot.bp, robot.l_motor, robot.r_motor, robot.dps)
+
+    if mag_direction != None:
         return_hazard = h.Hazard("Magnet", "uT", 400)
+        dir = mag_direction
     elif ir.ir_exists(robot.ir_port):
         return_hazard = h.Hazard("Heat", "J", 3600)
+        dir = None
 
     print("Hazard is " + str(return_hazard))
 
-    return return_hazard
+    return [return_hazard, dir]
