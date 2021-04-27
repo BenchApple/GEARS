@@ -32,6 +32,7 @@
 from .graph import GraphNode
 from .graph import HazardNode
 from .maze_navigate import navigate
+from .output_maze import output_maze
 
 # Takes the head of the graph structure created and builds the coordinate system that stores the actual output map.
 def build_maze(root):
@@ -49,6 +50,7 @@ def build_maze(root):
     maze_map = [[0 for i in range(0, length)] for j in range(0, width)]
     col = 0
     row = maze_size[3]
+    origin = [col, row]
     coords = [row, col]
 
     print("Print maze pre-order traversal")
@@ -65,10 +67,8 @@ def build_maze(root):
     print("\n\nRebuilding Maze\n\n")
     exit_coords = [row, col]
     maze_map = fill_map(root, maze_map, coords, exit_coords)
-    print("\nFinal Map:")
-    print("Exits the map at: " + str(exit_coords))
-    for i in range(0, width):
-        print(maze_map[i])
+    
+    output_maze(maze_map, origin)
     
 
 # Fills out the mazes map given the root of the graph, the current maze map, and the current coordinates.
@@ -99,8 +99,8 @@ def fill_map(node, maze_map, coords, exit_coords):
                 maze_map[coords[0]][coords[1]] = 3
 
             # Set the hazard coordinates
-            node.get_hazard().set_x_coord((coords[0] + 1) * 10)
-            node.get_hazard().set_y_coord((coords[1] + 1) * 10)
+            #node.get_hazard().set_x_coord(((coords[0] + 1) * 40) - 20)
+            #node.get_hazard().set_y_coord(((coords[1] + 1) * 40) - 20)
 
             # Make sure this doesn't enter the while loop.
             tracker = node.get_length()
@@ -110,7 +110,7 @@ def fill_map(node, maze_map, coords, exit_coords):
             while tracker < node.get_length() or not has_entered:
                 # Set the entry position to 2
                 if node.get_parent() == None and not has_entered:
-                    maze_map[coords[0]][coords[1]] = 2
+                    maze_map[coords[0]][coords[1]] = 5
                     tracker += 1
 
                     # If the root node was only of length 1, break the loop.
