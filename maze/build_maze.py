@@ -99,8 +99,8 @@ def fill_map(node, maze_map, coords, exit_coords):
                 maze_map[coords[0]][coords[1]] = 3
 
             # Set the hazard coordinates
-            #node.get_hazard().set_x_coord(((coords[0] + 1) * 40) - 20)
-            #node.get_hazard().set_y_coord(((coords[1] + 1) * 40) - 20)
+            node.get_hazard().set_x_coord(((coords[0] + 1) * 40) - 20)
+            node.get_hazard().set_y_coord(((coords[1] + 1) * 40) - 20)
 
             # Make sure this doesn't enter the while loop.
             tracker = node.get_length()
