@@ -41,4 +41,3 @@ def output_maze(maze_map, origin):
             if j != len(maze_map[i]) - 1:
                 output.write(", ")
         output.write("\n")
-
