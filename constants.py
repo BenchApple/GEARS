@@ -59,7 +59,7 @@ class Robot:
         # Keeps track of the distance from either ultrasonic to the wall of the maze when the bot is exactly between the two walls
         self.CENTER_DIST = 10
 
-        self.UNIT_DIST = 40
+        self.UNIT_DIST = 45
 
         # The IMU object
         self.imu_obj = imu.init()
@@ -91,9 +91,9 @@ class Robot:
         # Stuff that we need to keep track of for the PID system.
         self.e_prev = 0
 
-        self.KP = 0.2
-        self.KI = 2
-        self.KD = 5 # normally 5
+        self.KP = 0.3 # Initially at 0.2
+        self.KI = 2.0 # initially at 2
+        self.KD = 5.0 # normally 5
         self.dt = 0.05
 
         self.P = 0
@@ -114,7 +114,7 @@ class Robot:
         self.is_backtracking = False # Stores whether or not we're in backtracking mode
         self.back_queue = queue.Queue() # Stores the backtracking queue.
 
-        self.HALF_DIST = 6 # Stores how far we need to go after catching a wall change.
+        self.HALF_DIST = 7 # Stores how far we need to go after catching a wall change.
 
     def get_orientation(self):
         return self._cur_orientation

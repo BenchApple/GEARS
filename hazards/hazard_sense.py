@@ -38,6 +38,7 @@ def get_hazards(robot):
     return_hazard = None
 
     mag_direction = mag.checkMag(robot.imu_obj, robot.bp, robot.l_motor, robot.r_motor, robot.dps)
+    dir = None
 
     if mag_direction != None:
         return_hazard = h.Hazard("Magnet", "uT", 400)

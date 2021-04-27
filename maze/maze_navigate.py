@@ -120,7 +120,7 @@ def navigation_step(robot, right_status, front_status, left_status):
     # Since the previous if would have already caught the other cases, we only need to check this.
     elif front_status == 1:  # We have == 1 here so that we can catch when we're at the end of the maze
         # If forward is the only one available, just increment the length.
-        print("Incrementing current node length")
+        print("\nIncrementing current node length\n")
         cur_node.set_length(cur_node.get_length() + 1)
     # Equivalent to asking if all of them are false
     elif (right_status == 0 and front_status == 0 and left_status == 0):

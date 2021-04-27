@@ -42,7 +42,7 @@ from .. import constants as r
 # NOTE: If the MAGNET_MAGNITUDE_CUTOFF has too large of a magnitude, then the function may report a magnet in a maze block diagonal from the GEARS bot as existing within a connected maze block.
 # NOTE: All parameters sent aside from IMU are for turning the GEARS bot 180 degrees
 def checkMag(IMU, bp, left_motor_port, right_motor_port, dps):
-    MAGNET_MAGNITUDE_CUTOFF = 200
+    MAGNET_MAGNITUDE_CUTOFF = 300
 
     magVector = imu.getMagnet(IMU)
     print(magVector)
