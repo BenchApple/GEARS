@@ -44,10 +44,12 @@ from ..import constants as c
 def pid_one_loop(robot):
     u_right_reading = ultra.readGroveUltrasonic(robot.r_ultra)
     u_left_reading = ultra.readGroveUltrasonic(robot.l_ultra)
-    print("Left Reading: " + str(u_left_reading))
-    print("Right Reading: " + str(u_right_reading))
     # We can do it like this because we want them to be equidistant from the walls
     error = u_right_reading - u_left_reading
+
+    if abs(error) >= 10:
+        error = (error / abs(error)) * 1
+
     print("Error: " + str(error))
 
     robot.P = robot.KP * error
@@ -76,15 +78,16 @@ def pid_missing_wall(robot, side):
     error = 0
     if side == "right" or side == "r":
         u_left_reading = ultra.readGroveUltrasonic(robot.l_ultra)
-        print("Left Reading: " + str(u_left_reading))
         # We can do it like this because we want them to be equidistant from the walls
         error = robot.CENTER_DIST - u_left_reading
 
     elif side == "left" or side == "l":
         u_right_reading = ultra.readGroveUltrasonic(robot.r_ultra)
-        print("Right Reading: " + str(u_right_reading))
         # We can do it like this because we want them to be equidistant from the walls
         error = u_right_reading - robot.CENTER_DIST 
+
+    if abs(error) >= 10:
+        error = (error / abs(error)) * 1
 
     print("Calculated Error is: " + str(error))
 

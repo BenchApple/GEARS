@@ -81,7 +81,7 @@ def main():
 
         # Now deal with how the sensors read the hazards. We can now use this to change the walls
         # variable to deal with hazards and stuff.
-        hazard_result = hazard.get_hazards((robot))[0]
+        hazard_result = hazard.get_hazards((robot))
         hazard_dir = hazard_result[0]
         cur_hazard = hazard_result[1]
 
@@ -90,11 +90,11 @@ def main():
                 walls[1] = 2
             elif cur_hazard.type == "magnet":
                 if dir == "right": 
-		    walls[0] = 3
+                    walls[0] = 3
                 if dir == "front": 
-		    walls[1] = 3
+                   walls[1] = 3
                 if dir == "left": 
-		    walls[2] = 3
+                   walls[2] = 3
 
             robot.hazards_list.append(cur_hazard)
 

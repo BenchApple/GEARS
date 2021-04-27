@@ -81,8 +81,6 @@ def forward_with_robot(robot, distance, going_half=False):
         if dropped_wall == -1:
             # If we're catching a wall super early in a move foward, 
             # we want to take one length away from the current node
-            if time.time() - start_time <= (driveTime / 4) and not robot.is_backtracking:
-                robot.cur_node.set_length(robot.cur_node.get_length() - 1)
             break
 
     # If we have detected a wall change, enter this.

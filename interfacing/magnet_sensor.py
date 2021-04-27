@@ -38,7 +38,7 @@ from .. import constants as r
 # Returns "none" if no magnet is detected, "1eft" if magnet is detected to the left, "front" if magnet is detected to the front, "right" if magnet is detected to the right
 # TODO: Remove excess parameters by using the established constants
 def checkMag(IMU, bp, left_motor_port, right_motor_port, dps):
-    MAGNET_MAGNITUDE_CUTOFF = 200
+    MAGNET_MAGNITUDE_CUTOFF = 300
     
     if (imu.getMagnMagnitude(IMU) > MAGNET_MAGNITUDE_CUTOFF):
         # Collect three magnitude values, each with the IMU closest to the right, front, and left maze units respectively
