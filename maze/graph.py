@@ -28,11 +28,15 @@
 # This is the file for the main data structure used in maze navigation and building. 
 # This is basically just the structuring of how all that stuff works efficiently.
 
+# Sequence stores the which node this is - the order of it i mean.
 class GraphNode(object):
-    def __init__(self, _orientation, _parent = None):
+    def __init__(self, _orientation, _parent = None, _number=0):
         # Orientation refers to which direction the node is oritented when first going through it. 
         # 0 means aligned with maze entrance, 1 is 90 degrees right, 2 is backwards aligned with entrance, 3 is backwards to 1.
         self.orientation = _orientation
+
+        # Mostly for debugging purposes
+        self.number = _number
 
         # When backtracking, parent node represents the node this node stemmed from
         # NOTE Backtracking will effectively have to go back to the parent node and work from there.
@@ -56,9 +60,21 @@ class GraphNode(object):
         # Length refers to the amount of standard units long that this node is. for example, a hall 40 cm long will have length 1.
         self.length = 1
 
+        # Keep track of whether or not the last segment of this node is the end of the maze.
+        self.is_end = False
+
     def __str__(self):
-        return "Orientation: %d; Length: %d; Explored: Right - %d, Front - %d, Left - %d; Exists: Right - %d, Front - %d, Left - %d" % \
-                (self.orientation, self.length, self.explored_right, self.explored_front, self.explored_left, self.exists_right, self.exists_front, self.exists_left)
+        return "Number: %d; Orientation: %d; Length: %d; Explored: Right - %d, Front - %d, Left - %d; Exists: Right - %d, Front - %d, Left - %d" % \
+                (self.number, self.orientation, self.length, self.explored_right, self.explored_front, self.explored_left, self.exists_right, self.exists_front, self.exists_left)
+
+    # Set the end of the current node to be true. Should only be called once in the entire tree.
+    # TODO implement the implications of this change in maze_navigate and build_maze
+    def set_end(self):
+        self.is_end = True
+        return self.is_end
+
+    def get_end(self):
+        return self.is_end
 
     # Prints the inorder traversal with the current node as the root
     def print_preorder(self):
@@ -72,8 +88,6 @@ class GraphNode(object):
 
         if self.get_left() != None:
             self.get_left().print_preorder()
-
-
 
     # Returns the orientation of the node.
     def get_orientation(self):
@@ -176,6 +190,60 @@ class GraphNode(object):
     # Length refers to the amount of standard units long that this node is. for example, a hall 40 cm long will have length 1.
     length = property(get_length, set_length)
 
+class HazardNode(GraphNode):
+    # Initializes the Hazard object. Takes the type (magnetic or heat) as well as the corresponding hazard object.
+    def __init__(self, _type, _hazard, __parent, _orientation):
+        # Length is just to help the printer.
+        self.length = 1
+
+        # Type keeps track of the specific data type.
+        self.h_type = _type
+
+        # set the hazard object as subservient
+        self.hazard = _hazard
+
+        super().__init__(_orientation, _parent=__parent)
+        '''
+        # Since we 100% don't have children of hazards, just set them all to None
+        self.child_right = None
+        self.child_front = None
+        self.child_left = None
+
+        # Set the parent of the hazard so it's actually linked lol.
+        self.parent = _parent
+
+        # Set the orientation of the hazard so that the size tracking works.
+        self.orientation = _orientation
+        '''
+
+    def __str__(self):
+        return "Type: %s; Hazard Data: %s; Parent: %s" % \
+                (self.h_type, self.hazard, self.parent) 
+
+    def get_orientation(self):
+        return super().get_orientation()
+
+    def get_parent(self):
+        return super().get_parent()
+
+    def get_length(self):
+        return super().get_length()
+
+    def set_htype(self, _type):
+        if _type == "heat" or _type == "ir" or _type == 2:
+            self._h_type = "heat"
+        elif _type == "magnet" or _type == 3:
+            self._h_type = "magnet"
+        else:
+            raise Exception("Error: Invalid type for Hazard Node")
+    
+    def get_htype(self):
+        return self._h_type
+    
+    def get_hazard(self):
+        return self.hazard
+
+    h_type = property(get_htype, set_htype)
 
 def main():
     head = GraphNode(0)
@@ -188,6 +256,14 @@ def main():
     head.set_front(sub)
     print(head.get_front())
     print(sub.get_parent)
+
+    h = HazardNode("ir", "lmao you think i have an object for this", head, 0)
+    print(h.get_length())
+    print(h.get_htype())
+    print(h.get_hazard())
+
+    print(isinstance(head, HazardNode))
+    print(isinstance(h, HazardNode))
 
 
 if __name__ == "__main__":
