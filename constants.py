@@ -59,6 +59,9 @@ class Robot:
         # Keeps track of the distance from either ultrasonic to the wall of the maze when the bot is exactly between the two walls
         self.CENTER_DIST = 10
 
+        # Keeps track of how long a single unit distance is
+        self.UNIT_DISTANCE = 40
+
         # The IMU object
         self.imu_obj = imu.init()
 

@@ -60,7 +60,7 @@ def testing_walls():
 # This is the main loop of the robot.
 def main():
     robot = r.Robot()
-    CELL_DIST = 40
+    CELL_DIST = robot.UNIT_DISTANCE
 
     while not robot.navigated:
         # Right now this assumes that we will only encounter hazards after moving forward.
