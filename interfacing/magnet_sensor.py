@@ -58,7 +58,8 @@ def checkMag(IMU, bp, left_motor_port, right_motor_port, dps):
         # left_mag_magn is implicitly greater than right_mag_magn and front_mag_magn
         else:
             return "left"
-        
+    else:
+        return "none"
 
 def main():
     imu_obj = imu.init()
