@@ -63,16 +63,17 @@ def build_maze(root):
     # Now taht we've printed everything we can actually fill the list with stuff.
     # This will get more complex as we add functionality to assist in making sure we know the maze entrance and exit.
     print("\n\nRebuilding Maze\n\n")
-    maze_map = fill_map(root, maze_map, coords)
+    exit_coords = [row, col]
+    maze_map = fill_map(root, maze_map, coords, exit_coords)
     print("\nFinal Map:")
-    print("Exits the map at: " + str(coords))
+    print("Exits the map at: " + str(exit_coords))
     for i in range(0, width):
         print(maze_map[i])
     
 
 # Fills out the mazes map given the root of the graph, the current maze map, and the current coordinates.
 # The coords are listed as [row, col] 
-def fill_map(node, maze_map, coords):
+def fill_map(node, maze_map, coords, exit_coords):
     if node != None:
         print(node)
 
@@ -131,6 +132,8 @@ def fill_map(node, maze_map, coords):
                 # If the current position is the end of the maze indicate that.
                 if tracker == node.get_length() - 1 and node.get_end():
                     maze_map[coords[0]][coords[1]] = 4
+                    exit_coords[0] = coords[0]
+                    exit_coords[1] = coords[1]
 
                 print("Coords: " + str(coords))
                 for i in range(0, len(maze_map)):
@@ -150,19 +153,19 @@ def fill_map(node, maze_map, coords):
             local_coords = coords.copy()
             print("At Node: " + str(node))
             print("Traversing Right")
-            maze_map = fill_map(node.get_right(), maze_map, coords)
+            maze_map = fill_map(node.get_right(), maze_map, coords, exit_coords)
 
             # Update the coords to the local
             print("At Node: " + str(node))
             print("Traversing Front")
             coords = local_coords.copy()
-            maze_map = fill_map(node.get_front(), maze_map, coords)
+            maze_map = fill_map(node.get_front(), maze_map, coords, exit_coords)
 
             # Update the coords to the local
             print("At Node: " + str(node))
             print("Traversing Left")
             coords = local_coords.copy()
-            maze_map = fill_map(node.get_left(), maze_map, coords)
+            maze_map = fill_map(node.get_left(), maze_map, coords, exit_coords)
         
     return maze_map
 
