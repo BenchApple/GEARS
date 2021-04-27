@@ -34,7 +34,7 @@
 
 from .graph import GraphNode
 from .graph import HazardNode
-from .. import constants as r
+#from .. import constants as r
 
 def test_navigation_step():
     robot = r.Robot()
