@@ -59,6 +59,7 @@ def checkMag(IMU, bp, left_motor_port, right_motor_port, dps):
         else:
             return "left"
         
+    return None
 
 def main():
     imu_obj = imu.init()
