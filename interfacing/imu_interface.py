@@ -86,14 +86,8 @@ def main():
 
     try:
         while True:
-            print("Velocity Data")
-            print(getAccel(imuObject))
-            print(getAccelX(imuObject))
-            print(getAccelY(imuObject))
-            print(getAccelZ(imuObject))
-
             print("Magnet and magnitude")
-            print(getMagnMagnitude(imuObject))
+            print(getMagnet(imuObject))
             print("")
 
             time.sleep(0.5)
