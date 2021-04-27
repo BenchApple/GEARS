@@ -43,11 +43,11 @@ def checkMag(IMU, bp, left_motor_port, right_motor_port, dps):
     if (imu.getMagnMagnitude(IMU) > MAGNET_MAGNITUDE_CUTOFF):
         # Collect three magnitude values, each with the IMU closest to the right, front, and left maze units respectively
         turning.turn_90_degrees(bp, left_motor_port, right_motor_port, dps, "CW")
-        right_mag_magn = imu.getMagnMagnitude(IMU)
+        left_mag_magn = imu.getMagnMagnitude(IMU)
         turning.turn_90_degrees(bp, left_motor_port, right_motor_port, dps, "CW")
         front_mag_magn = imu.getMagnMagnitude(IMU)
         turning.turn_90_degrees(bp, left_motor_port, right_motor_port, dps, "CW")
-        left_mag_magn = imu.getMagnMagnitude(IMU)
+        right_mag_magn = imu.getMagnMagnitude(IMU)
         
         # Return the direction where the magnitude was the greatest
         if (right_mag_magn > front_mag_magn and right_mag_magn > left_mag_magn):
