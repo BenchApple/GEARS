@@ -60,6 +60,7 @@ def testing_walls():
 # This is the main loop of the robot.
 def main():
     robot = r.Robot()
+
     CELL_DIST = robot.UNIT_DIST
 
     while not robot.navigated:
