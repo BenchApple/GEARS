@@ -47,7 +47,7 @@ def pid_one_loop(robot):
     # We can do it like this because we want them to be equidistant from the walls
     error = u_right_reading - u_left_reading
 
-    if abs(error) >= 10:
+    if abs(error) >= 25:
         error = (error / abs(error)) * 1
 
     print("Error: " + str(error))
@@ -86,7 +86,7 @@ def pid_missing_wall(robot, side):
         # We can do it like this because we want them to be equidistant from the walls
         error = u_right_reading - robot.CENTER_DIST 
 
-    if abs(error) >= 10:
+    if abs(error) >= 25:
         error = (error / abs(error)) * 1
 
     print("Calculated Error is: " + str(error))

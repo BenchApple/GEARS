@@ -121,7 +121,9 @@ def main():
             robot.is_backtracking = False
 
         lights.deactivate_yellow(robot.yellow_pin)
+ 
         time.sleep(robot.dt)
+        robot.I = 0
 
         #input("Hit any button to continue")
 
