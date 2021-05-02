@@ -133,6 +133,7 @@ def main():
     m.set_dps(robot.bp, robot.r_motor, 0)
     
     # Turn on the green lights and offload the cargo
+    cargo.release_cargo()
     lights.activate_green(robot.green_pin)
 
     build.build_maze(robot.root)
